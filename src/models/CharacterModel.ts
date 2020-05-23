@@ -1,13 +1,72 @@
+export interface Thumbnail {
+  extension: string;
+  path: string;
+}
+
+export interface URLs {
+  type: string;
+  url: string;
+}
+
+export interface ComicList {
+  available: number;
+  returned: number;
+  collectionURI: string;
+  items: ComicSummary[];
+}
+
+export interface ComicSummary {
+  resourceURI: string;
+  name: string;
+}
+
+export interface StoryList {
+  available: number;
+  returned: number;
+  collectionURI: number;
+  items: StorySummary[]
+}
+
+export interface StorySummary {
+  resourceURI: string; 
+  name: string;
+  type: string;
+}
+
+export interface EventList {
+  available: number;
+  returned: number;
+  collectionURI: string;
+  items: EventSummary[];
+}
+
+export interface EventSummary {
+  resourceURI: string;
+  name: string;
+}
+
+export interface SeriesList {
+  available: number;
+  returned: number;
+  collectionURI: number;
+  items: SeriesSummary[]
+}
+
+export interface SeriesSummary {
+  resourceURI: string;
+  name: string;
+}
+
 export interface CharacterModel {
   id: number;
-  comices: Array<string>;
-  description: string;
-  events: string;
-  modified: string;
   name: string;
+  description: string;
+  modified: Date;
   resourceURI: string;
-  series: string;
-  stories: string;
-  thumbnail: string;
-  urls: string;
+  urls: URLs;
+  thumbnail: Thumbnail;
+  comices: ComicList[];
+  stories: StoryList[];
+  events: EventList[];
+  series: SeriesList[];
 }
