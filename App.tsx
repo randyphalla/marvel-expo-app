@@ -1,20 +1,8 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import Characters from './src/Characters/Characters';
+import AppNavigation from './src/AppNavigation';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Characters></Characters>
-    </View>
+    <AppNavigation />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
