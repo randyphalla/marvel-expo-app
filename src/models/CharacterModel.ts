@@ -65,7 +65,7 @@ export interface CharacterModel {
   resourceURI: string;
   urls: URLs;
   thumbnail: Thumbnail;
-  comices: ComicList[];
+  comics: ComicList[];
   stories: StoryList[];
   events: EventList[];
   series: SeriesList[];

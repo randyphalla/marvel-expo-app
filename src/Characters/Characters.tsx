@@ -49,7 +49,11 @@ export default function Characters() {
       </View>
       {
         isCharactersLoading 
-        ? (<Text style={styles.isLoadingText}>Characters is loading...</Text>) 
+        ? (
+          <ScrollView style={styles.characterList}>
+            <Text style={styles.isLoadingText}>Characters is loading...</Text>
+          </ScrollView>
+        ) 
         : (
           <ScrollView style={styles.characterList}>
             {
@@ -113,14 +117,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E2F3',
-    borderRadius: 8,
+    borderBottomColor: '#E0E2F3'
   },
   characterItemImage: {
     height: 80,
     width: 100,
     marginRight: 10,
-    borderRadius: 8
+    borderRadius: 6
   },
   characterItemContent: {
     flex: 1,
