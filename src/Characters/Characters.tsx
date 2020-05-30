@@ -4,7 +4,7 @@ import { privateKey, publicKey } from '../../src/shared/apiKey';
 import md5 from 'md5';
 import { CharacterModel } from '../models/CharacterModel';
 
-export default function Characters() {
+export default function Characters({navigation}) {
   const [isCharactersLoading, setCharactersLoading] = useState(true);
   const [characters, setCharacters] = useState([]);
 
@@ -14,7 +14,7 @@ export default function Characters() {
   const baseUrl = 'https://gateway.marvel.com:443/v1/public/characters';
   const limit = 20;
   const url = `${baseUrl}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
-  
+
   async function getChars() {
     try {
       let res = await fetch(url)
@@ -39,7 +39,7 @@ export default function Characters() {
   
 
   function goToCharacterPage(char: CharacterModel) {
-    console.log(char);
+    navigation.navigate('Character', {data: char});
   }
 
   return (
