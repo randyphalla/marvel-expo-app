@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Characters from './Characters/Characters';
 import Character from './Characters/Character';
+import Comic from './Comics/Comic';
 
 const Stack = createStackNavigator();
 
@@ -13,6 +14,7 @@ function AppNavigation() {
       <Stack.Navigator>
         <Stack.Screen name="Characters" component={Characters} />
         <Stack.Screen name="Character" component={Character} />
+        <Stack.Screen name="Comic" component={Comic} />
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -14,8 +14,19 @@ export default function Character({navigation, route}) {
     const limit = 20;
     const specialUrl = `${url}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
 
-    console.log(specialUrl);
-    console.log(type);
+    redirectToPage(specialUrl, type);
+  }
+
+  function redirectToPage(specialUrl: string, screenType: string) {
+    if (screenType === 'comics') {
+      navigation.navigate('Comic', {url: specialUrl});
+    } else if (screenType === 'events') {
+      navigation.navigate('Event', {url: specialUrl});
+    }  else if (screenType === 'series') {
+      navigation.navigate('serie', {url: specialUrl});
+    }  else if (screenType === 'story') {
+      navigation.navigate('Story', {url: specialUrl});
+    }
   }
 
   async function getComic(url: string) {
