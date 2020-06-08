@@ -11,6 +11,4 @@ export interface CreatorSummary {
   role: string;
 }
 
-export interface CreatorModel {
-
-}
+export interface CreatorModel {}

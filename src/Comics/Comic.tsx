@@ -1,42 +1,59 @@
 import React, { useEffect, useState} from 'react';
 import { SafeAreaView, ScrollView, View, Text } from 'react-native';
+import { ComicModel } from '../models/ComicsModel';
+import BannerImage from '../components/BannerImage';
+import BannerInfo from '../components/BannerInfo';
 
 export default function Comic({navigation, route}) {
-  const comicURL = route.params.url;
-  console.log(comicURL);
 
-  const [comic, setComic] = useState([]);
+  // const comicUrl = route.params.url;
+  const [comic, setComic] = useState<ComicModel>({} as ComicModel);
   const [isComicLoading, setComicLoading] = useState(true);
 
-  async function getComic() {
-    try {
-      let res = await fetch(comicURL)
-      let json = await res.json();
-      if (json && json.data && json.data.results) {
-        setComic(json.data.results);
-        console.log(comic);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  // async function getComic() {
+  //   try {
+  //     let res = await fetch(comicUrl);
+  //     let json = await res.json();
+  //     if (json.data.results) {
+  //       setComic(json.data.results[0]);
+  //       console.log(comic);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //     setComicLoading(false);
+  //   }
+  // }
 
   useEffect(() => {
-    getComic();
+    // getComic();
+    setComic(route.params.data);
 
     return () => {
-      setComic([]);
+      setComic({} as ComicModel);
       setComicLoading(false);
     }
   }, []);
 
-
   return (
     <SafeAreaView>
       <ScrollView>
-        <View>
-          <Text>{isComicLoading ? 'Comic is loading': 'Comic is here'}</Text>
-        </View>
+        
+        {
+          comic && comic.thumbnail ? (
+            <BannerImage
+              isComic={true}
+              path={comic.thumbnail.path} 
+              extension={comic.thumbnail.extension}
+            ></BannerImage>
+          ) : null
+        }
+
+        <BannerInfo 
+          name={comic.title} 
+          description={comic.description}
+        ></BannerInfo>
+
       </ScrollView>
     </SafeAreaView>
   )

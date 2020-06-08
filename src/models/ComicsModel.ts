@@ -20,6 +20,11 @@ export interface Image {
   extension: string;
 }
 
+export interface Thumbnail {
+  path: string;
+  extension: string;
+}
+
 export interface ComicList {
   available: number;
   returned: number;
@@ -55,7 +60,7 @@ export interface ComicModel {
   collectedIssues: ComicSummary[];
   dates: ComicDate[];
   prices: ComicPrice[];
-  thumbnail: string;
+  thumbnail: Thumbnail;
   images: Image[];
   creators: CreatorList[];
   characters: CharacterList[];
