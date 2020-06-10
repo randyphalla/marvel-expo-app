@@ -1,11 +1,11 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, Text } from 'react-native';
 
-export default function Comics({navigation, route}) {
+export default function Story({navigation, route}) {
   return (
     <SafeAreaView>
       <ScrollView>
-        <Text>Comics</Text>
+        <Text>Story</Text>
       </ScrollView>
     </SafeAreaView>
   )

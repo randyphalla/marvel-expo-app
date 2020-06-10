@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import md5 from 'md5';
 import { privateKey, publicKey } from '../../src/shared/apiKey';
-// import { ComicSummary } from '../models/ComicsModel';
-import { EventSummary, EventModel } from '../models/EventsModel';
-import { SeriesSummary, SeriesModel } from '../models/SeriesModel';
-import { StorySummary, StoryModel } from '../models/StoriesModel';
+import { EventModel } from '../models/EventsModel';
+import { SeriesModel } from '../models/SeriesModel';
+import { StoryModel } from '../models/StoriesModel';
 import { ComicModel } from '../models/ComicsModel';
 import BannerInfo from '../components/BannerInfo';
 import BannerImage from '../components/BannerImage';
@@ -17,62 +16,25 @@ export default function Character({navigation, route}) {
   const [series, setSeries] = useState<SeriesModel[]>([]);
   const [stories, setStories] = useState<StoryModel[]>([]);
 
-  const comicsData: ComicModel[] = [];
   const comicsURLS: string[] = [];
+  const comicsData: ComicModel[] = [];
 
-  const eventsData = [];
-  const eventsURLS = [];
+  const eventsURLS: string[] = [];
+  const eventsData: EventModel[] = [];
 
-  const seriesData = [];
-  const seriesURLS = [];
+  const seriesURLS: string[] = [];
+  const seriesData: SeriesModel[] = [];
 
-  const storiesData = [];
-  const storiesURLS = [];
+  const storiesURLS: string[] = [];
+  const storesJSONData: any[] = [];
+  const storiesData: StoryModel[] = [];
 
   const character = route.params.data;
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
   const hash = md5(stringToHash);
   const limit = 20;
-
-  // function secretHashKey(url: string, type: string) {
-  //   const ts = new Date().getTime();
-  //   const stringToHash = ts + privateKey + publicKey;
-  //   const hash = md5(stringToHash);
-  //   const limit = 20;
-  //   const specialUrl = `${url}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
-  //   console.log(specialUrl);
-  //   redirectToPage(specialUrl, type);
-  // }
-
-  // function redirectToPage(specialUrl: string, screenType: string) {
-  //   if (screenType === 'comics') {
-  //     navigation.navigate('Comic', {url: specialUrl});
-  //   } else if (screenType === 'events') {
-  //     navigation.navigate('Event', {url: specialUrl});
-  //   }  else if (screenType === 'series') {
-  //     navigation.navigate('serie', {url: specialUrl});
-  //   }  else if (screenType === 'story') {
-  //     navigation.navigate('Story', {url: specialUrl});
-  //   }
-  // }
-
-  // function getComic(url: string) {
-  //   secretHashKey(url, 'comics');
-  // }
-
-  // function getEvent(url: string) {
-  //   secretHashKey(url, 'events');
-  // }
   
-  // function getSerie(url: string) {
-  //   secretHashKey(url, 'series');
-  // }
-
-  // function getStory(url: string) {
-  //   secretHashKey(url, 'story');
-  // }
-
   async function getComics() {
     const comicsItems = character.comics.items;
     
@@ -92,17 +54,55 @@ export default function Character({navigation, route}) {
 
   async function getEvents() {
     const eventsItems = character.events.items;
-    console.log(eventsItems);
+
+    for (const key in eventsItems) {
+      const specialUrl = `${eventsItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
+      eventsURLS.push(specialUrl);
+    }
+
+    for (const urls of eventsURLS) {
+      let res = await fetch(urls);
+      let json = await res.json();
+      eventsData.push(json.data.results[0]);
+    } 
+    setEvents(eventsData);
   }
 
   async function getSeries() {
     const seriesItems = character.series.items;
-    console.log(seriesItems);
+
+    for (const key in seriesItems) {
+      const specialUrl = `${seriesItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
+      seriesURLS.push(specialUrl);
+    }
+
+    for (const urls of seriesURLS) {
+      let res = await fetch(urls);
+      let json = await res.json();
+      seriesData.push(json.data.results[0]);
+    } 
+    setSeries(seriesData);
   }
 
   async function getStories() {
     const storiesItems = character.stories.items;
-    console.log(storiesItems);
+
+    for (const key in storiesItems) {
+      const specialUrl = `${storiesItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
+      storiesURLS.push(specialUrl);
+    }
+
+    for (const urls of storiesURLS) {
+      let res = await fetch(urls);
+      let json = await res.json();
+      storesJSONData.push(json.data.results[0]);
+    } 
+
+    storesJSONData.map(res => {
+      storiesData.push(res);
+    })
+
+    setStories(storiesData);
   }
 
   function goToComicDetail(comic: ComicModel) {
@@ -112,17 +112,17 @@ export default function Character({navigation, route}) {
 
   function goToEventDetail(event: EventModel) {
     console.log(event);
-    // navigation.navigate('Event', {data: event});
+    navigation.navigate('Event', {data: event});
   }
 
   function goToSeriesDetail(series: SeriesModel) {
     console.log(series);
-    // navigation.navigate('Series', {data: series});
+    navigation.navigate('Series', {data: series});
   }
 
   function goToStoryDetail(story: StoryModel) {
     console.log(story);
-    // navigation.navigate('Story', {data: story});
+    navigation.navigate('Story', {data: story});
   }
 
   useEffect(() => {
@@ -130,8 +130,12 @@ export default function Character({navigation, route}) {
     getEvents();
     getSeries();
     getStories();
+    
     return () => {
       setComics([]);
+      setEvents([]);
+      setSeries([]);
+      setStories([]);
     }
   },[]); 
 
@@ -174,9 +178,9 @@ export default function Character({navigation, route}) {
           <View style={styles.characterItem}>
             <Text style={styles.characterItemTitle}>Events</Text>
               {
-                character.events && character.events.items.map((event: EventSummary, i: number) => (
+                character.events && character.events.items.map((event: EventModel, i: number) => (
                   <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToEventDetail(event)}>
-                    <Text style={styles.characterItemText}>{ event.name }</Text>
+                    <Text style={styles.characterItemText}>{ event.title }</Text>
                   </TouchableOpacity>
                 ))
               }
@@ -192,20 +196,20 @@ export default function Character({navigation, route}) {
           <View style={styles.characterItem}>
             <Text style={styles.characterItemTitle}>Series</Text>
               {
-                character.series.items.map((series: SeriesSummary, i: number) => (
+                character.series.items.map((series: SeriesModel, i: number) => (
                   <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToSeriesDetail(series)}>
-                    <Text style={styles.characterItemText}>{ series.name }</Text>
+                    <Text style={styles.characterItemText}>{ series.title }</Text>
                   </TouchableOpacity>
                 ))
               }
           </View>
 
           <View style={styles.characterItem}>
-            <Text  style={styles.characterItemTitle}>Stories</Text>
+            <Text style={styles.characterItemTitle}>Stories</Text>
             {
-              character.stories.items.map((story: StorySummary, i: number) => (
+              character.stories.items.map((story: StoryModel, i: number) => (
                 <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToStoryDetail(story)}>
-                  <Text style={styles.characterItemText}>{ story.name }</Text>
+                  <Text style={styles.characterItemText}>{ story.title }</Text>
                 </TouchableOpacity>
               ))
             }

@@ -2,8 +2,6 @@ import React from 'react';
 import { StyleSheet, View, Image, } from 'react-native';
 
 export default function BannerImage({path, extension, isComic}) {
-  console.log(path);
-  console.log(extension);
   return (
     <View style={styles.characterImageContainer}>
       <Image 
