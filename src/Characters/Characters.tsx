@@ -4,7 +4,7 @@ import { privateKey, publicKey } from '../../src/shared/apiKey';
 import md5 from 'md5';
 import { CharacterModel } from '../models/CharacterModel';
 
-export default function Characters({navigation}) {
+export default function Characters({navigation}: any) {
   const [isCharactersLoading, setCharactersLoading] = useState(true);
   const [characters, setCharacters] = useState([]);
 
@@ -37,9 +37,8 @@ export default function Characters({navigation}) {
     }
   }, []);
   
-
   function goToCharacterPage(char: CharacterModel) {
-    navigation.navigate('Character', {data: char});
+    navigation?.navigate('Character', {data: char});
   }
 
   return (

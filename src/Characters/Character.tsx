@@ -8,9 +8,9 @@ import { StoryModel } from '../models/StoriesModel';
 import { ComicModel } from '../models/ComicsModel';
 import BannerInfo from '../components/BannerInfo';
 import BannerImage from '../components/BannerImage';
+import { CharacterModel } from '../models/CharacterModel';
 
-export default function Character({navigation, route}) {
-  
+export default function Character({navigation, route}: any) {
   const [comics, setComics] = useState<ComicModel[]>([]);
   const [events, setEvents] = useState<EventModel[]>([]);
   const [series, setSeries] = useState<SeriesModel[]>([]);
@@ -29,7 +29,7 @@ export default function Character({navigation, route}) {
   const storesJSONData: any[] = [];
   const storiesData: StoryModel[] = [];
 
-  const character = route.params.data;
+  const character = route?.params.data;
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
   const hash = md5(stringToHash);
@@ -54,7 +54,7 @@ export default function Character({navigation, route}) {
 
   async function getEvents() {
     const eventsItems = character.events.items;
-
+    
     for (const key in eventsItems) {
       const specialUrl = `${eventsItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
       eventsURLS.push(specialUrl);
@@ -66,6 +66,7 @@ export default function Character({navigation, route}) {
       eventsData.push(json.data.results[0]);
     } 
     setEvents(eventsData);
+    console.log(events);
   }
 
   async function getSeries() {
@@ -95,7 +96,9 @@ export default function Character({navigation, route}) {
     for (const urls of storiesURLS) {
       let res = await fetch(urls);
       let json = await res.json();
-      storesJSONData.push(json.data.results[0]);
+      if (json.data && json.data.results) {
+        storesJSONData.push(json.data.results[0]);
+      }
     } 
 
     storesJSONData.map(res => {
@@ -141,7 +144,6 @@ export default function Character({navigation, route}) {
 
   return (
     <SafeAreaView style={styles.characterSafeAreaView}>
-
       <ScrollView>
       
         <BannerImage
@@ -178,14 +180,14 @@ export default function Character({navigation, route}) {
           <View style={styles.characterItem}>
             <Text style={styles.characterItemTitle}>Events</Text>
               {
-                character.events && character.events.items.map((event: EventModel, i: number) => (
+                events.map((event: EventModel, i: number) => (
                   <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToEventDetail(event)}>
                     <Text style={styles.characterItemText}>{ event.title }</Text>
                   </TouchableOpacity>
                 ))
               }
               {
-                character.events && character.events.items > 0 ? (
+                events && events.length <= 0 ? (
                   <View>
                     <Text>Events not available</Text>
                   </View>
@@ -196,7 +198,7 @@ export default function Character({navigation, route}) {
           <View style={styles.characterItem}>
             <Text style={styles.characterItemTitle}>Series</Text>
               {
-                character.series.items.map((series: SeriesModel, i: number) => (
+                series.map((series: SeriesModel, i: number) => (
                   <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToSeriesDetail(series)}>
                     <Text style={styles.characterItemText}>{ series.title }</Text>
                   </TouchableOpacity>
@@ -207,7 +209,7 @@ export default function Character({navigation, route}) {
           <View style={styles.characterItem}>
             <Text style={styles.characterItemTitle}>Stories</Text>
             {
-              character.stories.items.map((story: StoryModel, i: number) => (
+              stories.map((story: StoryModel, i: number) => (
                 <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToStoryDetail(story)}>
                   <Text style={styles.characterItemText}>{ story.title }</Text>
                 </TouchableOpacity>
@@ -241,7 +243,8 @@ const styles = StyleSheet.create({
   },
   characterItemImage: {
     width: '100%',
-    height: 250
+    height: 250,
+    // backgroundColor: '#ECEEF4'
   },
   characterItemTitle: {
     color: '#202020',
@@ -258,7 +261,7 @@ const styles = StyleSheet.create({
     marginTop: 3,
     marginBottom: 3
   },
-  characterItemImageButton: { width: '50%' },
+  characterItemImageButton: { width: '49%' },
   characterItemText: {
     color: '#202020',
     fontSize: 14,

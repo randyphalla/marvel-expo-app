@@ -1,7 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-export default function BannerInfo({name, description}) {
+export type BannerInfoProps = {
+  name?: string;
+  description?: string;
+}
+
+export default function BannerInfo({name, description}: BannerInfoProps) {
   return (
     <View style={styles.characterInfo}>
       <Text style={styles.characterText}>{ name }</Text>
