@@ -4,36 +4,41 @@ import { ComicModel } from '../models/ComicsModel';
 import BannerImage from '../components/BannerImage';
 import BannerInfo from '../components/BannerInfo';
 
-export default function Comic({navigation, route}) {
+export type ComicProps = {
+  navigation?: any;
+  route?: any;
+};
 
-  // const comicUrl = route.params.url;
+export default function Comic({navigation, route}: ComicProps) {
+
   const [comic, setComic] = useState<ComicModel>({} as ComicModel);
   const [isComicLoading, setComicLoading] = useState(true);
+  
+  const [ characters, setCharacters ] = useState([]);
+  const [ isCharactersLoading, setCharactersLoading ] = useState(true);
 
-  // async function getComic() {
-  //   try {
-  //     let res = await fetch(comicUrl);
-  //     let json = await res.json();
-  //     if (json.data.results) {
-  //       setComic(json.data.results[0]);
-  //       console.log(comic);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     setComicLoading(false);
-  //   }
-  // }
+  const [ creators, setCreators ] = useState([]);
+  const [ isCreatorsLoading, setCreatorsLoading ] = useState(true);
+
+  const [ events, setEvents ] = useState([]);
+  const [ isEventsLoading, setEventsLoading ] = useState(true);
+
+  const [ stories, setStories ] = useState([]);
+  const [ isStoriesLoading, setStoriesLoading ] = useState(true);
+
+  const [ images, setImages ] = useState([]);
+  const [ isImagesLoading, setImagesLoading ] = useState(true);
 
   useEffect(() => {
-    // getComic();
     setComic(route.params.data);
+    console.log(comic);
 
     return () => {
       setComic({} as ComicModel);
       setComicLoading(false);
     }
   }, []);
+
 
   return (
     <SafeAreaView>

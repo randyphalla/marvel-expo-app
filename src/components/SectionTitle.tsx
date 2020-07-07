@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-export default function SectionTitle({ title, children }) {
+export type SectionTitleProps = {
+  title?: string;
+  children?: ReactNode
+};
+
+export default function SectionTitle({ title, children }: SectionTitleProps) {
   return (
     <View style={styles.characterItem}>
       <Text style={styles.characterItemTitle}>{ title }</Text>
@@ -22,3 +27,7 @@ const styles = StyleSheet.create({
     fontWeight: '800'
   },
 });
+
+SectionTitle.defaultProps = {
+  title: 'Your section title'
+};

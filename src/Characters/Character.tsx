@@ -8,7 +8,8 @@ import { StoryModel } from '../models/StoriesModel';
 import { ComicModel } from '../models/ComicsModel';
 import BannerInfo from '../components/BannerInfo';
 import BannerImage from '../components/BannerImage';
-import { CharacterModel } from '../models/CharacterModel';
+import ComicItem from '../components/ComicItem';
+import SectionTitle from '../components/SectionTitle';
 
 export default function Character({navigation, route}: any) {
   const [comics, setComics] = useState<ComicModel[]>([]);
@@ -127,7 +128,7 @@ export default function Character({navigation, route}: any) {
     console.log(story);
     navigation.navigate('Story', {data: story});
   }
-
+  
   useEffect(() => {
     getComics();
     getEvents();
@@ -145,69 +146,64 @@ export default function Character({navigation, route}: any) {
   return (
     <SafeAreaView style={styles.characterSafeAreaView}>
       <ScrollView>
-      
+    
         <BannerImage
           isComic={false}
           path={ character.thumbnail.path} 
           extension={character.thumbnail.extension}
-        ></BannerImage>
+        />
 
         <BannerInfo 
           name={character.name} 
           description={character.description}
-        ></BannerInfo>
+        />
 
         <View style={styles.characterItemsContainer}>
 
-          <View style={styles.characterItem}>
-            <Text style={styles.characterItemTitle}>Comics</Text>
+          <SectionTitle title="Comics">
             <View style={styles.characterItemList}>
               {
                 comics.map((comic: ComicModel, i: number) => (
-                  <TouchableOpacity style={[styles.characterItemButton, styles.characterItemImageButton]} key={i} onPress={() => goToComicDetail(comic)}>
-                    <Image 
-                      style={styles.characterItemImage}
-                      source={{uri: comic.thumbnail.path + '.' + comic.thumbnail.extension}} 
-                      resizeMode="contain"
-                    />
-                    <Text style={[styles.characterItemText, styles.characterItemTitleWithImage]}>{ comic.title }</Text>
-                  </TouchableOpacity>
+                  <ComicItem 
+                    path={comic.thumbnail.path}
+                    extension={comic.thumbnail.extension}
+                    title={comic.title}
+                    key={i}
+                    pressEvent={() => goToComicDetail(comic)}
+                  />
                 ))
               }
             </View>
-          </View>
+          </SectionTitle>
           
-          <View style={styles.characterItem}>
-            <Text style={styles.characterItemTitle}>Events</Text>
-              {
-                events.map((event: EventModel, i: number) => (
-                  <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToEventDetail(event)}>
-                    <Text style={styles.characterItemText}>{ event.title }</Text>
-                  </TouchableOpacity>
-                ))
-              }
-              {
-                events && events.length <= 0 ? (
-                  <View>
-                    <Text>Events not available</Text>
-                  </View>
-                ) : null
-              }
-          </View>
+          <SectionTitle title="Events">
+            {
+              events.map((event: EventModel, i: number) => (
+                <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToEventDetail(event)}>
+                  <Text style={styles.characterItemText}>{ event.title }</Text>
+                </TouchableOpacity>
+              ))
+            }
+            {
+              events && events.length <= 0 ? (
+                <View>
+                  <Text>Events not available</Text>
+                </View>
+              ) : null
+            }
+          </SectionTitle>
+          
+          <SectionTitle title="Series">
+            {
+              series.map((series: SeriesModel, i: number) => (
+                <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToSeriesDetail(series)}>
+                  <Text style={styles.characterItemText}>{ series.title }</Text>
+                </TouchableOpacity>
+              ))
+            }
+          </SectionTitle>
 
-          <View style={styles.characterItem}>
-            <Text style={styles.characterItemTitle}>Series</Text>
-              {
-                series.map((series: SeriesModel, i: number) => (
-                  <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToSeriesDetail(series)}>
-                    <Text style={styles.characterItemText}>{ series.title }</Text>
-                  </TouchableOpacity>
-                ))
-              }
-          </View>
-
-          <View style={styles.characterItem}>
-            <Text style={styles.characterItemTitle}>Stories</Text>
+          <SectionTitle title="Stories">
             {
               stories.map((story: StoryModel, i: number) => (
                 <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToStoryDetail(story)}>
@@ -215,7 +211,7 @@ export default function Character({navigation, route}: any) {
                 </TouchableOpacity>
               ))
             }
-          </View>
+          </SectionTitle>
 
         </View>
 
@@ -243,8 +239,7 @@ const styles = StyleSheet.create({
   },
   characterItemImage: {
     width: '100%',
-    height: 250,
-    // backgroundColor: '#ECEEF4'
+    height: 250
   },
   characterItemTitle: {
     color: '#202020',

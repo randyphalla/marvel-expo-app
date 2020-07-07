@@ -46,6 +46,7 @@ export interface ComicModel {
   description: string;
   modified: string;
   isbn: string;
+  issn: string;
   upc: string;
   diamondCode: string;
   ean: string;
