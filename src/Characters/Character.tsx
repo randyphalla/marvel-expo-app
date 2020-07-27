@@ -34,8 +34,7 @@ export default function Character({navigation, route}: any) {
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
   const hash = md5(stringToHash);
-  const limit = 20;
-  
+    
   async function getComics() {
     const comicsItems = character.comics.items;
     

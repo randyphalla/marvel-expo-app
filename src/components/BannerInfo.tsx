@@ -54,3 +54,8 @@ const styles = StyleSheet.create({
     lineHeight: 18
   },
 });
+
+BannerInfo.defaultProps = {
+  name: 'Banner name',
+  description: 'Banner description'
+};

@@ -2,6 +2,7 @@ import React from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Home from './Home/Home';
 import Characters from './Characters/Characters';
 import Character from './Characters/Character';
 import Comic from './Comics/Comic';
@@ -21,7 +22,9 @@ function AppNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-          
+
+        <Stack.Screen name="Home" component={Home} />
+
         <Stack.Screen name="Characters" component={Characters} />
         <Stack.Screen name="Character" component={Character} />
 

@@ -30,3 +30,8 @@ const styles = StyleSheet.create({
     height: 635
   }
 });
+
+BannerImage.defaultProps = {
+  path: '',
+  extension: ''
+};

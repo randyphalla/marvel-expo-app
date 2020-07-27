@@ -12,7 +12,6 @@ export default function Characters({navigation}: any) {
   const stringToHash = ts + privateKey + publicKey;
   const hash = md5(stringToHash);
   const baseUrl = 'https://gateway.marvel.com:443/v1/public/characters';
-  const limit = 20;
   const url = `${baseUrl}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
 
   async function getChars() {
@@ -31,6 +30,7 @@ export default function Characters({navigation}: any) {
 
   useEffect(() => {
     getChars();
+    
     return () => {
       setCharacters([]);
       setCharactersLoading(false);
@@ -38,7 +38,7 @@ export default function Characters({navigation}: any) {
   }, []);
   
   function goToCharacterPage(char: CharacterModel) {
-    navigation?.navigate('Character', {data: char});
+    navigation.navigate('Character', {data: char});
   }
 
   return (

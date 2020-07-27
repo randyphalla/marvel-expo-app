@@ -61,3 +61,9 @@ const styles = StyleSheet.create({
     fontWeight: '400'
   },
 });
+
+ComicItem.defaultProps = {
+  path: '',
+  extension: '',
+  title: ''
+};
