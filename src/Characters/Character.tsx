@@ -13,9 +13,16 @@ import SectionTitle from '../components/SectionTitle';
 
 export default function Character({navigation, route}: any) {
   const [comics, setComics] = useState<ComicModel[]>([]);
+  const [isComicsLoading, setComicsLoading] = useState(true);
+
   const [events, setEvents] = useState<EventModel[]>([]);
+  const [isEventsLoading, setEventsLoading] = useState(true);
+
   const [series, setSeries] = useState<SeriesModel[]>([]);
+  const [isSeriesLoading, setSeriesLoading] = useState(true);
+
   const [stories, setStories] = useState<StoryModel[]>([]);
+  const [isStoriesLoading, setStoriesLoading] = useState(true);
 
   const comicsURLS: string[] = [];
   const comicsData: ComicModel[] = [];
@@ -34,8 +41,8 @@ export default function Character({navigation, route}: any) {
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
   const hash = md5(stringToHash);
-    
-  async function getComics() {
+  
+  const getComics = async () => {
     const comicsItems = character.comics.items;
     
     for (const key in comicsItems) {
@@ -50,9 +57,10 @@ export default function Character({navigation, route}: any) {
     } 
 
     setComics(comicsData);
+    setComicsLoading(false);
   }
 
-  async function getEvents() {
+  const getEvents = async () => {
     const eventsItems = character.events.items;
     
     for (const key in eventsItems) {
@@ -65,11 +73,12 @@ export default function Character({navigation, route}: any) {
       let json = await res.json();
       eventsData.push(json.data.results[0]);
     } 
-    setEvents(eventsData);
-    console.log(events);
-  }
 
-  async function getSeries() {
+    setEvents(eventsData);
+    setEventsLoading(false);
+  }
+  
+  const getSeries = async () => {
     const seriesItems = character.series.items;
 
     for (const key in seriesItems) {
@@ -82,10 +91,12 @@ export default function Character({navigation, route}: any) {
       let json = await res.json();
       seriesData.push(json.data.results[0]);
     } 
+
     setSeries(seriesData);
+    setSeriesLoading(false);
   }
 
-  async function getStories() {
+  const getStories = async () => {
     const storiesItems = character.stories.items;
 
     for (const key in storiesItems) {
@@ -106,28 +117,102 @@ export default function Character({navigation, route}: any) {
     })
 
     setStories(storiesData);
+    setStoriesLoading(false);
   }
 
-  function goToComicDetail(comic: ComicModel) {
-    console.log(comic);
-    navigation.navigate('Comic', {data: comic});
+  const goToComicDetail = (comic: ComicModel) => navigation.navigate('Comic', {data: comic});
+  const goToEventDetail = (event: EventModel) => navigation.navigate('Event', {data: event});
+  const goToSeriesDetail = (series: SeriesModel) => navigation.navigate('Series', {data: series});
+  const goToStoryDetail = (story: StoryModel) => navigation.navigate('Story', {data: story});
+
+  const renderComics = () => {
+    if (comics) {
+      return (
+        comics.map((comic: ComicModel, i: number) => (
+          <ComicItem 
+            path={comic.thumbnail.path}
+            extension={comic.thumbnail.extension}
+            title={comic.title}
+            key={i}
+            pressEvent={() => goToComicDetail(comic)}
+          />
+        ))
+      )
+    } else {
+      return (
+        <View>
+          <Text>No Comics</Text>
+        </View>
+      )
+    }
   }
 
-  function goToEventDetail(event: EventModel) {
-    console.log(event);
-    navigation.navigate('Event', {data: event});
+  const renderEvents = () => {
+    if (events) {
+      return (
+        events.map((event: EventModel, i: number) => (
+          <TouchableOpacity 
+            key={i} 
+            style={styles.characterItemButton} 
+            onPress={() => goToEventDetail(event)}
+          >
+            <Text style={styles.characterItemText}>{ event.title }</Text>
+          </TouchableOpacity>
+        ))
+      )
+    } else {
+      return (
+        <View>
+          <Text>No Events</Text>
+        </View>
+      )
+    }
   }
 
-  function goToSeriesDetail(series: SeriesModel) {
-    console.log(series);
-    navigation.navigate('Series', {data: series});
+  const renderSeries = () => {
+    if (series) {
+      return (
+        series.map((series: SeriesModel, i: number) => (
+          <TouchableOpacity 
+            key={i} 
+            style={styles.characterItemButton} 
+            onPress={() => goToSeriesDetail(series)}
+          >
+            <Text style={styles.characterItemText}>{ series.title }</Text>
+          </TouchableOpacity>
+        ))
+      )
+    } else {
+      return (
+        <View>
+          <Text>No Series</Text>
+        </View>
+      )
+    }
   }
 
-  function goToStoryDetail(story: StoryModel) {
-    console.log(story);
-    navigation.navigate('Story', {data: story});
+  const renderStories = () => {
+    if (stories) {
+      return (
+        stories.map((story: StoryModel, i: number) => (
+          <TouchableOpacity 
+            key={i} 
+            style={styles.characterItemButton} 
+            onPress={() => goToStoryDetail(story)}
+          >
+            <Text style={styles.characterItemText}>{ story.title }</Text>
+          </TouchableOpacity>
+        ))
+      )
+    } else {
+      return (
+        <View>
+          <Text>No Stories</Text>
+        </View>
+      )
+    }
   }
-  
+
   useEffect(() => {
     getComics();
     getEvents();
@@ -136,12 +221,16 @@ export default function Character({navigation, route}: any) {
     
     return () => {
       setComics([]);
+      setComicsLoading(false);
       setEvents([]);
+      setEventsLoading(false);
       setSeries([]);
+      setSeriesLoading(false);
       setStories([]);
+      setStoriesLoading(false);
     }
   },[]); 
-
+  
   return (
     <SafeAreaView style={styles.characterSafeAreaView}>
       <ScrollView>
@@ -158,58 +247,23 @@ export default function Character({navigation, route}: any) {
         />
 
         <View style={styles.characterItemsContainer}>
-
+      
           <SectionTitle title="Comics">
             <View style={styles.characterItemList}>
-              {
-                comics.map((comic: ComicModel, i: number) => (
-                  <ComicItem 
-                    path={comic.thumbnail.path}
-                    extension={comic.thumbnail.extension}
-                    title={comic.title}
-                    key={i}
-                    pressEvent={() => goToComicDetail(comic)}
-                  />
-                ))
-              }
+              { renderComics() }
             </View>
           </SectionTitle>
           
           <SectionTitle title="Events">
-            {
-              events.map((event: EventModel, i: number) => (
-                <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToEventDetail(event)}>
-                  <Text style={styles.characterItemText}>{ event.title }</Text>
-                </TouchableOpacity>
-              ))
-            }
-            {
-              events && events.length <= 0 ? (
-                <View>
-                  <Text>Events not available</Text>
-                </View>
-              ) : null
-            }
+            { renderEvents() }
           </SectionTitle>
           
           <SectionTitle title="Series">
-            {
-              series.map((series: SeriesModel, i: number) => (
-                <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToSeriesDetail(series)}>
-                  <Text style={styles.characterItemText}>{ series.title }</Text>
-                </TouchableOpacity>
-              ))
-            }
+            { renderSeries() }
           </SectionTitle>
 
           <SectionTitle title="Stories">
-            {
-              stories.map((story: StoryModel, i: number) => (
-                <TouchableOpacity style={styles.characterItemButton} key={i} onPress={() => goToStoryDetail(story)}>
-                  <Text style={styles.characterItemText}>{ story.title }</Text>
-                </TouchableOpacity>
-              ))
-            }
+            { renderStories() }
           </SectionTitle>
 
         </View>

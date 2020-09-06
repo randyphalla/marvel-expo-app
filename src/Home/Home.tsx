@@ -3,13 +3,12 @@ import {
   SafeAreaView, 
   ScrollView, 
   View, 
-  Text, 
-  TouchableOpacity,
   StyleSheet 
 } from 'react-native';
+import HomeCard from '../components/HomeCard';
+
 
 export default function Home({navigation}: any) {
-
   const goToCharacters = () => navigation.navigate('Characters');
   const goToComics = () => navigation.navigate('Comics');
   const goToCreators = () => navigation.navigate('Creators');
@@ -21,24 +20,30 @@ export default function Home({navigation}: any) {
     <SafeAreaView>
       <ScrollView style={styles.HomeScrollView}>
         <View style={styles.HomeView}>
-          <TouchableOpacity style={styles.HomeButton} onPress={goToCharacters}>
-            <Text style={styles.HomeButtonText}>Characters</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.HomeButton} onPress={goToComics}>
-            <Text style={styles.HomeButtonText}>Comics</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.HomeButton} onPress={goToCreators}>
-            <Text style={styles.HomeButtonText}>Creators</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.HomeButton} onPress={goToEvents}>
-            <Text style={styles.HomeButtonText}>Events</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.HomeButton} onPress={goToSeries}>
-            <Text style={styles.HomeButtonText}>Series</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.HomeButton} onPress={goToStories}>
-            <Text style={styles.HomeButtonText}>Stories</Text>
-          </TouchableOpacity>
+          <HomeCard 
+            text="Characters"
+            onPress={goToCharacters}
+          />
+          <HomeCard 
+            text="Comics"
+            onPress={goToComics}
+          />
+          <HomeCard 
+            text="Creators"
+            onPress={goToCreators}
+          />
+          <HomeCard 
+            text="Events"
+            onPress={goToEvents}
+          />
+          <HomeCard 
+            text="Series"
+            onPress={goToSeries}
+          />
+          <HomeCard 
+            text="Stories"
+            onPress={goToStories}
+          />        
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -47,29 +52,13 @@ export default function Home({navigation}: any) {
 
 const styles = StyleSheet.create({
   HomeScrollView: {
-    height: '100%',
-    backgroundColor: 'pink'
+    height: '100%'
   },
   HomeView: {
     flex: 1,
     flexWrap: 'wrap',
     flexDirection: 'row',
-    width: '100%'
-  },
-  HomeButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 80,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingBottom: 80,  
-    width: '50%',
-    backgroundColor: 'blue'
-  },
-  HomeButtonText: {
-    color: '#ffffff',
-    fontWeight: '800',
-    textTransform: 'uppercase',
-    letterSpacing: 1.3
+    width: '100%',
+    padding: 13
   }
 });

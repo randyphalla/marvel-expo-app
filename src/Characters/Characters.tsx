@@ -14,7 +14,7 @@ export default function Characters({navigation}: any) {
   const baseUrl = 'https://gateway.marvel.com:443/v1/public/characters';
   const url = `${baseUrl}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
 
-  async function getChars() {
+  const getCharacters = async () => {
     try {
       let res = await fetch(url)
       let json = await res.json();
@@ -27,19 +27,53 @@ export default function Characters({navigation}: any) {
       setCharactersLoading(false);
     }
   }
+    
+  const goToCharacterPage = (character: CharacterModel) => navigation.navigate('Character', {data: character});
+
+  const renderCharactersIsLoading = () => {
+    return (
+      <ScrollView style={styles.characterList}>
+        <Text style={styles.isLoadingText}>Characters is loading...</Text>
+      </ScrollView>
+    )
+  }
+
+  const renderCharacters = () => {
+    return (
+      <ScrollView style={styles.characterList}>
+        {
+          characters.map((item: CharacterModel, i) => (
+            <TouchableOpacity style={styles.characterItem} key={i} onPress={() => goToCharacterPage(item)}>
+              <Image 
+                style={styles.characterItemImage} 
+                source={{uri: item.thumbnail.path + '.' + item.thumbnail.extension}} 
+                resizeMode="cover"
+              />
+              <View style={styles.characterItemContent}>
+                <Text style={styles.characterItemText}>{item.name}</Text>
+                {
+                  item.description ? (
+                    <View style={styles.characterItemDesc}>
+                      <Text style={styles.characterItemDescText} numberOfLines={4}>{item.description}</Text> 
+                    </View>
+                  ) : null
+                }
+              </View>
+            </TouchableOpacity>
+          ))
+        }
+      </ScrollView>
+    )
+  }
 
   useEffect(() => {
-    getChars();
+    getCharacters();
     
     return () => {
       setCharacters([]);
       setCharactersLoading(false);
     }
   }, []);
-  
-  function goToCharacterPage(char: CharacterModel) {
-    navigation.navigate('Character', {data: char});
-  }
 
   return (
     <SafeAreaView style={styles.characterContainer}>
@@ -48,36 +82,8 @@ export default function Characters({navigation}: any) {
       </View>
       {
         isCharactersLoading 
-        ? (
-          <ScrollView style={styles.characterList}>
-            <Text style={styles.isLoadingText}>Characters is loading...</Text>
-          </ScrollView>
-        ) 
-        : (
-          <ScrollView style={styles.characterList}>
-            {
-              characters.map((item: CharacterModel, i) => (
-                <TouchableOpacity style={styles.characterItem} key={i} onPress={() => goToCharacterPage(item)}>
-                  <Image 
-                    style={styles.characterItemImage} 
-                    source={{uri: item.thumbnail.path + '.' + item.thumbnail.extension}} 
-                    resizeMode="cover"
-                  />
-                  <View style={styles.characterItemContent}>
-                    <Text style={styles.characterItemText}>{item.name}</Text>
-                    {
-                      item.description ? (
-                        <View style={styles.characterItemDesc}>
-                          <Text style={styles.characterItemDescText} numberOfLines={4}>{item.description}</Text> 
-                        </View>
-                      ) : null
-                    }
-                  </View>
-                </TouchableOpacity>
-              ))
-            }
-          </ScrollView>
-        )
+          ? renderCharactersIsLoading() 
+          : renderCharacters()
       }
     </SafeAreaView>
   )
