@@ -1,7 +1,6 @@
 import { EventList } from "./EventsModel";
 import { StoryList } from "./StoriesModel";
 import { CharacterList } from "./CharacterModel";
-import { Image } from "react-native";
 import { ComicPrice, ComicDate, ComicSummary } from "./ComicsModel";
 import { SeriesSummary } from "./SeriesModel";
 
@@ -21,6 +20,11 @@ export interface CreatorSummary {
 export interface Url {
   type: string;
   url: string;
+}
+
+export interface Thumbnail {
+  extension: string;
+  path: string
 }
 
 export interface CreatorModel {
@@ -47,10 +51,15 @@ export interface CreatorModel {
   collectedIssues: ComicSummary;
   dates: ComicDate;
   prices: ComicPrice;
-  thumbnail: Image;
-  images: Image[];
+  thumbnail: Thumbnail;
+  images: Thumbnail[];
   creators: CreatorList;
   characters: CharacterList;
   stories: StoryList
   events: EventList;
+
+  firstName: string;
+  fullName: string;
+  lastName: string;
+  middleName: string;
 }

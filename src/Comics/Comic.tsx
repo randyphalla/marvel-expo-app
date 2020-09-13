@@ -90,24 +90,26 @@ export default function Comic({navigation, route}: ComicProps) {
       creatorsData.push(json.data.results[0]);
     }
 
-    console.log(creatorsData);
     setCreators(creatorsData);
     setCreatorsLoading(false);
   }
 
   const getEvents = () => {
     const comicEvents = comic.events.items;
-    // console.log(comicEvents); 
+    console.log('Events'); 
+    console.log(comicEvents); 
   }
 
   const getSeries = () => {
     const comicSeries = comic.series;
-    // console.log(comicSeries); 
+    console.log('Series'); 
+    console.log(comicSeries);
   }
 
   const getStories = () => {
     const comicStories = comic.stories.items;
-    // console.log(comicStories); 
+    console.log('Stories'); 
+    console.log(comicStories);
   }
 
   useEffect(() => {
@@ -135,15 +137,11 @@ export default function Comic({navigation, route}: ComicProps) {
     <SafeAreaView>
       <ScrollView style={{ backgroundColor: '#fff' }}>
         
-        {
-          comic && comic.thumbnail ? (
-            <BannerImage
-              isComic={true}
-              path={comic.thumbnail.path} 
-              extension={comic.thumbnail.extension}
-            ></BannerImage>
-          ) : null
-        }
+        <BannerImage
+          isComic={true}
+          path={comic.thumbnail.path} 
+          extension={comic.thumbnail.extension}
+        ></BannerImage>
 
         <BannerInfo 
           name={comic.title} 
@@ -175,8 +173,20 @@ export default function Comic({navigation, route}: ComicProps) {
           <View>
             <Text>Creators</Text>
 
-            <View>
-              { comic.creators.items.map((creator, index) => <Text key={index}>{creator.name}</Text>) }
+            <View style={styles.CharacterListView}>
+              {creators.map((creator, index) => 
+                <View 
+                  style={styles.CharacterItem} 
+                  key={index}
+                >
+                  <Image 
+                    style={styles.CharacterItemImage} 
+                    source={{uri: creator.thumbnail.path + '.' + creator.thumbnail.extension}} 
+                    resizeMode="cover"
+                  />
+                  <Text style={styles.CharacterItemText}>{creator.fullName}</Text>
+                </View>
+              )}
             </View>
           </View>
 
@@ -207,9 +217,21 @@ export default function Comic({navigation, route}: ComicProps) {
           <View>
             <Text>Images</Text>
 
-            <View>
-              { comic.images.map((image, index) => <Text key={index}>{image.path} {image.extension}</Text>) }
+            <View style={styles.CharacterListView}>
+              {comic.images.map((image: {path:string, extension: string}, index: number) => 
+                <View 
+                  style={styles.CharacterItem} 
+                  key={index}
+                >
+                  <Image 
+                    style={styles.CharacterItemImage} 
+                    source={{uri: image.path + '.' + image.extension}} 
+                    resizeMode="cover"
+                  />
+                </View>
+              )}
             </View>
+
           </View>
 
           <View>
@@ -333,7 +355,7 @@ const styles = StyleSheet.create({
   },
   CharacterItemText: {
     marginTop: 8,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '700',
     letterSpacing: 0.3
   }

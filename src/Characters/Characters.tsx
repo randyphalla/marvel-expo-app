@@ -6,7 +6,7 @@ import { CharacterModel } from '../models/CharacterModel';
 
 export default function Characters({navigation}: any) {
   const [isCharactersLoading, setCharactersLoading] = useState(true);
-  const [characters, setCharacters] = useState([]);
+  const [characters, setCharacters] = useState<CharacterModel[]>([]);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
