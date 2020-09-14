@@ -21,6 +21,8 @@ export type ComicProps = {
 export default function Comic({navigation, route}: ComicProps) {
 
   const comic = route.params.data;
+  console.log("Comic");
+  console.log(comic);
 
   const [isComicLoading, setComicLoading] = useState<boolean>(true);
   
@@ -74,6 +76,9 @@ export default function Comic({navigation, route}: ComicProps) {
 
     setCharacters(charactersData);
     setCharactersLoading(false);
+
+    console.log('Characters'); 
+    console.log(characters); 
   };
 
   const getCreators = async () => {
@@ -89,7 +94,7 @@ export default function Comic({navigation, route}: ComicProps) {
       let json = await res.json();
       creatorsData.push(json.data.results[0]);
     }
-
+    
     setCreators(creatorsData);
     setCreatorsLoading(false);
   }
@@ -112,10 +117,19 @@ export default function Comic({navigation, route}: ComicProps) {
     console.log(comicStories);
   }
 
+  const renderCharacters = () => {};
+
+  const renderCreators = () => {};
+
+  const renderEvents = () => {};
+
+  const renderStories = () => {};
+
   useEffect(() => {
     getCharacters();
     getCreators();
     getEvents();
+    getSeries();
     getStories();
 
     return () => {
