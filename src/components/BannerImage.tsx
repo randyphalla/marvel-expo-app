@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { StyleSheet, View, Image, } from 'react-native';
 
 export type BannerImageProps = {
@@ -7,12 +7,12 @@ export type BannerImageProps = {
   isComic?: boolean;
 }
 
-export default function BannerImage({path, extension, isComic}: BannerImageProps) {
+const BannerImage: FC<BannerImageProps> = (props: BannerImageProps) => {
   return (
     <View style={styles.characterImageContainer}>
       <Image 
-        style={isComic ? styles.characterImageComic : styles.characterImage}
-        source={{uri: path + '.' + extension}} 
+        style={props.isComic ? styles.characterImageComic : styles.characterImage}
+        source={{uri: props.path + '.' + props.extension}} 
         resizeMode="cover"
       />
     </View>
@@ -35,3 +35,5 @@ BannerImage.defaultProps = {
   path: '',
   extension: ''
 };
+
+export default BannerImage;

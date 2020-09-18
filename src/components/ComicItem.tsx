@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
 
 export type ComicItemProps = {
@@ -8,18 +8,18 @@ export type ComicItemProps = {
   pressEvent?: () => void;
 };
 
-export default function ComicItem({path, extension, title, pressEvent}: ComicItemProps) {
+const ComicItem: FC<ComicItemProps> = (props: ComicItemProps) => {
   return (
     <TouchableOpacity 
       style={[
         styles.characterItemButton, 
         styles.characterItemImageButton
       ]} 
-      onPress={pressEvent}
+      onPress={props.pressEvent}
     >
       <Image 
         style={styles.characterItemImage}
-        source={{ uri: path + '.' + extension }} 
+        source={{ uri: props.path + '.' + props.extension }} 
         resizeMode="contain"
       />
       <Text 
@@ -28,7 +28,7 @@ export default function ComicItem({path, extension, title, pressEvent}: ComicIte
           styles.characterItemTitleWithImage
         ]}
       >
-        { title }
+        { props.title }
       </Text>
     </TouchableOpacity>
   )
@@ -67,3 +67,5 @@ ComicItem.defaultProps = {
   extension: '',
   title: ''
 };
+
+export default ComicItem;

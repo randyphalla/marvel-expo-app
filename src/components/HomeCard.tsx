@@ -12,7 +12,7 @@ type HomeCardProps = {
   image?: string;
 }
 
-const HomeCard:FC<HomeCardProps> = (props: HomeCardProps) => {
+const HomeCard: FC<HomeCardProps> = (props: HomeCardProps) => {
   return (
     <TouchableOpacity style={{...styles.HomeButton, backgroundColor: props.color}} onPress={props.onPress}>
       <Text style={styles.HomeButtonText}>{props.text}</Text>

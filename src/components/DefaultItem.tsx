@@ -1,6 +1,39 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 
+export type DefaultItemProps = {
+  path?: string;
+  extension?: string;
+  name?: string;
+  description?: string;
+  onPress?: () => void;
+}
+
+const DefaultItem = (props: DefaultItemProps) => {
+  return (
+    <TouchableOpacity
+      style={styles.characterItem}
+      onPress={props.onPress}
+    >
+      <Image
+        style={styles.characterItemImage}
+        source={{ uri: props.path + "." + props.extension }}
+        resizeMode="cover"
+      />
+      <View style={styles.characterItemContent}>
+        <Text style={styles.characterItemText}>{props.name}</Text>
+        {props.description ? (
+          <View style={styles.characterItemDesc}>
+            <Text style={styles.characterItemDescText} numberOfLines={4}>
+              {props.description}
+            </Text>
+          </View>
+        ) : null}
+      </View>
+    </TouchableOpacity>
+  );
+};
+
 const styles = StyleSheet.create({
   characterItem: {
     paddingTop: 10,
@@ -38,38 +71,5 @@ const styles = StyleSheet.create({
     fontWeight: "400",
   },
 });
-
-export type DefaultItemProps = {
-  path?: string;
-  extension?: string;
-  name?: string;
-  description?: string;
-  onPress?: () => void;
-}
-
-const DefaultItem = (props: DefaultItemProps) => {
-  return (
-    <TouchableOpacity
-      style={styles.characterItem}
-      onPress={props.onPress}
-    >
-      <Image
-        style={styles.characterItemImage}
-        source={{ uri: props.path + "." + props.extension }}
-        resizeMode="cover"
-      />
-      <View style={styles.characterItemContent}>
-        <Text style={styles.characterItemText}>{props.name}</Text>
-        {props.description ? (
-          <View style={styles.characterItemDesc}>
-            <Text style={styles.characterItemDescText} numberOfLines={4}>
-              {props.description}
-            </Text>
-          </View>
-        ) : null}
-      </View>
-    </TouchableOpacity>
-  );
-};
 
 export default DefaultItem;

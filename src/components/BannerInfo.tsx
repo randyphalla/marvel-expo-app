@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
 export type BannerInfoProps = {
@@ -6,13 +6,13 @@ export type BannerInfoProps = {
   description?: string;
 }
 
-export default function BannerInfo({name, description}: BannerInfoProps) {
+const BannerInfo: FC<BannerInfoProps> = (props: BannerInfoProps) => {
   return (
     <View style={styles.characterInfo}>
-      <Text style={styles.characterText}>{ name }</Text>
+      <Text style={styles.characterText}>{ props.name }</Text>
       {
-        description ? (
-          <Text style={styles.characterDescriptionText}>{ description }</Text>
+        props.description ? (
+          <Text style={styles.characterDescriptionText}>{ props.description }</Text>
         ) : null
       }
     </View>
@@ -58,3 +58,5 @@ BannerInfo.defaultProps = {
   name: 'Banner name',
   description: 'Banner description'
 };
+
+export default BannerInfo;
