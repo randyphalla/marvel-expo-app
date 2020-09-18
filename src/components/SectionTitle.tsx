@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 
 export type SectionTitleProps = {
   title?: string;
-  children?: ReactNode
+  children?: ReactNode | string;
 };
 
 export default function SectionTitle({ title, children }: SectionTitleProps) {
@@ -17,13 +17,11 @@ export default function SectionTitle({ title, children }: SectionTitleProps) {
 
 const styles = StyleSheet.create({
   characterItem: {
-    marginTop: 6,
-    marginBottom: 6,
+    marginBottom: 16
   },
   characterItemTitle: {
-    color: '#202020',
     marginBottom: 6,
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: '800'
   },
 });

@@ -3,6 +3,7 @@ import { StyleSheet, SafeAreaView, ScrollView, Text, View, TouchableOpacity, Ima
 import md5 from 'md5';
 import { ComicModel } from '../models/ComicsModel';
 import { privateKey, publicKey } from '../shared/apiKey';
+import DefaultItem from '../components/DefaultItem';
 
 export default function Comics({navigation}: any) {
   const [isComicsLoading, setComicsLoading] = useState(true);
@@ -35,24 +36,13 @@ export default function Comics({navigation}: any) {
       <View>
         {
           comics.map((comic, index) => 
-            <TouchableOpacity 
-              style={styles.comicItem}
-              key={index} 
+            <DefaultItem 
+              key={index}
+              path={comic.thumbnail.path}
+              extension={comic.thumbnail.extension}
+              name={comic.title}
               onPress={() => goToComicPage(comic)}
-            >
-              <View style={styles.comicItemImageView}>
-                <Image 
-                  style={styles.comicItemImage} 
-                  source={{uri: comic.thumbnail.path + '.' + comic.thumbnail.extension}} 
-                  resizeMode="cover"
-                />
-              </View>
-              <View style={styles.comicItemViewText}>
-                <View>
-                  <Text style={styles.comicItemText}>{comic.title}</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
+            />
           )
         }
       </View>
@@ -70,48 +60,34 @@ export default function Comics({navigation}: any) {
 
   return (
     <SafeAreaView style={{ flexDirection:'column', flex: 1, width: '100%'}}>
-      <ScrollView style={{ backgroundColor: '#ffffff'}}>
-        <View>
+      <ScrollView 
+        style={{backgroundColor: isComicsLoading ? '#E00304' : '#ffffff'}} 
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'}}
+      >
           {
             isComicsLoading ? (
-              <Text>Comics is Loading</Text>
+              <View style={styles.LoadingView}>
+                <Text style={styles.LoadingViewText}>Comics is Loading</Text>
+              </View>
             ) : (
               renderComics()
             )
           }
-        </View>
       </ScrollView>
     </SafeAreaView>
   )
-}
+};
 
 const styles = StyleSheet.create({
-  comicItem: {
-    justifyContent: 'flex-start',
+  LoadingView: {
     alignItems: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    flex: 1,
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E2F3'
+    justifyContent: 'center',
   },
-  comicItemImageView: {
-    marginRight: 8,
-  },
-  comicItemImage: {
-    height: 150,
-    width: 100,
-    borderRadius: 8
-  },
-  comicItemViewText: {
-    flex: 1,
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-  },
-  comicItemText: {
-    fontSize: 16,
-    fontWeight: '700',
-    lineHeight: 25
+  LoadingViewText: {
+    color: '#ffffff',
+    fontSize: 20,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+    letterSpacing: 1
   }
-})
+});

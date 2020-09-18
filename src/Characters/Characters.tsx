@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Ima
 import { privateKey, publicKey } from '../../src/shared/apiKey';
 import md5 from 'md5';
 import { CharacterModel } from '../models/CharacterModel';
+import DefaultItem from '../components/DefaultItem';
 
 export default function Characters({navigation}: any) {
   const [isCharactersLoading, setCharactersLoading] = useState(true);
@@ -32,37 +33,28 @@ export default function Characters({navigation}: any) {
 
   const renderCharactersIsLoading = () => {
     return (
-      <ScrollView style={styles.characterList}>
-        <Text style={styles.isLoadingText}>Characters is loading...</Text>
-      </ScrollView>
+      <View style={styles.LoadingView}>
+        <Text style={styles.LoadingViewText}>Characters is Loading</Text>
+      </View>
     )
   }
 
   const renderCharacters = () => {
     return (
-      <ScrollView style={styles.characterList}>
+      <View style={styles.characterList}>
         {
-          characters.map((item: CharacterModel, i) => (
-            <TouchableOpacity style={styles.characterItem} key={i} onPress={() => goToCharacterPage(item)}>
-              <Image 
-                style={styles.characterItemImage} 
-                source={{uri: item.thumbnail.path + '.' + item.thumbnail.extension}} 
-                resizeMode="cover"
-              />
-              <View style={styles.characterItemContent}>
-                <Text style={styles.characterItemText}>{item.name}</Text>
-                {
-                  item.description ? (
-                    <View style={styles.characterItemDesc}>
-                      <Text style={styles.characterItemDescText} numberOfLines={4}>{item.description}</Text> 
-                    </View>
-                  ) : null
-                }
-              </View>
-            </TouchableOpacity>
+          characters.map((item: CharacterModel, index: number) => (
+            <DefaultItem 
+              key={index}
+              path={item.thumbnail.path}
+              extension={item.thumbnail.extension}
+              name={item.name}
+              description={item.description}
+              onPress={() => goToCharacterPage(item)}
+            />
           ))
         }
-      </ScrollView>
+      </View>
     )
   }
 
@@ -77,74 +69,39 @@ export default function Characters({navigation}: any) {
 
   return (
     <SafeAreaView style={styles.characterContainer}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Characters</Text>
-      </View>
-      {
-        isCharactersLoading 
-          ? renderCharactersIsLoading() 
-          : renderCharacters()
-      }
+      <ScrollView
+        style={{backgroundColor: isCharactersLoading ? '#E00304' : '#ffffff'}} 
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'}}
+      >
+        {
+          isCharactersLoading 
+            ? renderCharactersIsLoading() 
+            : renderCharacters()
+        }
+      </ScrollView>
     </SafeAreaView>
   )
 };
 
 const styles = StyleSheet.create({
+  LoadingView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  LoadingViewText: {
+    color: '#ffffff',
+    fontSize: 20,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+    letterSpacing: 1
+  },
   characterContainer: {
     flexDirection:'column',
     flex: 1,
     width: '100%'
   },
-  header: {
-    padding: 16
-  },
-  headerText: {
-    color: '#060606',
-    fontSize: 30,
-    fontWeight: '800'
-  },
-  isLoadingText: {
-    color: '#060606',
-    fontSize: 16,
-    fontWeight: '800'
-  },
   characterList: {
     paddingLeft: 13,
     paddingRight: 13
-  },
-  characterItem: {
-    paddingTop: 10,
-    paddingLeft: 6,
-    paddingRight: 6,
-    paddingBottom: 10,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E2F3'
-  },
-  characterItemImage: {
-    height: 80,
-    width: 100,
-    marginRight: 10,
-    borderRadius: 6
-  },
-  characterItemContent: {
-    flex: 1,
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-  },
-  characterItemText: {
-    color: '#060606',
-    fontSize: 16,
-    fontWeight: '800'
-  },
-  characterItemDesc: {},
-  characterItemDescText: {
-    marginTop: 6,
-    color: '#060606',
-    fontSize: 12,
-    fontWeight: '400'
   }
 });

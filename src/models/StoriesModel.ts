@@ -25,4 +25,5 @@ export interface StoryModel {
   thumbnail: any;
   title: string;
   type: string;
+  name?: string;
 }

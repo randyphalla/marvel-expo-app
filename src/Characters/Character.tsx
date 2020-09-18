@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, SafeAreaView, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import md5 from 'md5';
 import { privateKey, publicKey } from '../../src/shared/apiKey';
 import { EventModel } from '../models/EventsModel';
@@ -126,7 +126,7 @@ export default function Character({navigation, route}: any) {
   const goToStoryDetail = (story: StoryModel) => navigation.navigate('Story', {data: story});
 
   const renderComics = () => {
-    if (comics) {
+    if (comics && comics.length > 0) {
       return (
         comics.map((comic: ComicModel, i: number) => (
           <ComicItem 
@@ -148,7 +148,7 @@ export default function Character({navigation, route}: any) {
   }
 
   const renderEvents = () => {
-    if (events) {
+    if (events && events.length > 0) {
       return (
         events.map((event: EventModel, i: number) => (
           <TouchableOpacity 
@@ -170,7 +170,7 @@ export default function Character({navigation, route}: any) {
   }
 
   const renderSeries = () => {
-    if (series) {
+    if (series && series.length > 0) {
       return (
         series.map((series: SeriesModel, i: number) => (
           <TouchableOpacity 
@@ -192,7 +192,7 @@ export default function Character({navigation, route}: any) {
   }
 
   const renderStories = () => {
-    if (stories) {
+    if (stories && stories.length > 0) {
       return (
         stories.map((story: StoryModel, i: number) => (
           <TouchableOpacity 
@@ -279,7 +279,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff'
   },
   characterView: {},
-  characterItemsContainer: { padding: 16 },
+  characterItemsContainer: {     
+    marginTop: 16,
+    padding: 16,
+    backgroundColor: '#ffffff' 
+  },
   characterItemList: {
     justifyContent: 'space-between',
     alignItems: 'flex-start',
@@ -305,11 +309,11 @@ const styles = StyleSheet.create({
     marginLeft: 6
   },
   characterItemButton: {
-    padding: 6,
+    paddingTop: 3,
+    paddingBottom: 3,
     marginTop: 3,
     marginBottom: 3
   },
-  characterItemImageButton: { width: '49%' },
   characterItemText: {
     color: '#202020',
     fontSize: 14,

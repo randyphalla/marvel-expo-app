@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View, Text, Image } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View, Text, Image, TouchableOpacity } from 'react-native';
 import md5 from 'md5';
 
 import BannerImage from '../components/BannerImage';
@@ -11,7 +11,7 @@ import { EventModel } from '../models/EventsModel';
 import { SeriesModel } from '../models/SeriesModel';
 import { StoryModel } from '../models/StoriesModel';
 import { CreatorModel } from '../models/CreatorsModel';
-// import { ComicModel } from '../models/ComicsModel';
+import SectionTitle from '../components/SectionTitle';
 
 export type ComicProps = {
   navigation?: any;
@@ -21,9 +21,6 @@ export type ComicProps = {
 export default function Comic({navigation, route}: ComicProps) {
 
   const comic = route.params.data;
-  console.log("Comic");
-  console.log(comic);
-
   const [isComicLoading, setComicLoading] = useState<boolean>(true);
   
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
@@ -75,10 +72,7 @@ export default function Comic({navigation, route}: ComicProps) {
     }
 
     setCharacters(charactersData);
-    setCharactersLoading(false);
-
-    console.log('Characters'); 
-    console.log(characters); 
+    setCharactersLoading(false); 
   };
 
   const getCreators = async () => {
@@ -101,29 +95,145 @@ export default function Comic({navigation, route}: ComicProps) {
 
   const getEvents = () => {
     const comicEvents = comic.events.items;
-    console.log('Events'); 
-    console.log(comicEvents); 
   }
 
   const getSeries = () => {
     const comicSeries = comic.series;
-    console.log('Series'); 
-    console.log(comicSeries);
   }
 
   const getStories = () => {
     const comicStories = comic.stories.items;
-    console.log('Stories'); 
-    console.log(comicStories);
   }
 
-  const renderCharacters = () => {};
+  const renderCharacters = () => {
+    if (characters && characters.length > 0) {
+      return (
+        <View style={styles.CharacterListView}>
+          {
+            characters.map((character, index) => 
+            <TouchableOpacity 
+              style={styles.CharacterItem} 
+              key={index}
+              onPress={() => goToCharacterDetail(character)}
+            >
+              <Image 
+                style={styles.CharacterItemImage} 
+                source={{uri: character.thumbnail.path + '.' + character.thumbnail.extension}} 
+                resizeMode="cover"
+              />
+              <Text style={styles.CharacterItemText} >{character.name}</Text>
+            </TouchableOpacity>)
+          }
+        </View>
+      )
+    } else {
+      return (
+        <View>
+          <Text>Character's not available</Text>
+        </View>
+      )
+    }
+  };
 
-  const renderCreators = () => {};
+  const renderCreators = () => {
+    if (creators && creators.length > 0) {
+      return (
+        <View style={styles.CharacterListView}>
+          {
+            creators.map((creator, index) => 
+            <TouchableOpacity 
+              style={styles.CharacterItem} 
+              key={index}
+              onPress={() => goToCreatorDetail(creator)}
+            >
+              <Image 
+                style={styles.CharacterItemImage} 
+                source={{uri: creator.thumbnail.path + '.' + creator.thumbnail.extension}} 
+                resizeMode="cover"
+              />
+              <Text style={styles.CharacterItemText}>{creator.fullName}</Text>
+            </TouchableOpacity>)
+          }
+        </View>
+      )
+    } else {
+      return (
+        <View>
+          <Text>Creator's not available</Text>
+        </View>
+      )
+    }
+  };
 
-  const renderEvents = () => {};
+  const renderEvents = () => {
+    if (comic.events && comic.events.items && comic.events.items.length > 0) {
+      return (
+        <View>
+          {
+            comic.events.items.map((event: EventModel, index: number) => 
+              <TouchableOpacity style={styles.characterItemButton} onPress={() => goToEventDetail(event)}>
+                <Text style={styles.characterItemText} key={index}>{event.title}</Text>
+              </TouchableOpacity>
+            )
+          }
+        </View>
+      )
+    } else {
+      return (
+        <View>
+          <Text>Event's not available</Text>
+        </View>
+      )
+    }
+  };
 
-  const renderStories = () => {};
+  const renderStories = () => {
+    if (comic.stories && comic.stories.items && comic.stories.items.length > 0) {
+      return (
+        <View>
+          { 
+            comic.stories.items.map((story: StoryModel, index: number) =>           
+            <TouchableOpacity  style={styles.characterItemButton} onPress={() => goToStoryDetail(story)}>
+              <Text style={styles.characterItemText} key={index}>{story.name}</Text>
+            </TouchableOpacity>
+            )
+          }
+        </View>
+      )
+    } else {
+      return (
+        <View>
+          <Text>Stories not available</Text>
+        </View>
+      )
+    }
+  };
+
+  const renderImages = () => {
+    if (comic.images && comic.images.length > 0) {
+      return (
+        comic.images.map((image: {path:string, extension: string}, index: number) => 
+        <TouchableOpacity style={styles.CharacterItem} key={index}>
+          <Image 
+            style={styles.CharacterItemImage} 
+            source={{uri: image.path + '.' + image.extension}} 
+            resizeMode="cover"
+          />
+        </TouchableOpacity>)
+      )
+    } else {
+      return (
+        <View>
+          <Text>Image's not available</Text>
+        </View>
+      )
+    }
+  };
+
+  const goToCharacterDetail = (character: CharacterModel) => navigation.navigate('Character', {data: character});
+  const goToCreatorDetail = (creator: CreatorModel) => navigation.navigate('Creator', {data: creator});
+  const goToEventDetail = (event: EventModel) => navigation.navigate('Event', {data: event});
+  const goToStoryDetail = (story: StoryModel) => navigation.navigate('Story', {data: story});
 
   useEffect(() => {
     getCharacters();
@@ -164,114 +274,26 @@ export default function Comic({navigation, route}: ComicProps) {
 
         <View style={styles.ContentView}>
 
-          <View>
-            <Text>Characters</Text>
+          <SectionTitle title="Characters">
+            { renderCharacters() }
+          </SectionTitle>
 
-            <View style={styles.CharacterListView}>
-              {characters.map((character, index) => 
-                <View 
-                  style={styles.CharacterItem} 
-                  key={index}
-                >
-                  <Image 
-                    style={styles.CharacterItemImage} 
-                    source={{uri: character.thumbnail.path + '.' + character.thumbnail.extension}} 
-                    resizeMode="cover"
-                  />
-                  <Text style={styles.CharacterItemText} >{character.name}</Text>
-                </View>
-              )}
-            </View>
-          </View>
+          <SectionTitle title="Creators">
+            { renderCreators() }
+          </SectionTitle>
 
-          <View>
-            <Text>Creators</Text>
+          <SectionTitle title="Events">
+            { renderEvents() }
+          </SectionTitle>
 
-            <View style={styles.CharacterListView}>
-              {creators.map((creator, index) => 
-                <View 
-                  style={styles.CharacterItem} 
-                  key={index}
-                >
-                  <Image 
-                    style={styles.CharacterItemImage} 
-                    source={{uri: creator.thumbnail.path + '.' + creator.thumbnail.extension}} 
-                    resizeMode="cover"
-                  />
-                  <Text style={styles.CharacterItemText}>{creator.fullName}</Text>
-                </View>
-              )}
-            </View>
-          </View>
+          <SectionTitle title="Stories">
+            { renderStories() }
+          </SectionTitle>
 
-          <View>
-            <Text>Events</Text>
+          <SectionTitle title="Images">
+            { renderImages() }
+          </SectionTitle>
 
-            <View>
-              { comic.events.items.map((event, index) => <Text key={index}>{event.name}</Text>) }
-            </View>
-          </View>
-
-          {/* <View>
-            <Text>Series</Text>
-
-            <View>
-              { comic.series.map((serie, index) => <Text key={index}>{serie.name}</Text>) }
-            </View>
-          </View> */}
-
-          <View>
-            <Text>Stories</Text>
-
-            <View>
-              { comic.stories.items.map((storie, index) => <Text key={index}>{storie.name}</Text>) }
-            </View>
-          </View>
-
-          <View>
-            <Text>Images</Text>
-
-            <View style={styles.CharacterListView}>
-              {comic.images.map((image: {path:string, extension: string}, index: number) => 
-                <View 
-                  style={styles.CharacterItem} 
-                  key={index}
-                >
-                  <Image 
-                    style={styles.CharacterItemImage} 
-                    source={{uri: image.path + '.' + image.extension}} 
-                    resizeMode="cover"
-                  />
-                </View>
-              )}
-            </View>
-
-          </View>
-
-          <View>
-            <Text>Prices</Text>
-
-            <View>
-              { comic.prices.map((price, index) => <Text key={index}>{price.price} {price.type}</Text>) }
-            </View>
-          </View>
-
-          <View>
-            <Text>Dates</Text>
-
-            <View>
-              { comic.dates.map((date, index) => <Text key={index}>{date.date} {date.type}</Text>) }
-            </View>
-          </View>
-
-          <View>
-            <Text>URLs</Text>
-
-            <View>
-              { comic.urls.map((url, index) => <Text key={index}>{url.url} {url.type}</Text>) }
-            </View>
-          </View>
-          
           <View style={styles.MiscView}>
             <Text style={styles.MiscTitle}>Misc Information</Text>
             <Text style={styles.MiscText}>
@@ -372,5 +394,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     letterSpacing: 0.3
+  },
+  characterItemButton: {
+    paddingTop: 3,
+    paddingBottom: 3,
+    marginTop: 3,
+    marginBottom: 3
+  },
+  characterItemText: {
+    color: '#202020',
+    fontSize: 14,
+    fontWeight: '400'
   }
 });
