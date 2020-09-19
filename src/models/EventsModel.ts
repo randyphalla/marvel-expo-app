@@ -16,7 +16,7 @@ export interface EventSummary {
   name: string;
 }
 
-export interface EventModel {
+export interface EventsModel {
   id: number;
   title: string;
   description: string;

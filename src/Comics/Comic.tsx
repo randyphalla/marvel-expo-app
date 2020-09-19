@@ -7,9 +7,9 @@ import BannerInfo from '../components/BannerInfo';
 import { privateKey, publicKey } from '../shared/apiKey';
 
 import { CharacterModel } from '../models/CharacterModel';
-import { EventModel } from '../models/EventsModel';
+import { EventsModel } from '../models/EventsModel';
 import { SeriesModel } from '../models/SeriesModel';
-import { StoryModel } from '../models/StoriesModel';
+import { StoriesModel } from '../models/StoriesModel';
 import { CreatorModel } from '../models/CreatorsModel';
 import SectionTitle from '../components/SectionTitle';
 
@@ -29,7 +29,7 @@ export default function Comic({navigation, route}: ComicProps) {
   const [creators, setCreators] = useState<CreatorModel[]>([]);
   const [isCreatorsLoading, setCreatorsLoading] = useState<boolean>(true);
 
-  const [events, setEvents] = useState<EventModel[]>([]);
+  const [events, setEvents] = useState<EventsModel[]>([]);
   const [isEventsLoading, setEventsLoading] = useState<boolean>(true);
 
   const [series, setSeries] = useState<SeriesModel[]>([]);
@@ -49,13 +49,13 @@ export default function Comic({navigation, route}: ComicProps) {
   const creatorsData: CreatorModel[] = [];
 
   const eventsURLS: string[] = [];
-  const eventsData: EventModel[] = [];
+  const eventsData: EventsModel[] = [];
 
   const seriesURLS: string[] = [];
   const seriesData: SeriesModel[] = [];
 
   const storiesURLS: string[] = [];
-  const storiesData: StoryModel[] = [];
+  const storiesData: StoriesModel[] = [];
 
   const getCharacters = async () => {
     const comicCharacters = comic.characters.items;
@@ -95,6 +95,7 @@ export default function Comic({navigation, route}: ComicProps) {
 
   const getEvents = () => {
     const comicEvents = comic.events.items;
+    console.log(comicEvents);
   }
 
   const getSeries = () => {
@@ -170,7 +171,7 @@ export default function Comic({navigation, route}: ComicProps) {
       return (
         <View>
           {
-            comic.events.items.map((event: EventModel, index: number) => 
+            comic.events.items.map((event: EventsModel, index: number) => 
               <TouchableOpacity style={styles.characterItemButton} onPress={() => goToEventDetail(event)}>
                 <Text style={styles.characterItemText} key={index}>{event.title}</Text>
               </TouchableOpacity>
@@ -192,7 +193,7 @@ export default function Comic({navigation, route}: ComicProps) {
       return (
         <View>
           { 
-            comic.stories.items.map((story: StoryModel, index: number) =>           
+            comic.stories.items.map((story: StoriesModel, index: number) =>           
             <TouchableOpacity  style={styles.characterItemButton} onPress={() => goToStoryDetail(story)}>
               <Text style={styles.characterItemText} key={index}>{story.name}</Text>
             </TouchableOpacity>
@@ -232,8 +233,8 @@ export default function Comic({navigation, route}: ComicProps) {
 
   const goToCharacterDetail = (character: CharacterModel) => navigation.navigate('Character', {data: character});
   const goToCreatorDetail = (creator: CreatorModel) => navigation.navigate('Creator', {data: creator});
-  const goToEventDetail = (event: EventModel) => navigation.navigate('Event', {data: event});
-  const goToStoryDetail = (story: StoryModel) => navigation.navigate('Story', {data: story});
+  const goToEventDetail = (event: EventsModel) => navigation.navigate('Event', {data: event});
+  const goToStoryDetail = (story: StoriesModel) => navigation.navigate('Story', {data: story});
 
   useEffect(() => {
     getCharacters();

@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import HomeCard from '../components/HomeCard';
 
-
 export default function Home({navigation}: any) {
   const goToCharacters = () => navigation.navigate('Characters');
   const goToComics = () => navigation.navigate('Comics');
@@ -22,26 +21,32 @@ export default function Home({navigation}: any) {
         <View style={styles.HomeView}>
           <HomeCard 
             text="Characters"
+            image="https://terrigen-cdn-dev.marvel.com/content/prod/1x/blackpanther_01-1920x1080.jpg"
             onPress={goToCharacters}
           />
           <HomeCard 
             text="Comics"
+            image="https://terrigen-cdn-dev.marvel.com/content/prod/1x/doctorstrange_01-1920x1080_copy.jpg"
             onPress={goToComics}
           />
           <HomeCard 
             text="Creators"
+            image="https://terrigen-cdn-dev.marvel.com/content/prod/1x/thor_02-1920x1080.jpg"
             onPress={goToCreators}
           />
           <HomeCard 
             text="Events"
+            image="https://terrigen-cdn-dev.marvel.com/content/prod/1x/a33.jpg"
             onPress={goToEvents}
           />
           <HomeCard 
             text="Series"
+            image="https://terrigen-cdn-dev.marvel.com/content/prod/1x/a22.jpg"
             onPress={goToSeries}
           />
           <HomeCard 
             text="Stories"
+            image="https://terrigen-cdn-dev.marvel.com/content/prod/1x/a44.jpg"
             onPress={goToStories}
           />        
         </View>

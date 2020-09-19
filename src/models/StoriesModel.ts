@@ -11,7 +11,7 @@ export interface StorySummary {
   type: string;
 }
 
-export interface StoryModel {
+export interface StoriesModel {
   characters: any;
   comics: any;
   creators: any;

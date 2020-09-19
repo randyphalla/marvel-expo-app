@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import md5 from 'md5';
 import { privateKey, publicKey } from '../../src/shared/apiKey';
-import { EventModel } from '../models/EventsModel';
+import { EventsModel } from '../models/EventsModel';
 import { SeriesModel } from '../models/SeriesModel';
-import { StoryModel } from '../models/StoriesModel';
+import { StoriesModel } from '../models/StoriesModel';
 import { ComicModel } from '../models/ComicsModel';
 import BannerInfo from '../components/BannerInfo';
 import BannerImage from '../components/BannerImage';
@@ -15,27 +15,27 @@ export default function Character({navigation, route}: any) {
   const [comics, setComics] = useState<ComicModel[]>([]);
   const [isComicsLoading, setComicsLoading] = useState(true);
 
-  const [events, setEvents] = useState<EventModel[]>([]);
+  const [events, setEvents] = useState<EventsModel[]>([]);
   const [isEventsLoading, setEventsLoading] = useState(true);
 
   const [series, setSeries] = useState<SeriesModel[]>([]);
   const [isSeriesLoading, setSeriesLoading] = useState(true);
 
-  const [stories, setStories] = useState<StoryModel[]>([]);
+  const [stories, setStories] = useState<StoriesModel[]>([]);
   const [isStoriesLoading, setStoriesLoading] = useState(true);
 
   const comicsURLS: string[] = [];
   const comicsData: ComicModel[] = [];
 
   const eventsURLS: string[] = [];
-  const eventsData: EventModel[] = [];
+  const eventsData: EventsModel[] = [];
 
   const seriesURLS: string[] = [];
   const seriesData: SeriesModel[] = [];
 
   const storiesURLS: string[] = [];
   const storesJSONData: any[] = [];
-  const storiesData: StoryModel[] = [];
+  const storiesData: StoriesModel[] = [];
 
   const character = route?.params.data;
   const ts = new Date().getTime();
@@ -121,9 +121,9 @@ export default function Character({navigation, route}: any) {
   }
 
   const goToComicDetail = (comic: ComicModel) => navigation.navigate('Comic', {data: comic});
-  const goToEventDetail = (event: EventModel) => navigation.navigate('Event', {data: event});
+  const goToEventDetail = (event: EventsModel) => navigation.navigate('Event', {data: event});
   const goToSeriesDetail = (series: SeriesModel) => navigation.navigate('Series', {data: series});
-  const goToStoryDetail = (story: StoryModel) => navigation.navigate('Story', {data: story});
+  const goToStoryDetail = (story: StoriesModel) => navigation.navigate('Story', {data: story});
 
   const renderComics = () => {
     if (comics && comics.length > 0) {
@@ -150,7 +150,7 @@ export default function Character({navigation, route}: any) {
   const renderEvents = () => {
     if (events && events.length > 0) {
       return (
-        events.map((event: EventModel, i: number) => (
+        events.map((event: EventsModel, i: number) => (
           <TouchableOpacity 
             key={i} 
             style={styles.characterItemButton} 
@@ -194,7 +194,7 @@ export default function Character({navigation, route}: any) {
   const renderStories = () => {
     if (stories && stories.length > 0) {
       return (
-        stories.map((story: StoryModel, i: number) => (
+        stories.map((story: StoriesModel, i: number) => (
           <TouchableOpacity 
             key={i} 
             style={styles.characterItemButton} 

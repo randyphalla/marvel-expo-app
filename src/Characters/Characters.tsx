@@ -6,8 +6,8 @@ import { CharacterModel } from '../models/CharacterModel';
 import DefaultItem from '../components/DefaultItem';
 
 export default function Characters({navigation}: any) {
-  const [isCharactersLoading, setCharactersLoading] = useState(true);
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
+  const [isCharactersLoading, setCharactersLoading] = useState(true);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
