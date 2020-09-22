@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "marvel-expo-app",
+    "name": "Marvel Expo App",
     "slug": "marvel-expo-app",
     "platforms": [
       "ios",
@@ -13,7 +13,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#de1f26"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,7 +22,13 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.randyphalla.marvelexpoapp",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.randyphalla.marvelexpoapp",
+      "versionCode": 1
     }
   }
 }
