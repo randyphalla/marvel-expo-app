@@ -4,24 +4,19 @@ import md5 from 'md5';
 
 import BannerImage from '../components/BannerImage';
 import BannerInfo from '../components/BannerInfo';
-import { privateKey, publicKey } from '../shared/apiKey';
+import SectionTitle from '../components/SectionTitle';
+import ImageCard from '../components/ImageCard';
 
 import { CharacterModel } from '../models/CharacterModel';
 import { EventsModel } from '../models/EventsModel';
-import { SeriesModel } from '../models/SeriesModel';
 import { StoriesModel } from '../models/StoriesModel';
 import { CreatorModel } from '../models/CreatorsModel';
-import SectionTitle from '../components/SectionTitle';
 
-export type ComicProps = {
-  navigation?: any;
-  route?: any;
-};
+import { privateKey, publicKey } from '../shared/apiKey';
 
-export default function Comic({navigation, route}: ComicProps) {
+const Comic = ({navigation, route}: any) => {
 
   const comic = route.params.data;
-  const [isComicLoading, setComicLoading] = useState<boolean>(true);
   
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
   const [isCharactersLoading, setCharactersLoading] = useState<boolean>(true);
@@ -32,10 +27,7 @@ export default function Comic({navigation, route}: ComicProps) {
   const [events, setEvents] = useState<EventsModel[]>([]);
   const [isEventsLoading, setEventsLoading] = useState<boolean>(true);
 
-  const [series, setSeries] = useState<SeriesModel[]>([]);
-  const [isSeriesLoading, setSeriesLoading] = useState<boolean>(true);
-
-  const [stories, setStories] = useState<[][]>([]);
+  const [stories, setStories] = useState<StoriesModel[]>([]);
   const [isStoriesLoading, setStoriesLoading] = useState<boolean>(true);
 
   const ts = new Date().getTime();
@@ -50,9 +42,6 @@ export default function Comic({navigation, route}: ComicProps) {
 
   const eventsURLS: string[] = [];
   const eventsData: EventsModel[] = [];
-
-  const seriesURLS: string[] = [];
-  const seriesData: SeriesModel[] = [];
 
   const storiesURLS: string[] = [];
   const storiesData: StoriesModel[] = [];
@@ -93,17 +82,40 @@ export default function Comic({navigation, route}: ComicProps) {
     setCreatorsLoading(false);
   }
 
-  const getEvents = () => {
+  const getEvents = async () => {
     const comicEvents = comic.events.items;
-    console.log(comicEvents);
+
+    for (const key in comicEvents) {
+      const specialUrl = `${comicEvents[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
+      eventsURLS.push(specialUrl);
+    }
+
+    for (const urls of eventsURLS) {
+      let res = await fetch(urls);
+      let json = await res.json();
+      eventsData.push(json.data.results[0]);
+    }
+    
+    setEvents(eventsData);
+    setEventsLoading(false);
   }
 
-  const getSeries = () => {
-    const comicSeries = comic.series;
-  }
-
-  const getStories = () => {
+  const getStories = async () => {
     const comicStories = comic.stories.items;
+
+    for (const key in comicStories) {
+      const specialUrl = `${comicStories[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
+      storiesURLS.push(specialUrl);
+    }
+
+    for (const urls of storiesURLS) {
+      let res = await fetch(urls);
+      let json = await res.json();
+      storiesData.push(json.data.results[0]);
+    }
+    
+    setStories(storiesData);
+    setStoriesLoading(false);
   }
 
   const renderCharacters = () => {
@@ -112,18 +124,14 @@ export default function Comic({navigation, route}: ComicProps) {
         <View style={styles.CharacterListView}>
           {
             characters.map((character, index) => 
-            <TouchableOpacity 
-              style={styles.CharacterItem} 
-              key={index}
-              onPress={() => goToCharacterDetail(character)}
-            >
-              <Image 
-                style={styles.CharacterItemImage} 
-                source={{uri: character.thumbnail.path + '.' + character.thumbnail.extension}} 
-                resizeMode="cover"
+              <ImageCard 
+                key={index}
+                text={character.name}
+                path={character.thumbnail.path}
+                extension={character.thumbnail.extension}
+                onPress={() => goToCharacterDetail(character)}
               />
-              <Text style={styles.CharacterItemText} >{character.name}</Text>
-            </TouchableOpacity>)
+            )
           }
         </View>
       )
@@ -142,18 +150,14 @@ export default function Comic({navigation, route}: ComicProps) {
         <View style={styles.CharacterListView}>
           {
             creators.map((creator, index) => 
-            <TouchableOpacity 
-              style={styles.CharacterItem} 
-              key={index}
-              onPress={() => goToCreatorDetail(creator)}
-            >
-              <Image 
-                style={styles.CharacterItemImage} 
-                source={{uri: creator.thumbnail.path + '.' + creator.thumbnail.extension}} 
-                resizeMode="cover"
+              <ImageCard 
+                key={index}
+                text={creator.fullName}
+                path={creator.thumbnail.path}
+                extension={creator.thumbnail.extension}
+                onPress={() => goToCreatorDetail(creator)}
               />
-              <Text style={styles.CharacterItemText}>{creator.fullName}</Text>
-            </TouchableOpacity>)
+            )
           }
         </View>
       )
@@ -167,14 +171,15 @@ export default function Comic({navigation, route}: ComicProps) {
   };
 
   const renderEvents = () => {
-    if (comic.events && comic.events.items && comic.events.items.length > 0) {
+    if (events && events.length > 0) {
       return (
         <View>
           {
-            comic.events.items.map((event: EventsModel, index: number) => 
+            events.map((event: EventsModel, index: number) => 
               <TouchableOpacity 
                 key={index} 
-                style={styles.CharacterItemButton} onPress={() => goToEventDetail(event)}
+                style={styles.CharacterItemButton} 
+                onPress={() => goToEventDetail(event)}
               >
                 <Text style={styles.CharacterItemText} key={index}>{event.title}</Text>
               </TouchableOpacity>
@@ -192,17 +197,17 @@ export default function Comic({navigation, route}: ComicProps) {
   };
 
   const renderStories = () => {
-    if (comic.stories && comic.stories.items && comic.stories.items.length > 0) {
+    if (stories && stories.length > 0) {
       return (
         <View>
           { 
-            comic.stories.items.map((story: StoriesModel, index: number) =>           
+            stories.map((story: StoriesModel, index: number) =>           
             <TouchableOpacity 
               key={index} 
               style={styles.CharacterItemButton} 
               onPress={() => goToStoryDetail(story)}
             >
-              <Text style={styles.CharacterItemText} key={index}>{story.name}</Text>
+              <Text style={styles.CharacterItemText} key={index}>{story.title}</Text>
             </TouchableOpacity>
             )
           }
@@ -221,13 +226,14 @@ export default function Comic({navigation, route}: ComicProps) {
     if (comic.images && comic.images.length > 0) {
       return (
         comic.images.map((image: {path:string, extension: string}, index: number) => 
-        <TouchableOpacity style={styles.CharacterItem} key={index}>
-          <Image 
-            style={styles.CharacterItemImage} 
-            source={{uri: image.path + '.' + image.extension}} 
-            resizeMode="cover"
-          />
-        </TouchableOpacity>)
+          <View style={styles.CharacterItem} key={index}>
+            <Image 
+              style={styles.CharacterItemImage} 
+              source={{uri: image.path + '.' + image.extension}} 
+              resizeMode="cover"
+            />
+          </View>
+        )
       )
     } else {
       return (
@@ -247,19 +253,15 @@ export default function Comic({navigation, route}: ComicProps) {
     getCharacters();
     getCreators();
     getEvents();
-    getSeries();
     getStories();
 
     return () => {
-      setComicLoading(false);
       // setCharacters([]);
       setCharactersLoading(false);
       // setCreators([]);
       setCreatorsLoading(false);
       // setEvents([]);
       setEventsLoading(false);
-      // setSeries([]);
-      setSeriesLoading(false);
       // setStories([]);
       setStoriesLoading(false);
     }
@@ -395,13 +397,8 @@ const styles = StyleSheet.create({
   CharacterItemImage: {
     width: '100%', 
     height: 170,
+    marginBottom: 8,
     borderRadius: 8
-  },
-  CharacterItemText: {
-    marginTop: 8,
-    fontSize: 14,
-    fontWeight: '700',
-    letterSpacing: 0.3
   },
   CharacterItemButton: {
     paddingTop: 3,
@@ -415,3 +412,5 @@ const styles = StyleSheet.create({
     fontWeight: '400'
   }
 });
+
+export default Comic;

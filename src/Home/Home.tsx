@@ -1,13 +1,8 @@
 import React from 'react';
-import { 
-  SafeAreaView, 
-  ScrollView, 
-  View, 
-  StyleSheet 
-} from 'react-native';
+import { SafeAreaView, ScrollView, View, StyleSheet } from 'react-native';
 import HomeCard from '../components/HomeCard';
 
-export default function Home({navigation}: any) {
+const Home = ({navigation}: any) => {
   const goToCharacters = () => navigation.navigate('Characters');
   const goToComics = () => navigation.navigate('Comics');
   const goToCreators = () => navigation.navigate('Creators');
@@ -67,3 +62,5 @@ const styles = StyleSheet.create({
     padding: 13
   }
 });
+
+export default Home;

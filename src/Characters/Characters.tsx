@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Image } from 'react-native';
-import { privateKey, publicKey } from '../../src/shared/apiKey';
+import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
 import md5 from 'md5';
-import { CharacterModel } from '../models/CharacterModel';
 import DefaultItem from '../components/DefaultItem';
+import { CharacterModel } from '../models/CharacterModel';
+import { privateKey, publicKey } from '../../src/shared/apiKey';
 
 export default function Characters({navigation}: any) {
   const [characters, setCharacters] = useState<CharacterModel[]>([]);

@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-// import { Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import styled from 'styled-components/native';
 
 type HomeCardProps = {

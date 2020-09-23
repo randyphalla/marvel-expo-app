@@ -31,8 +31,14 @@ const Story = ({navigation, route}: any) => {
           <Text>{story.title}</Text>
           <Text>{story.description}</Text>
           <Text>{story.modified}</Text>
-          <Text>{story.originalIssue.name}</Text>
-          <Text>{story.originalIssue.resourceURI}</Text>
+          {
+            story && story.originalIssue ? (
+              <>
+                <Text>{story.originalIssue.name}</Text>
+                <Text>{story.originalIssue.resourceURI}</Text>
+              </>
+            ) : null
+          }
           <Text>{story.thumbnail}</Text>
         </View>
       </ScrollView>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import md5 from 'md5';
 import { ComicModel } from '../models/ComicsModel';
 import { privateKey, publicKey } from '../shared/apiKey';

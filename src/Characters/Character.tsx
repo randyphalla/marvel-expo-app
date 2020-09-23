@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import md5 from 'md5';
-import { privateKey, publicKey } from '../../src/shared/apiKey';
+
 import { EventsModel } from '../models/EventsModel';
 import { SeriesModel } from '../models/SeriesModel';
 import { StoriesModel } from '../models/StoriesModel';
 import { ComicModel } from '../models/ComicsModel';
+
 import BannerInfo from '../components/BannerInfo';
 import BannerImage from '../components/BannerImage';
 import ComicItem from '../components/ComicItem';
 import SectionTitle from '../components/SectionTitle';
+
+import { privateKey, publicKey } from '../../src/shared/apiKey';
+import ImageCard from '../components/ImageCard';
 
 export default function Character({navigation, route}: any) {
   const [comics, setComics] = useState<ComicModel[]>([]);
@@ -122,7 +126,7 @@ export default function Character({navigation, route}: any) {
 
   const goToComicDetail = (comic: ComicModel) => navigation.navigate('Comic', {data: comic});
   const goToEventDetail = (event: EventsModel) => navigation.navigate('Event', {data: event});
-  const goToSeriesDetail = (series: SeriesModel) => navigation.navigate('Series', {data: series});
+  const goToSeriesDetail = (series: SeriesModel) => navigation.navigate('Serie', {data: series});
   const goToStoryDetail = (story: StoriesModel) => navigation.navigate('Story', {data: story});
 
   const renderComics = () => {
@@ -150,15 +154,22 @@ export default function Character({navigation, route}: any) {
   const renderEvents = () => {
     if (events && events.length > 0) {
       return (
-        events.map((event: EventsModel, i: number) => (
-          <TouchableOpacity 
-            key={i} 
-            style={styles.CharacterItemButton} 
+        events.map((event: EventsModel, index: number) => 
+          // <TouchableOpacity 
+          //   key={i} 
+          //   style={styles.CharacterItemButton} 
+          //   onPress={() => goToEventDetail(event)}
+          // >
+          //   <Text style={styles.CharacterItemText}>{ event.title }</Text>
+          // </TouchableOpacity>
+          <ImageCard 
+            key={index}
+            text={event.title}
+            path={event.thumbnail.path}
+            extension={event.thumbnail.extension}
             onPress={() => goToEventDetail(event)}
-          >
-            <Text style={styles.CharacterItemText}>{ event.title }</Text>
-          </TouchableOpacity>
-        ))
+          />
+        )
       )
     } else {
       return (
@@ -172,15 +183,22 @@ export default function Character({navigation, route}: any) {
   const renderSeries = () => {
     if (series && series.length > 0) {
       return (
-        series.map((series: SeriesModel, i: number) => (
-          <TouchableOpacity 
-            key={i} 
-            style={styles.CharacterItemButton} 
-            onPress={() => goToSeriesDetail(series)}
-          >
-            <Text style={styles.CharacterItemText}>{ series.title }</Text>
-          </TouchableOpacity>
-        ))
+        series.map((serie: SeriesModel, index: number) => 
+          // <TouchableOpacity 
+          //   key={i} 
+          //   style={styles.CharacterItemButton} 
+          //   onPress={() => goToSeriesDetail(series)}
+          // >
+          //   <Text style={styles.CharacterItemText}>{ series.title }</Text>
+          // </TouchableOpacity>
+          <ImageCard 
+            key={index}
+            text={serie.title}
+            path={serie.thumbnail.path}
+            extension={serie.thumbnail.extension}
+            onPress={() => goToSeriesDetail(serie)}
+          />
+        )
       )
     } else {
       return (
@@ -194,15 +212,15 @@ export default function Character({navigation, route}: any) {
   const renderStories = () => {
     if (stories && stories.length > 0) {
       return (
-        stories.map((story: StoriesModel, i: number) => (
+        stories.map((story: StoriesModel, index: number) => 
           <TouchableOpacity 
-            key={i} 
+            key={index} 
             style={styles.CharacterItemButton} 
             onPress={() => goToStoryDetail(story)}
           >
             <Text style={styles.CharacterItemText}>{ story.title }</Text>
           </TouchableOpacity>
-        ))
+        )
       )
     } else {
       return (
@@ -255,11 +273,15 @@ export default function Character({navigation, route}: any) {
           </SectionTitle>
           
           <SectionTitle title="Events">
-            { renderEvents() }
+            <View style={styles.characterItemList}>
+              { renderEvents() }
+            </View>
           </SectionTitle>
           
           <SectionTitle title="Series">
-            { renderSeries() }
+            <View style={styles.characterItemList}>
+              { renderSeries() }
+            </View>
           </SectionTitle>
 
           <SectionTitle title="Stories">
@@ -287,7 +309,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    flex: 1,
   },
   characterItem: {
     marginTop: 6,
