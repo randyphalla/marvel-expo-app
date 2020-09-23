@@ -1,6 +1,7 @@
-import md5 from 'md5';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, View } from 'react-native';
+import md5 from 'md5';
+import DefaultItem from '../components/DefaultItem';
 import { CreatorModel } from '../models/CreatorsModel';
 import { privateKey, publicKey } from '../shared/apiKey';
 
@@ -29,6 +30,8 @@ const Creators = ({navigation}: any) => {
     }
   }
 
+  const goToCreatorPage = (creator: CreatorModel) => navigation.navigate('Creator', {data: creator});
+  
   useEffect(() => {
     getCreators();
 
@@ -44,7 +47,17 @@ const Creators = ({navigation}: any) => {
     <SafeAreaView>
       <ScrollView>
         <View style={{padding: 13}}>
-          <Text>Creators</Text>
+          { 
+            creators.map((creator: CreatorModel, index: number) => 
+              <DefaultItem 
+                key={index}
+                path={creator.thumbnail.path}
+                extension={creator.thumbnail.extension}
+                name={creator.fullName}
+                onPress={() => goToCreatorPage(creator)}
+              />
+            ) 
+          }
         </View>
       </ScrollView>
     </SafeAreaView>

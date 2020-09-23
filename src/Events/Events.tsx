@@ -1,6 +1,7 @@
 import md5 from 'md5';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { EventsModel } from '../models/EventsModel';
 import { privateKey, publicKey } from '../shared/apiKey';
 
@@ -29,9 +30,12 @@ const Events = ({navigation}: any) => {
     }
   }
 
+  const goToEventPage = (event: EventsModel) => navigation.navigate('Event', {data: event});
+
   useEffect(() => {
     getEvents();
-
+    console.log(events);
+    
     return () => {
       setEvents([]);
       setEventsLoading(true);
@@ -44,7 +48,17 @@ const Events = ({navigation}: any) => {
     <SafeAreaView>
       <ScrollView>
         <View style={{padding: 13}}>
-          <Text>Events</Text>
+          {
+            events.map((event, index) => 
+              <TouchableOpacity 
+                key={index} 
+                onPress={() => goToEventPage(event)}
+              >
+                <Text>{event.title}</Text>
+                <Text>{event.description}</Text>
+              </TouchableOpacity>
+            )
+          }
         </View>
       </ScrollView>
     </SafeAreaView>

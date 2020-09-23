@@ -1,10 +1,11 @@
 import md5 from 'md5';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SeriesModel } from '../models/SeriesModel';
 import { privateKey, publicKey } from '../shared/apiKey';
 
-const Series = () => {
+const Series = ({navigation}: any) => {
   const [series, setSeries] = useState<SeriesModel[]>([]);
   const [isSeriesLoading, setSeriesLoading] = useState<boolean>(true);
 
@@ -29,6 +30,8 @@ const Series = () => {
     }
   }
 
+  const goToSeriesPage = (serie: SeriesModel) => navigation.navigate('Serie', {data: serie});
+
   useEffect(() => {
     getSeries();
 
@@ -44,7 +47,20 @@ const Series = () => {
     <SafeAreaView>
       <ScrollView>
         <View style={{padding: 13}}>
-          <Text>{ isSeriesLoading ? 'Loading' : 'Series is done loading' }</Text>
+          {
+            series.map((serie, index) => 
+              <TouchableOpacity 
+                key={index} 
+                onPress={() => goToSeriesPage(serie)}
+              >
+                <Text>{serie.title}</Text>
+                {
+                  serie.description &&
+                  <Text>{serie.description}</Text>
+                }
+              </TouchableOpacity>
+            )
+          }
         </View>
       </ScrollView>
     </SafeAreaView>

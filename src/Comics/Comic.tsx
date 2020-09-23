@@ -172,8 +172,11 @@ export default function Comic({navigation, route}: ComicProps) {
         <View>
           {
             comic.events.items.map((event: EventsModel, index: number) => 
-              <TouchableOpacity style={styles.characterItemButton} onPress={() => goToEventDetail(event)}>
-                <Text style={styles.characterItemText} key={index}>{event.title}</Text>
+              <TouchableOpacity 
+                key={index} 
+                style={styles.CharacterItemButton} onPress={() => goToEventDetail(event)}
+              >
+                <Text style={styles.CharacterItemText} key={index}>{event.title}</Text>
               </TouchableOpacity>
             )
           }
@@ -194,8 +197,12 @@ export default function Comic({navigation, route}: ComicProps) {
         <View>
           { 
             comic.stories.items.map((story: StoriesModel, index: number) =>           
-            <TouchableOpacity  style={styles.characterItemButton} onPress={() => goToStoryDetail(story)}>
-              <Text style={styles.characterItemText} key={index}>{story.name}</Text>
+            <TouchableOpacity 
+              key={index} 
+              style={styles.CharacterItemButton} 
+              onPress={() => goToStoryDetail(story)}
+            >
+              <Text style={styles.CharacterItemText} key={index}>{story.name}</Text>
             </TouchableOpacity>
             )
           }
@@ -396,13 +403,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 0.3
   },
-  characterItemButton: {
+  CharacterItemButton: {
     paddingTop: 3,
     paddingBottom: 3,
     marginTop: 3,
     marginBottom: 3
   },
-  characterItemText: {
+  CharacterItemText: {
     color: '#202020',
     fontSize: 14,
     fontWeight: '400'

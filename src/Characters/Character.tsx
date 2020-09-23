@@ -37,7 +37,7 @@ export default function Character({navigation, route}: any) {
   const storesJSONData: any[] = [];
   const storiesData: StoriesModel[] = [];
 
-  const character = route?.params.data;
+  const character = route.params.data;
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
   const hash = md5(stringToHash);
@@ -153,10 +153,10 @@ export default function Character({navigation, route}: any) {
         events.map((event: EventsModel, i: number) => (
           <TouchableOpacity 
             key={i} 
-            style={styles.characterItemButton} 
+            style={styles.CharacterItemButton} 
             onPress={() => goToEventDetail(event)}
           >
-            <Text style={styles.characterItemText}>{ event.title }</Text>
+            <Text style={styles.CharacterItemText}>{ event.title }</Text>
           </TouchableOpacity>
         ))
       )
@@ -175,10 +175,10 @@ export default function Character({navigation, route}: any) {
         series.map((series: SeriesModel, i: number) => (
           <TouchableOpacity 
             key={i} 
-            style={styles.characterItemButton} 
+            style={styles.CharacterItemButton} 
             onPress={() => goToSeriesDetail(series)}
           >
-            <Text style={styles.characterItemText}>{ series.title }</Text>
+            <Text style={styles.CharacterItemText}>{ series.title }</Text>
           </TouchableOpacity>
         ))
       )
@@ -197,10 +197,10 @@ export default function Character({navigation, route}: any) {
         stories.map((story: StoriesModel, i: number) => (
           <TouchableOpacity 
             key={i} 
-            style={styles.characterItemButton} 
+            style={styles.CharacterItemButton} 
             onPress={() => goToStoryDetail(story)}
           >
-            <Text style={styles.characterItemText}>{ story.title }</Text>
+            <Text style={styles.CharacterItemText}>{ story.title }</Text>
           </TouchableOpacity>
         ))
       )
@@ -278,7 +278,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff'
   },
-  characterView: {},
   characterItemsContainer: {     
     marginTop: 16,
     padding: 16,
@@ -308,13 +307,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 6
   },
-  characterItemButton: {
+  CharacterItemButton: {
     paddingTop: 3,
     paddingBottom: 3,
     marginTop: 3,
     marginBottom: 3
   },
-  characterItemText: {
+  CharacterItemText: {
     color: '#202020',
     fontSize: 14,
     fontWeight: '400'

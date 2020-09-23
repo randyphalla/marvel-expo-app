@@ -21,7 +21,7 @@ const DefaultItem = (props: DefaultItemProps) => {
         resizeMode="cover"
       />
       <View style={styles.characterItemContent}>
-        <Text style={styles.characterItemText}>{props.name}</Text>
+        <Text style={styles.CharacterItemText}>{props.name}</Text>
         {props.description ? (
           <View style={styles.characterItemDesc}>
             <Text style={styles.characterItemDescText} numberOfLines={4}>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flexWrap: "wrap",
   },
-  characterItemText: {
+  CharacterItemText: {
     color: "#060606",
     fontSize: 16,
     fontWeight: "800",

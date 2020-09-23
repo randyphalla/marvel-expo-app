@@ -1,6 +1,6 @@
 import md5 from 'md5';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { StoriesModel } from '../models/StoriesModel';
 import { privateKey, publicKey } from '../shared/apiKey';
 
@@ -29,6 +29,8 @@ const Stories = ({navigation}: any) => {
     }
   }
 
+  const goToStoryPage = (story: StoriesModel) => navigation.navigate('Story', {data: story});
+
   useEffect(() => {
     getStories();
 
@@ -44,7 +46,17 @@ const Stories = ({navigation}: any) => {
     <SafeAreaView>
       <ScrollView>
         <View style={{padding: 13}}>
-          <Text>{ isStoriesLoading ? 'Loading' : 'Stories is done loading' }</Text>
+          {
+            stories.map((story, index) => 
+              <TouchableOpacity
+                key={index}
+                onPress={() => goToStoryPage(story)}
+              >
+                <Text>{story.title}</Text>
+                <Text>{story.description}</Text>
+              </TouchableOpacity>
+            )
+          }
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -43,7 +43,7 @@ export default function Characters({navigation}: any) {
     return (
       <View style={styles.characterList}>
         {
-          characters.map((item: CharacterModel, index: number) => (
+          characters.map((item: CharacterModel, index: number) => 
             <DefaultItem 
               key={index}
               path={item.thumbnail.path}
@@ -52,7 +52,7 @@ export default function Characters({navigation}: any) {
               description={item.description}
               onPress={() => goToCharacterPage(item)}
             />
-          ))
+          )
         }
       </View>
     )

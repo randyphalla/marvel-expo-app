@@ -12,7 +12,7 @@ const ComicItem: FC<ComicItemProps> = (props: ComicItemProps) => {
   return (
     <TouchableOpacity 
       style={[
-        styles.characterItemButton, 
+        styles.CharacterItemButton, 
         styles.characterItemImageButton
       ]} 
       onPress={props.pressEvent}
@@ -24,7 +24,7 @@ const ComicItem: FC<ComicItemProps> = (props: ComicItemProps) => {
       />
       <Text 
         style={[
-          styles.characterItemText, 
+          styles.CharacterItemText, 
           styles.characterItemTitleWithImage
         ]}
       >
@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 6
   },
-  characterItemButton: {
+  CharacterItemButton: {
     padding: 6,
     marginTop: 3,
     marginBottom: 3
   },
   characterItemImageButton: { width: '49%' },
-  characterItemText: {
+  CharacterItemText: {
     color: '#202020',
     fontSize: 14,
     fontWeight: '400'
