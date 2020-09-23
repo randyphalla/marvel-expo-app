@@ -14,6 +14,7 @@ import SectionTitle from '../components/SectionTitle';
 
 import { privateKey, publicKey } from '../../src/shared/apiKey';
 import ImageCard from '../components/ImageCard';
+import Link from '../components/Link';
 
 export default function Character({navigation, route}: any) {
   const [comics, setComics] = useState<ComicModel[]>([]);
@@ -155,13 +156,6 @@ export default function Character({navigation, route}: any) {
     if (events && events.length > 0) {
       return (
         events.map((event: EventsModel, index: number) => 
-          // <TouchableOpacity 
-          //   key={i} 
-          //   style={styles.CharacterItemButton} 
-          //   onPress={() => goToEventDetail(event)}
-          // >
-          //   <Text style={styles.CharacterItemText}>{ event.title }</Text>
-          // </TouchableOpacity>
           <ImageCard 
             key={index}
             text={event.title}
@@ -184,13 +178,6 @@ export default function Character({navigation, route}: any) {
     if (series && series.length > 0) {
       return (
         series.map((serie: SeriesModel, index: number) => 
-          // <TouchableOpacity 
-          //   key={i} 
-          //   style={styles.CharacterItemButton} 
-          //   onPress={() => goToSeriesDetail(series)}
-          // >
-          //   <Text style={styles.CharacterItemText}>{ series.title }</Text>
-          // </TouchableOpacity>
           <ImageCard 
             key={index}
             text={serie.title}
@@ -213,13 +200,11 @@ export default function Character({navigation, route}: any) {
     if (stories && stories.length > 0) {
       return (
         stories.map((story: StoriesModel, index: number) => 
-          <TouchableOpacity 
+          <Link 
             key={index} 
-            style={styles.CharacterItemButton} 
+            text={story.title}
             onPress={() => goToStoryDetail(story)}
-          >
-            <Text style={styles.CharacterItemText}>{ story.title }</Text>
-          </TouchableOpacity>
+          />
         )
       )
     } else {
@@ -329,16 +314,5 @@ const styles = StyleSheet.create({
   characterItemTitleWithImage: {
     marginTop: 10,
     marginLeft: 6
-  },
-  CharacterItemButton: {
-    paddingTop: 3,
-    paddingBottom: 3,
-    marginTop: 3,
-    marginBottom: 3
-  },
-  CharacterItemText: {
-    color: '#202020',
-    fontSize: 14,
-    fontWeight: '400'
-  },
+  }
 });

@@ -1,11 +1,12 @@
 import React, { useEffect, useState} from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View, Text, Image } from 'react-native';
 import md5 from 'md5';
 
 import BannerImage from '../components/BannerImage';
 import BannerInfo from '../components/BannerInfo';
 import SectionTitle from '../components/SectionTitle';
 import ImageCard from '../components/ImageCard';
+import Link from '../components/Link';
 
 import { CharacterModel } from '../models/CharacterModel';
 import { EventsModel } from '../models/EventsModel';
@@ -176,13 +177,11 @@ const Comic = ({navigation, route}: any) => {
         <View>
           {
             events.map((event: EventsModel, index: number) => 
-              <TouchableOpacity 
+              <Link 
                 key={index} 
-                style={styles.CharacterItemButton} 
+                text={event.title}
                 onPress={() => goToEventDetail(event)}
-              >
-                <Text style={styles.CharacterItemText} key={index}>{event.title}</Text>
-              </TouchableOpacity>
+              />
             )
           }
         </View>
@@ -202,13 +201,11 @@ const Comic = ({navigation, route}: any) => {
         <View>
           { 
             stories.map((story: StoriesModel, index: number) =>           
-            <TouchableOpacity 
-              key={index} 
-              style={styles.CharacterItemButton} 
-              onPress={() => goToStoryDetail(story)}
-            >
-              <Text style={styles.CharacterItemText} key={index}>{story.title}</Text>
-            </TouchableOpacity>
+              <Link 
+                key={index} 
+                text={story.title}
+                onPress={() => goToStoryDetail(story)}
+              />
             )
           }
         </View>
@@ -225,15 +222,19 @@ const Comic = ({navigation, route}: any) => {
   const renderImages = () => {
     if (comic.images && comic.images.length > 0) {
       return (
-        comic.images.map((image: {path:string, extension: string}, index: number) => 
-          <View style={styles.CharacterItem} key={index}>
-            <Image 
-              style={styles.CharacterItemImage} 
-              source={{uri: image.path + '.' + image.extension}} 
-              resizeMode="cover"
-            />
-          </View>
-        )
+        <View style={styles.CharacterListView}>
+          {
+            comic.images.map((image: {path:string, extension: string}, index: number) => 
+              <View style={styles.CharacterItem} key={index}>
+                <Image 
+                  style={styles.CharacterItemImage} 
+                  source={{uri: image.path + '.' + image.extension}} 
+                  resizeMode="cover"
+                />
+              </View>
+            )
+          }
+        </View>
       )
     } else {
       return (
@@ -399,17 +400,6 @@ const styles = StyleSheet.create({
     height: 170,
     marginBottom: 8,
     borderRadius: 8
-  },
-  CharacterItemButton: {
-    paddingTop: 3,
-    paddingBottom: 3,
-    marginTop: 3,
-    marginBottom: 3
-  },
-  CharacterItemText: {
-    color: '#202020',
-    fontSize: 14,
-    fontWeight: '400'
   }
 });
 

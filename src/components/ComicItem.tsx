@@ -11,10 +11,7 @@ export type ComicItemProps = {
 const ComicItem: FC<ComicItemProps> = (props: ComicItemProps) => {
   return (
     <TouchableOpacity 
-      style={[
-        styles.CharacterItemButton, 
-        styles.characterItemImageButton
-      ]} 
+      style={styles.characterItemImageButton} 
       onPress={props.pressEvent}
     >
       <Image 
@@ -49,13 +46,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 6
   },
-  CharacterItemButton: {
-    padding: 6,
-    marginTop: 3,
-    marginBottom: 3
-  },
   characterItemImageButton: { width: '49%' },
   CharacterItemText: {
+    padding: 6,
+    marginTop: 3,
+    marginBottom: 3,
     color: '#202020',
     fontSize: 14,
     fontWeight: '400'

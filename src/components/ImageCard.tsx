@@ -20,6 +20,14 @@ const CharacterItemImage = styled.Image`
   border-radius: 8px;
 `;
 
+const CharacterItemImageLoading = styled.View`
+  width: 100%;
+  height: 170px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background-color: red;
+`;
+
 const CharacterItemText = styled.Text`
   color: #202020;
   font-size: 14px;
@@ -31,10 +39,16 @@ const ImageCard: FC<ImageCardProps> = (props: ImageCardProps) => {
     <CharacterItem 
       onPress={props.onPress}
     >
-      <CharacterItemImage 
-        source={{uri: props.path + '.' + props.extension}} 
-        resizeMode="cover"
-      />
+      {
+        props.path && props.extension ? (
+          <CharacterItemImage 
+            source={{uri: props.path + '.' + props.extension}} 
+            resizeMode="cover"
+          />
+        ) : (
+          <CharacterItemImageLoading></CharacterItemImageLoading>
+        )
+      }
       <CharacterItemText>{props.text}</CharacterItemText>
     </CharacterItem>
   )
