@@ -2,6 +2,7 @@ import md5 from 'md5';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import DefaultItem from '../components/DefaultItem';
 import { SeriesModel } from '../models/SeriesModel';
 import { privateKey, publicKey } from '../shared/apiKey';
 
@@ -44,21 +45,27 @@ const Series = ({navigation}: any) => {
   console.log(series);
 
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView style={{
+      flexDirection:'column',
+      flex: 1,
+      width: '100%',
+    }}>
+      <ScrollView contentContainerStyle={{
+        flexGrow: 1, 
+        justifyContent: 'flex-start',
+        backgroundColor: '#ffffff'
+      }}>
         <View style={{padding: 13}}>
           {
             series.map((serie, index) => 
-              <TouchableOpacity 
-                key={index} 
+              <DefaultItem 
+                key={index}
+                path={serie.thumbnail.path}
+                extension={serie.thumbnail.extension}
+                name={serie.title}
+                description={serie.description}
                 onPress={() => goToSeriesPage(serie)}
-              >
-                <Text>{serie.title}</Text>
-                {
-                  serie.description &&
-                  <Text>{serie.description}</Text>
-                }
-              </TouchableOpacity>
+              />
             )
           }
         </View>

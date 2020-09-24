@@ -5,7 +5,7 @@ import DefaultItem from '../components/DefaultItem';
 import { CharacterModel } from '../models/CharacterModel';
 import { privateKey, publicKey } from '../../src/shared/apiKey';
 
-export default function Characters({navigation}: any) {
+const Characters = ({navigation}: any) => {
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
   const [isCharactersLoading, setCharactersLoading] = useState(true);
 
@@ -41,7 +41,7 @@ export default function Characters({navigation}: any) {
 
   const renderCharacters = () => {
     return (
-      <View style={styles.characterList}>
+      <View style={{padding: 13}}>
         {
           characters.map((item: CharacterModel, index: number) => 
             <DefaultItem 
@@ -68,11 +68,16 @@ export default function Characters({navigation}: any) {
   }, []);
 
   return (
-    <SafeAreaView style={styles.characterContainer}>
-      <ScrollView
-        style={{backgroundColor: isCharactersLoading ? '#E00304' : '#ffffff'}} 
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'}}
-      >
+    <SafeAreaView style={{
+      flexDirection:'column', 
+      flex: 1, 
+      width: '100%'
+    }}>
+      <ScrollView contentContainerStyle={{
+        flexGrow: 1, 
+        justifyContent: 'flex-start',
+        backgroundColor: '#ffffff'
+      }}>
         {
           isCharactersLoading 
             ? renderCharactersIsLoading() 
@@ -94,14 +99,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     textTransform: 'uppercase',
     letterSpacing: 1
-  },
-  characterContainer: {
-    flexDirection:'column',
-    flex: 1,
-    width: '100%'
-  },
-  characterList: {
-    paddingLeft: 13,
-    paddingRight: 13
   }
 });
+
+export default Characters;

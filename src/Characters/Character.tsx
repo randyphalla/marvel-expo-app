@@ -16,7 +16,7 @@ import { privateKey, publicKey } from '../../src/shared/apiKey';
 import ImageCard from '../components/ImageCard';
 import Link from '../components/Link';
 
-export default function Character({navigation, route}: any) {
+const Character = ({navigation, route}: any) => {
   const [comics, setComics] = useState<ComicModel[]>([]);
   const [isComicsLoading, setComicsLoading] = useState(true);
 
@@ -316,3 +316,5 @@ const styles = StyleSheet.create({
     marginLeft: 6
   }
 });
+
+export default Character;

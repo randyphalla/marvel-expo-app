@@ -5,7 +5,7 @@ import { ComicModel } from '../models/ComicsModel';
 import { privateKey, publicKey } from '../shared/apiKey';
 import DefaultItem from '../components/DefaultItem';
 
-export default function Comics({navigation}: any) {
+const Comics = ({navigation}: any) => {
   const [isComicsLoading, setComicsLoading] = useState(true);
   const [comics, setComics] = useState<ComicModel[]>([]);
 
@@ -33,7 +33,7 @@ export default function Comics({navigation}: any) {
 
   const renderComics = () => {
     return (
-      <View>
+      <View style={{padding: 13}}>
         {
           comics.map((comic, index) => 
             <DefaultItem 
@@ -59,11 +59,16 @@ export default function Comics({navigation}: any) {
   }, []);
 
   return (
-    <SafeAreaView style={{ flexDirection:'column', flex: 1, width: '100%'}}>
-      <ScrollView 
-        style={{backgroundColor: isComicsLoading ? '#E00304' : '#ffffff'}} 
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'}}
-      >
+    <SafeAreaView style={{
+      flexDirection:'column', 
+      flex: 1, 
+      width: '100%'
+    }}>
+      <ScrollView contentContainerStyle={{
+        flexGrow: 1, 
+        justifyContent: 'flex-start',
+        backgroundColor: '#ffffff'
+      }}>
           {
             isComicsLoading ? (
               <View style={styles.LoadingView}>
@@ -91,3 +96,5 @@ const styles = StyleSheet.create({
     letterSpacing: 1
   }
 });
+
+export default Comics;

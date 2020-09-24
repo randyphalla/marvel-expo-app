@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import BannerImage from '../components/BannerImage';
+import BannerInfo from '../components/BannerInfo';
 
 const Serie = ({navigation, route}: any) => {
   const serie = route?.params.data;
@@ -25,18 +27,32 @@ const Serie = ({navigation, route}: any) => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView style={{
+      flexDirection:'column', 
+      flex: 1, 
+      width: '100%'
+    }}>
+      <ScrollView contentContainerStyle={{
+        flexGrow: 1, 
+        justifyContent: 'flex-start',
+        backgroundColor: '#ffffff'
+      }}>
+
+        <BannerImage
+          path={serie.thumbnail.path} 
+          extension={serie.thumbnail.extension}
+        />
+
+        <BannerInfo 
+          name={serie.title} 
+          description={serie.description} 
+        />
+
         <View style={{padding: 13}}>
-          <Text>{serie.thumbnail.path} {serie.thumbnail.extension}</Text>
-          <Text>{serie.title}</Text>
-          {
-            serie.description &&
-            <Text>{serie.description}</Text>
-          }
           <Text>{serie.startYear} - {serie.endYear}</Text>
           <Text>{serie.modified}</Text>
         </View>
+
       </ScrollView>
     </SafeAreaView>
   )

@@ -55,8 +55,7 @@ const styles = StyleSheet.create({
 });
 
 BannerInfo.defaultProps = {
-  name: 'Banner name',
-  description: 'Banner description'
+  name: 'Banner name'
 };
 
 export default BannerInfo;

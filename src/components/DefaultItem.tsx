@@ -21,7 +21,9 @@ const DefaultItem = (props: DefaultItemProps) => {
         resizeMode="cover"
       />
       <View style={styles.characterItemContent}>
-        <Text style={styles.CharacterItemText}>{props.name}</Text>
+        <View>
+          <Text style={styles.CharacterItemText}>{props.name}</Text>
+        </View>
         {props.description ? (
           <View style={styles.characterItemDesc}>
             <Text style={styles.characterItemDescText} numberOfLines={4}>
@@ -36,16 +38,14 @@ const DefaultItem = (props: DefaultItemProps) => {
 
 const styles = StyleSheet.create({
   characterItem: {
-    paddingTop: 10,
-    paddingLeft: 6,
-    paddingRight: 6,
-    paddingBottom: 10,
     flex: 1,
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "#E0E2F3",
+    padding: 13,
+    marginBottom: 8,
+    backgroundColor: '#F1F4FA',
+    borderRadius: 8
   },
   characterItemImage: {
     height: 80,
@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
     marginTop: 6,
     color: "#060606",
     fontSize: 12,
-    fontWeight: "400",
+    fontWeight: "500",
+    lineHeight: 18
   },
 });
 

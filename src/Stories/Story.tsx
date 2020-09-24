@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
 
 const Story = ({navigation, route}: any) => {
   const story = route?.params.data;
@@ -20,16 +20,42 @@ const Story = ({navigation, route}: any) => {
   const [series, setSeries] = useState([]);
   const [seriesLoading, setSeriesLoading] = useState<boolean>(true);
 
+  const getCharacters = () => console.log('Get Characters');
+  const getComics = () => console.log('Get Comics ');
+  const getCreators = () => console.log('Get Creators');
+  const getEvents = () => console.log('Get Events');
+  const getSeries = () => console.log('Get Series');
+
   useEffect(() => {
-    return () => {}
+    getCharacters();
+    getComics();
+    getCreators();
+    getEvents();
+    getSeries();
+    
+    return () => {
+      setCharactersLoading(false);
+      setComicsLoading(false);
+      setCreatorsLoading(false);
+      setEventsLoading(false);
+      setSeriesLoading(false);
+    }
   }, []);
 
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView style={{
+      flexDirection:'column',
+      flex: 1,
+      width: '100%'
+    }}>
+      <ScrollView contentContainerStyle={{
+        flexGrow: 1, 
+        justifyContent: 'flex-start',
+        backgroundColor: '#ffffff'
+      }}>
+
         <View style={{padding: 13}}>
           <Text>{story.title}</Text>
-          <Text>{story.description}</Text>
           <Text>{story.modified}</Text>
           {
             story && story.originalIssue ? (
@@ -39,11 +65,17 @@ const Story = ({navigation, route}: any) => {
               </>
             ) : null
           }
-          <Text>{story.thumbnail}</Text>
         </View>
+
       </ScrollView>
     </SafeAreaView>
   )
 };
+
+const styles = StyleSheet.create({
+  StoryTitle: {},
+  StoryModified: {},
+  StoryOriginalIssueName: {}
+});
 
 export default Story;

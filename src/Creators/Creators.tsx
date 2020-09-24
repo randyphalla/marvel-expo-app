@@ -44,8 +44,16 @@ const Creators = ({navigation}: any) => {
   console.log(creators);
 
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView style={{
+      flexDirection:'column', 
+      flex: 1, 
+      width: '100%'
+    }}>
+      <ScrollView contentContainerStyle={{
+        flexGrow: 1, 
+        justifyContent: 'flex-start',
+        backgroundColor: '#ffffff'
+      }}>
         <View style={{padding: 13}}>
           { 
             creators.map((creator: CreatorModel, index: number) => 

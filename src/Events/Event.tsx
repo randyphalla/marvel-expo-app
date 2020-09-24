@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import BannerImage from '../components/BannerImage';
+import BannerInfo from '../components/BannerInfo';
 
 const Event = ({navigation, route}: any) => {
 
@@ -26,14 +28,23 @@ const Event = ({navigation, route}: any) => {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#ffffff'}}>
       <ScrollView>
+
+        <BannerImage
+          path={event.thumbnail.path} 
+          extension={event.thumbnail.extension}
+        />
+
+        <BannerInfo 
+          name={event.title} 
+          description={event.description} 
+        />
+
         <View style={{padding: 13}}>
-          <Text>{event.title}</Text>
-          <Text>{event.description}</Text>
           <Text>{event.modified}</Text>
-          <Text>{event.thumbnail.path} {event.thumbnail.extension}</Text>
         </View>
+
       </ScrollView>
     </SafeAreaView>
   )
