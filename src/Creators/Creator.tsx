@@ -17,9 +17,8 @@ import { privateKey, publicKey } from '../shared/apiKey';
 
 const Creator = ({navigation, route}: any) => {
   
-  const creator = route?.params.data;
-  console.log(creator);
-
+  const creator = route.params.data;
+  
   const [comics, setComics] = useState<ComicModel[]>([]);
   const [comicsLoading, setComicsLoading] = useState<boolean>(true);
 
@@ -45,7 +44,6 @@ const Creator = ({navigation, route}: any) => {
   const storesJSONData: any[] = [];
   const storiesData: StoriesModel[] = [];
 
-  const character = route.params.data;
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
   const hash = md5(stringToHash);
@@ -69,7 +67,7 @@ const Creator = ({navigation, route}: any) => {
   };
 
   const getEvents = async () => {
-    const eventsItems = character.events.items;
+    const eventsItems = creator.events.items;
     
     for (const key in eventsItems) {
       const specialUrl = `${eventsItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
@@ -87,7 +85,7 @@ const Creator = ({navigation, route}: any) => {
   }
   
   const getSeries = async () => {
-    const seriesItems = character.series.items;
+    const seriesItems = creator.series.items;
 
     for (const key in seriesItems) {
       const specialUrl = `${seriesItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
@@ -105,7 +103,7 @@ const Creator = ({navigation, route}: any) => {
   }
 
   const getStories = async () => {
-    const storiesItems = character.stories.items;
+    const storiesItems = creator.stories.items;
 
     for (const key in storiesItems) {
       const specialUrl = `${storiesItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
