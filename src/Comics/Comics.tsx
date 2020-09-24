@@ -1,9 +1,10 @@
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
 import md5 from 'md5';
+
+import DefaultItem from '../components/DefaultItem';
 import { ComicModel } from '../models/ComicsModel';
 import { privateKey, publicKey } from '../shared/apiKey';
-import DefaultItem from '../components/DefaultItem';
 
 const Comics = ({navigation}: any) => {
   const [isComicsLoading, setComicsLoading] = useState(true);
@@ -30,25 +31,7 @@ const Comics = ({navigation}: any) => {
   }
 
   const goToComicPage = (comic: ComicModel) => navigation.navigate('Comic', {data: comic});
-
-  const renderComics = () => {
-    return (
-      <View style={{padding: 13}}>
-        {
-          comics.map((comic, index) => 
-            <DefaultItem 
-              key={index}
-              path={comic.thumbnail.path}
-              extension={comic.thumbnail.extension}
-              name={comic.title}
-              onPress={() => goToComicPage(comic)}
-            />
-          )
-        }
-      </View>
-    )
-  }
-
+  
   useEffect(() => {
     getComics();
 
@@ -59,25 +42,21 @@ const Comics = ({navigation}: any) => {
   }, []);
 
   return (
-    <SafeAreaView style={{
-      flexDirection:'column', 
-      flex: 1, 
-      width: '100%'
-    }}>
-      <ScrollView contentContainerStyle={{
-        flexGrow: 1, 
-        justifyContent: 'flex-start',
-        backgroundColor: '#ffffff'
-      }}>
+    <SafeAreaView>
+      <ScrollView>
+        <View style={{padding: 13}}>
           {
-            isComicsLoading ? (
-              <View style={styles.LoadingView}>
-                <Text style={styles.LoadingViewText}>Comics is Loading</Text>
-              </View>
-            ) : (
-              renderComics()
+            comics.map((comic, index) => 
+              <DefaultItem 
+                key={index}
+                path={comic.thumbnail.path}
+                extension={comic.thumbnail.extension}
+                name={comic.title}
+                onPress={() => goToComicPage(comic)}
+              />
             )
           }
+        </View>
       </ScrollView>
     </SafeAreaView>
   )

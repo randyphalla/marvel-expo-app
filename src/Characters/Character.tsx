@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
 import md5 from 'md5';
 
 import { EventsModel } from '../models/EventsModel';
@@ -9,12 +9,11 @@ import { ComicModel } from '../models/ComicsModel';
 
 import BannerInfo from '../components/BannerInfo';
 import BannerImage from '../components/BannerImage';
-import ComicItem from '../components/ComicItem';
 import SectionTitle from '../components/SectionTitle';
-
-import { privateKey, publicKey } from '../../src/shared/apiKey';
 import ImageCard from '../components/ImageCard';
 import Link from '../components/Link';
+
+import { privateKey, publicKey } from '../../src/shared/apiKey';
 
 const Character = ({navigation, route}: any) => {
   const [comics, setComics] = useState<ComicModel[]>([]);
@@ -133,13 +132,13 @@ const Character = ({navigation, route}: any) => {
   const renderComics = () => {
     if (comics && comics.length > 0) {
       return (
-        comics.map((comic: ComicModel, i: number) => (
-          <ComicItem 
+        comics.map((comic: ComicModel, index: number) => (
+          <ImageCard 
+            key={index}
+            text={comic.title}
             path={comic.thumbnail.path}
             extension={comic.thumbnail.extension}
-            title={comic.title}
-            key={i}
-            pressEvent={() => goToComicDetail(comic)}
+            onPress={() => goToComicDetail(comic)}
           />
         ))
       )
@@ -252,19 +251,19 @@ const Character = ({navigation, route}: any) => {
         <View style={styles.characterItemsContainer}>
       
           <SectionTitle title="Comics">
-            <View style={styles.characterItemList}>
+            <View style={styles.ItemList}>
               { renderComics() }
             </View>
           </SectionTitle>
           
           <SectionTitle title="Events">
-            <View style={styles.characterItemList}>
+            <View style={styles.ItemList}>
               { renderEvents() }
             </View>
           </SectionTitle>
           
           <SectionTitle title="Series">
-            <View style={styles.characterItemList}>
+            <View style={styles.ItemList}>
               { renderSeries() }
             </View>
           </SectionTitle>
@@ -290,13 +289,6 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#ffffff' 
   },
-  characterItemList: {
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    flex: 1,
-  },
   characterItem: {
     marginTop: 6,
     marginBottom: 6,
@@ -314,6 +306,13 @@ const styles = StyleSheet.create({
   characterItemTitleWithImage: {
     marginTop: 10,
     marginLeft: 6
+  },
+  ItemList: {
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    flex: 1
   }
 });
 

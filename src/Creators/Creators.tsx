@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View } from 'react-native';
 import md5 from 'md5';
+
 import DefaultItem from '../components/DefaultItem';
 import { CreatorModel } from '../models/CreatorsModel';
 import { privateKey, publicKey } from '../shared/apiKey';
@@ -44,16 +45,8 @@ const Creators = ({navigation}: any) => {
   console.log(creators);
 
   return (
-    <SafeAreaView style={{
-      flexDirection:'column', 
-      flex: 1, 
-      width: '100%'
-    }}>
-      <ScrollView contentContainerStyle={{
-        flexGrow: 1, 
-        justifyContent: 'flex-start',
-        backgroundColor: '#ffffff'
-      }}>
+    <SafeAreaView>
+      <ScrollView>
         <View style={{padding: 13}}>
           { 
             creators.map((creator: CreatorModel, index: number) => 

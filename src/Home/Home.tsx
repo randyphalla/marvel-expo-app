@@ -52,7 +52,8 @@ const Home = ({navigation}: any) => {
 
 const styles = StyleSheet.create({
   HomeScrollView: {
-    height: '100%'
+    height: '100%',
+    backgroundColor: '#F1F4FA'
   },
   HomeView: {
     flex: 1,

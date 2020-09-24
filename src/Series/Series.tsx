@@ -1,7 +1,7 @@
-import md5 from 'md5';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SafeAreaView, ScrollView, View } from 'react-native';
+import md5 from 'md5';
+
 import DefaultItem from '../components/DefaultItem';
 import { SeriesModel } from '../models/SeriesModel';
 import { privateKey, publicKey } from '../shared/apiKey';
@@ -45,16 +45,8 @@ const Series = ({navigation}: any) => {
   console.log(series);
 
   return (
-    <SafeAreaView style={{
-      flexDirection:'column',
-      flex: 1,
-      width: '100%',
-    }}>
-      <ScrollView contentContainerStyle={{
-        flexGrow: 1, 
-        justifyContent: 'flex-start',
-        backgroundColor: '#ffffff'
-      }}>
+    <SafeAreaView>
+      <ScrollView>
         <View style={{padding: 13}}>
           {
             series.map((serie, index) => 

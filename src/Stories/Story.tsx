@@ -43,17 +43,8 @@ const Story = ({navigation, route}: any) => {
   }, []);
 
   return (
-    <SafeAreaView style={{
-      flexDirection:'column',
-      flex: 1,
-      width: '100%'
-    }}>
-      <ScrollView contentContainerStyle={{
-        flexGrow: 1, 
-        justifyContent: 'flex-start',
-        backgroundColor: '#ffffff'
-      }}>
-
+    <SafeAreaView>
+      <ScrollView>
         <View style={{padding: 13}}>
           <Text>{story.title}</Text>
           <Text>{story.modified}</Text>
@@ -66,7 +57,6 @@ const Story = ({navigation, route}: any) => {
             ) : null
           }
         </View>
-
       </ScrollView>
     </SafeAreaView>
   )

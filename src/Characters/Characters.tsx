@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, View, ScrollView, SafeAreaView } from 'react-native';
 import md5 from 'md5';
+
 import DefaultItem from '../components/DefaultItem';
 import { CharacterModel } from '../models/CharacterModel';
 import { privateKey, publicKey } from '../../src/shared/apiKey';
@@ -31,32 +32,13 @@ const Characters = ({navigation}: any) => {
     
   const goToCharacterPage = (character: CharacterModel) => navigation.navigate('Character', {data: character});
 
-  const renderCharactersIsLoading = () => {
-    return (
-      <View style={styles.LoadingView}>
-        <Text style={styles.LoadingViewText}>Characters is Loading</Text>
-      </View>
-    )
-  }
-
-  const renderCharacters = () => {
-    return (
-      <View style={{padding: 13}}>
-        {
-          characters.map((item: CharacterModel, index: number) => 
-            <DefaultItem 
-              key={index}
-              path={item.thumbnail.path}
-              extension={item.thumbnail.extension}
-              name={item.name}
-              description={item.description}
-              onPress={() => goToCharacterPage(item)}
-            />
-          )
-        }
-      </View>
-    )
-  }
+  // const renderCharactersIsLoading = () => {
+  //   return (
+  //     <View style={styles.LoadingView}>
+  //       <Text style={styles.LoadingViewText}>Characters is Loading</Text>
+  //     </View>
+  //   )
+  // }
 
   useEffect(() => {
     getCharacters();
@@ -68,21 +50,22 @@ const Characters = ({navigation}: any) => {
   }, []);
 
   return (
-    <SafeAreaView style={{
-      flexDirection:'column', 
-      flex: 1, 
-      width: '100%'
-    }}>
-      <ScrollView contentContainerStyle={{
-        flexGrow: 1, 
-        justifyContent: 'flex-start',
-        backgroundColor: '#ffffff'
-      }}>
-        {
-          isCharactersLoading 
-            ? renderCharactersIsLoading() 
-            : renderCharacters()
-        }
+    <SafeAreaView>
+      <ScrollView>
+        <View style={{padding: 13}}>
+          {
+            characters.map((item: CharacterModel, index: number) => 
+              <DefaultItem 
+                key={index}
+                path={item.thumbnail.path}
+                extension={item.thumbnail.extension}
+                name={item.name}
+                description={item.description}
+                onPress={() => goToCharacterPage(item)}
+              />
+            )
+          }
+        </View>
       </ScrollView>
     </SafeAreaView>
   )

@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 13,
     marginBottom: 8,
-    backgroundColor: '#F1F4FA',
+    backgroundColor: '#fff',
     borderRadius: 8
   },
   characterItemImage: {

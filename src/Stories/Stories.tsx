@@ -1,6 +1,7 @@
-import md5 from 'md5';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import md5 from 'md5';
+
 import { StoriesModel } from '../models/StoriesModel';
 import { privateKey, publicKey } from '../shared/apiKey';
 
@@ -43,17 +44,8 @@ const Stories = ({navigation}: any) => {
   console.log(stories);
 
   return (
-    <SafeAreaView style={{
-      flexDirection:'column',
-      flex: 1,
-      width: '100%',
-    }}>
-      <ScrollView contentContainerStyle={{
-        flexGrow: 1, 
-        justifyContent: 'flex-start',
-        backgroundColor: '#ffffff'
-      }}>
-
+    <SafeAreaView>
+      <ScrollView>
         <View style={{padding: 13}}>
           {
             stories.map((story, index) => 
@@ -68,7 +60,6 @@ const Stories = ({navigation}: any) => {
             )
           }
         </View>
-
       </ScrollView>
     </SafeAreaView>
   )
@@ -78,7 +69,7 @@ const styles = StyleSheet.create({
   StoriesTouchableOpacity: {
     padding: 13,
     marginBottom: 8,
-    backgroundColor: '#F1F4FA',
+    backgroundColor: '#ffffff',
     borderRadius: 8
   },
   StoriesTitle: {
