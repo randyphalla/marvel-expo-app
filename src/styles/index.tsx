@@ -1,5 +1,6 @@
 // COLORS
 const whiteColor = '#ffffff';
+const blackColor = '#202020';
 
 const MarvelSafeAreaView = {
     flexDirection:'column',
@@ -15,6 +16,7 @@ const MarvelScrollView = {
 
 export { 
     whiteColor,
+    blackColor,
     MarvelSafeAreaView, 
     MarvelScrollView
-}
+};

@@ -17,7 +17,7 @@ import ImageCard from '../components/ImageCard';
 import SectionTitle from '../components/SectionTitle';
 
 const Serie = ({navigation, route}: any) => {
-  
+
   const serie = route?.params.data;
 
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
@@ -54,7 +54,6 @@ const Serie = ({navigation, route}: any) => {
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
   const hash = md5(stringToHash);
-
 
   const getCharacters = async () => {
     const comicCharacters = serie.characters.items;
