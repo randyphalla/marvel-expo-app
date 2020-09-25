@@ -215,21 +215,29 @@ const Character = ({navigation, route}: any) => {
     }
   }
 
-  useEffect(() => {
+  const getAllData = () => {
     getComics();
     getEvents();
     getSeries();
     getStories();
+  };
+
+  const returnAllData = () => {
+    setComics([]);
+    setComicsLoading(false);
+    setEvents([]);
+    setEventsLoading(false);
+    setSeries([]);
+    setSeriesLoading(false);
+    setStories([]);
+    setStoriesLoading(false);
+  };
+
+  useEffect(() => {
+    getAllData();
     
     return () => {
-      setComics([]);
-      setComicsLoading(false);
-      setEvents([]);
-      setEventsLoading(false);
-      setSeries([]);
-      setSeriesLoading(false);
-      setStories([]);
-      setStoriesLoading(false);
+      returnAllData();
     }
   },[]); 
   
@@ -288,24 +296,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
     padding: 16,
     backgroundColor: '#ffffff' 
-  },
-  characterItem: {
-    marginTop: 6,
-    marginBottom: 6,
-  },
-  characterItemImage: {
-    width: '100%',
-    height: 250
-  },
-  characterItemTitle: {
-    color: '#202020',
-    marginBottom: 6,
-    fontSize: 24,
-    fontWeight: '800'
-  },
-  characterItemTitleWithImage: {
-    marginTop: 10,
-    marginLeft: 6
   },
   ItemList: {
     justifyContent: 'space-between',

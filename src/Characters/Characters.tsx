@@ -4,11 +4,12 @@ import md5 from 'md5';
 
 import DefaultItem from '../components/DefaultItem';
 import { CharacterModel } from '../models/CharacterModel';
+
 import { privateKey, publicKey } from '../../src/shared/apiKey';
 
 const Characters = ({navigation}: any) => {
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
-  const [isCharactersLoading, setCharactersLoading] = useState(true);
+  const [isCharactersLoading, setCharactersLoading] = useState<boolean>(true);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
@@ -40,6 +41,21 @@ const Characters = ({navigation}: any) => {
   //   )
   // }
 
+  const renderCharcters = () => {
+    return (
+      characters.map((item: CharacterModel, index: number) => 
+        <DefaultItem 
+          key={index}
+          path={item.thumbnail.path}
+          extension={item.thumbnail.extension}
+          name={item.name}
+          description={item.description}
+          onPress={() => goToCharacterPage(item)}
+        />
+     )
+    )
+  }
+
   useEffect(() => {
     getCharacters();
     
@@ -53,18 +69,7 @@ const Characters = ({navigation}: any) => {
     <SafeAreaView>
       <ScrollView>
         <View style={{padding: 13}}>
-          {
-            characters.map((item: CharacterModel, index: number) => 
-              <DefaultItem 
-                key={index}
-                path={item.thumbnail.path}
-                extension={item.thumbnail.extension}
-                name={item.name}
-                description={item.description}
-                onPress={() => goToCharacterPage(item)}
-              />
-            )
-          }
+          { renderCharcters() }
         </View>
       </ScrollView>
     </SafeAreaView>

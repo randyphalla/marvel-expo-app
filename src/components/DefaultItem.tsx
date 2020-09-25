@@ -11,8 +11,8 @@ export type DefaultItemProps = {
 
 const DefaultItem = (props: DefaultItemProps) => {
   return (
-    <TouchableOpacity
-      style={styles.characterItem}
+    <TouchableOpacity 
+      style={styles.characterItem} 
       onPress={props.onPress}
     >
       <Image
@@ -25,8 +25,11 @@ const DefaultItem = (props: DefaultItemProps) => {
           <Text style={styles.CharacterItemText}>{props.name}</Text>
         </View>
         {props.description ? (
-          <View style={styles.characterItemDesc}>
-            <Text style={styles.characterItemDescText} numberOfLines={4}>
+          <View>
+            <Text 
+              style={styles.characterItemDescText} 
+              numberOfLines={4}
+            >
               {props.description}
             </Text>
           </View>
@@ -63,7 +66,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "800",
   },
-  characterItemDesc: {},
   characterItemDescText: {
     marginTop: 6,
     color: "#060606",

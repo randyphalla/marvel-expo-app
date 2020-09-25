@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Text, Image } from 'react-native';
 import md5 from 'md5';
 
@@ -15,10 +15,10 @@ import { CreatorModel } from '../models/CreatorsModel';
 
 import { privateKey, publicKey } from '../shared/apiKey';
 
-const Comic = ({navigation, route}: any) => {
+const Comic = ({ navigation, route }: any) => {
 
   const comic = route.params.data;
-  
+
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
   const [isCharactersLoading, setCharactersLoading] = useState<boolean>(true);
 
@@ -62,12 +62,12 @@ const Comic = ({navigation, route}: any) => {
     }
 
     setCharacters(charactersData);
-    setCharactersLoading(false); 
+    setCharactersLoading(false);
   };
 
   const getCreators = async () => {
     const comicCreators = comic.creators.items;
-    
+
     for (const key in comicCreators) {
       const specialUrl = `${comicCreators[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
       creatorsURLS.push(specialUrl);
@@ -78,7 +78,7 @@ const Comic = ({navigation, route}: any) => {
       let json = await res.json();
       creatorsData.push(json.data.results[0]);
     }
-    
+
     setCreators(creatorsData);
     setCreatorsLoading(false);
   }
@@ -96,7 +96,7 @@ const Comic = ({navigation, route}: any) => {
       let json = await res.json();
       eventsData.push(json.data.results[0]);
     }
-    
+
     setEvents(eventsData);
     setEventsLoading(false);
   }
@@ -114,7 +114,7 @@ const Comic = ({navigation, route}: any) => {
       let json = await res.json();
       storiesData.push(json.data.results[0]);
     }
-    
+
     setStories(storiesData);
     setStoriesLoading(false);
   }
@@ -124,8 +124,8 @@ const Comic = ({navigation, route}: any) => {
       return (
         <View style={styles.CharacterListView}>
           {
-            characters.map((character, index) => 
-              <ImageCard 
+            characters.map((character, index) =>
+              <ImageCard
                 key={index}
                 text={character.name}
                 path={character.thumbnail.path}
@@ -150,8 +150,8 @@ const Comic = ({navigation, route}: any) => {
       return (
         <View style={styles.CharacterListView}>
           {
-            creators.map((creator, index) => 
-              <ImageCard 
+            creators.map((creator, index) =>
+              <ImageCard
                 key={index}
                 text={creator.fullName}
                 path={creator.thumbnail.path}
@@ -176,9 +176,9 @@ const Comic = ({navigation, route}: any) => {
       return (
         <View>
           {
-            events.map((event: EventsModel, index: number) => 
-              <Link 
-                key={index} 
+            events.map((event: EventsModel, index: number) =>
+              <Link
+                key={index}
                 text={event.title}
                 onPress={() => goToEventDetail(event)}
               />
@@ -199,10 +199,10 @@ const Comic = ({navigation, route}: any) => {
     if (stories && stories.length > 0) {
       return (
         <View>
-          { 
-            stories.map((story: StoriesModel, index: number) =>           
-              <Link 
-                key={index} 
+          {
+            stories.map((story: StoriesModel, index: number) =>
+              <Link
+                key={index}
                 text={story.title}
                 onPress={() => goToStoryDetail(story)}
               />
@@ -224,11 +224,11 @@ const Comic = ({navigation, route}: any) => {
       return (
         <View style={styles.CharacterListView}>
           {
-            comic.images.map((image: {path:string, extension: string}, index: number) => 
+            comic.images.map((image: { path: string, extension: string }, index: number) =>
               <View style={styles.CharacterItem} key={index}>
-                <Image 
-                  style={styles.CharacterItemImage} 
-                  source={{uri: image.path + '.' + image.extension}} 
+                <Image
+                  style={styles.CharacterItemImage}
+                  source={{ uri: image.path + '.' + image.extension }}
                   resizeMode="cover"
                 />
               </View>
@@ -245,10 +245,10 @@ const Comic = ({navigation, route}: any) => {
     }
   };
 
-  const goToCharacterDetail = (character: CharacterModel) => navigation.navigate('Character', {data: character});
-  const goToCreatorDetail = (creator: CreatorModel) => navigation.navigate('Creator', {data: creator});
-  const goToEventDetail = (event: EventsModel) => navigation.navigate('Event', {data: event});
-  const goToStoryDetail = (story: StoriesModel) => navigation.navigate('Story', {data: story});
+  const goToCharacterDetail = (character: CharacterModel) => navigation.navigate('Character', { data: character });
+  const goToCreatorDetail = (creator: CreatorModel) => navigation.navigate('Creator', { data: creator });
+  const goToEventDetail = (event: EventsModel) => navigation.navigate('Event', { data: event });
+  const goToStoryDetail = (story: StoriesModel) => navigation.navigate('Story', { data: story });
 
   useEffect(() => {
     getCharacters();
@@ -257,13 +257,13 @@ const Comic = ({navigation, route}: any) => {
     getStories();
 
     return () => {
-      // setCharacters([]);
+      setCharacters([]);
       setCharactersLoading(false);
-      // setCreators([]);
+      setCreators([]);
       setCreatorsLoading(false);
-      // setEvents([]);
+      setEvents([]);
       setEventsLoading(false);
-      // setStories([]);
+      setStories([]);
       setStoriesLoading(false);
     }
   }, []);
@@ -271,77 +271,77 @@ const Comic = ({navigation, route}: any) => {
   return (
     <SafeAreaView>
       <ScrollView style={{ backgroundColor: '#fff' }}>
-        
+
         <BannerImage
           isComic={true}
-          path={comic.thumbnail.path} 
+          path={comic.thumbnail.path}
           extension={comic.thumbnail.extension}
         ></BannerImage>
 
-        <BannerInfo 
-          name={comic.title} 
+        <BannerInfo
+          name={comic.title}
           description={comic.description}
         ></BannerInfo>
 
         <View style={styles.ContentView}>
 
           <SectionTitle title="Characters">
-            { renderCharacters() }
+            {renderCharacters()}
           </SectionTitle>
 
           <SectionTitle title="Creators">
-            { renderCreators() }
+            {renderCreators()}
           </SectionTitle>
 
           <SectionTitle title="Events">
-            { renderEvents() }
+            {renderEvents()}
           </SectionTitle>
 
           <SectionTitle title="Stories">
-            { renderStories() }
+            {renderStories()}
           </SectionTitle>
 
           <SectionTitle title="Images">
-            { renderImages() }
+            {renderImages()}
           </SectionTitle>
 
           <View style={styles.MiscView}>
             <Text style={styles.MiscTitle}>Misc Information</Text>
             <Text style={styles.MiscText}>
-              Digital ID: <Text style={styles.MiscTextData}>{ comic.digitalId }</Text>
+              Digital ID: <Text style={styles.MiscTextData}>{comic.digitalId}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Issue number: <Text style={styles.MiscTextData}>{ comic.issueNumber }</Text>
+              Issue number: <Text style={styles.MiscTextData}>{comic.issueNumber}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Variant description: <Text style={styles.MiscTextData}>{ comic.variantDescription }</Text>
+              Variant description: <Text style={styles.MiscTextData}>{comic.variantDescription}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Modified: <Text style={styles.MiscTextData}>{ comic.modified }</Text>
+              Modified: <Text style={styles.MiscTextData}>{comic.modified}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              ISBN: <Text style={styles.MiscTextData}>{ comic.isbn }</Text>
+              ISBN: <Text style={styles.MiscTextData}>{comic.isbn}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              ISSN: <Text style={styles.MiscTextData}>{ comic.issn }</Text>
+              ISSN: <Text style={styles.MiscTextData}>{comic.issn}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              UPC: <Text style={styles.MiscTextData}>{ comic.upc }</Text>
+              UPC: <Text style={styles.MiscTextData}>{comic.upc}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Diamond code: <Text style={styles.MiscTextData}>{ comic.diamondCode }</Text>
+              Diamond code: <Text style={styles.MiscTextData}>{comic.diamondCode}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              EAN: <Text style={styles.MiscTextData}>{ comic.ean }</Text>
+              EAN: <Text style={styles.MiscTextData}>{comic.ean}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Format: <Text style={styles.MiscTextData}>{ comic.format }</Text>
+              Format: <Text style={styles.MiscTextData}>{comic.format}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Page count: <Text style={styles.MiscTextData}>{ comic.pageCount }</Text>
+              Page count: <Text style={styles.MiscTextData}>{comic.pageCount}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Resource URI: <Text style={styles.MiscTextData}>{ comic.resourceURI }</Text>
+              Resource URI: <Text style={styles.MiscTextData}>{comic.resourceURI}</Text>
             </Text>
           </View>
 
@@ -396,7 +396,7 @@ const styles = StyleSheet.create({
     width: '48%'
   },
   CharacterItemImage: {
-    width: '100%', 
+    width: '100%',
     height: 170,
     marginBottom: 8,
     borderRadius: 8

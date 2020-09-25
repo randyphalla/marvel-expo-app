@@ -52,7 +52,7 @@ const Story = ({navigation, route}: any) => {
   const hash = md5(stringToHash);
 
   const getCharacters = async () => {
-    const comicCharacters = serie.characters.items;
+    const comicCharacters = story.characters.items;
 
     for (const key in comicCharacters) {
       const specialUrl = `${comicCharacters[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;

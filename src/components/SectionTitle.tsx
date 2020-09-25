@@ -1,30 +1,29 @@
 import React, { FC, ReactNode } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import styled from 'styled-components/native';
 
 export type SectionTitleProps = {
   title?: string;
   children?: ReactNode | string;
 };
 
+const SectionTitleView = styled.View`
+  margin-bottom: 16px;
+`;
+
+const SectionTitleText = styled.Text`
+  margin-bottom: 6px;
+  font-size: 20px;
+  font-weight: 800;
+`;
+
 const SectionTitle: FC<SectionTitleProps> = (props: SectionTitleProps) => {
   return (
-    <View style={styles.characterItem}>
-      <Text style={styles.characterItemTitle}>{ props.title }</Text>
+    <SectionTitleView>
+      <SectionTitleText>{ props.title }</SectionTitleText>
       { props.children }
-    </View>
+    </SectionTitleView>
   )
 }
-
-const styles = StyleSheet.create({
-  characterItem: {
-    marginBottom: 16
-  },
-  characterItemTitle: {
-    marginBottom: 6,
-    fontSize: 20,
-    fontWeight: '800'
-  },
-});
 
 SectionTitle.defaultProps = {
   title: 'Your section title'

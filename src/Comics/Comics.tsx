@@ -7,8 +7,8 @@ import { ComicModel } from '../models/ComicsModel';
 import { privateKey, publicKey } from '../shared/apiKey';
 
 const Comics = ({navigation}: any) => {
-  const [isComicsLoading, setComicsLoading] = useState(true);
   const [comics, setComics] = useState<ComicModel[]>([]);
+  const [isComicsLoading, setComicsLoading] = useState<boolean>(true);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;

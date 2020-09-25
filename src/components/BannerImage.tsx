@@ -5,7 +5,7 @@ export type BannerImageProps = {
   path?: string;
   extension?: string;
   isComic?: boolean;
-}
+};
 
 const BannerImage: FC<BannerImageProps> = (props: BannerImageProps) => {
   return (
@@ -30,10 +30,5 @@ const styles = StyleSheet.create({
     height: 635
   }
 });
-
-BannerImage.defaultProps = {
-  path: '',
-  extension: ''
-};
 
 export default BannerImage;
