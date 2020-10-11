@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import { blackColor, whiteColor } from '../styles';
 
 export type BannerInfoProps = {
   name?: string;
@@ -29,8 +30,8 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     padding: 20,
     borderRadius: 10,
-    backgroundColor: '#ffffff',
-    shadowColor: "#000",
+    backgroundColor: whiteColor,
+    shadowColor: blackColor,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -40,13 +41,13 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   characterText: {
-    color: '#202020',
+    color: blackColor,
     fontSize: 20,
     fontWeight: '800'
   },
   characterDescriptionText: {
     marginTop: 12,
-    color: '#202020',
+    color: blackColor,
     fontSize: 14,
     fontWeight: '400',
     textAlign: 'center',

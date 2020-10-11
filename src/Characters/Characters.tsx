@@ -6,6 +6,7 @@ import DefaultItem from '../components/DefaultItem';
 import { CharacterModel } from '../models/CharacterModel';
 
 import { privateKey, publicKey } from '../../src/shared/apiKey';
+import { whiteColor } from '../styles';
 
 const Characters = ({navigation}: any) => {
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   LoadingViewText: {
-    color: '#ffffff',
+    color: whiteColor,
     fontSize: 20,
     fontWeight: '800',
     textTransform: 'uppercase',

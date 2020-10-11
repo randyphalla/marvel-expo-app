@@ -41,9 +41,7 @@ const Series = ({navigation}: any) => {
       setSeriesLoading(true);
     }
   }, []);
-
-  console.log(series);
-
+  
   return (
     <SafeAreaView>
       <ScrollView>

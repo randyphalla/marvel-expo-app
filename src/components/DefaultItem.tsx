@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { blackColor } from "../styles";
 
 export type DefaultItemProps = {
   path?: string;
@@ -62,13 +63,13 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   CharacterItemText: {
-    color: "#060606",
+    color: blackColor,
     fontSize: 16,
     fontWeight: "800",
   },
   characterItemDescText: {
     marginTop: 6,
-    color: "#060606",
+    color: blackColor,
     fontSize: 12,
     fontWeight: "500",
     lineHeight: 18

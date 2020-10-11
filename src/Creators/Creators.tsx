@@ -41,9 +41,7 @@ const Creators = ({navigation}: any) => {
       setCreatorsLoading(true);
     }
   }, []);
-
-  console.log(creators);
-
+  
   return (
     <SafeAreaView>
       <ScrollView>

@@ -4,6 +4,7 @@ import md5 from 'md5';
 
 import { StoriesModel } from '../models/StoriesModel';
 import { privateKey, publicKey } from '../shared/apiKey';
+import { blackColor, whiteColor } from '../styles';
 
 const Stories = ({navigation}: any) => {
   const [stories, setStories] = useState<StoriesModel[]>([]);
@@ -41,8 +42,6 @@ const Stories = ({navigation}: any) => {
     }
   }, []);
 
-  console.log(stories);
-
   return (
     <SafeAreaView>
       <ScrollView>
@@ -69,17 +68,17 @@ const styles = StyleSheet.create({
   StoriesTouchableOpacity: {
     padding: 13,
     marginBottom: 8,
-    backgroundColor: '#ffffff',
+    backgroundColor: whiteColor,
     borderRadius: 8
   },
   StoriesTitle: {
     marginBottom: 8,
-    color: "#060606",
+    color: blackColor,
     fontSize: 16,
     fontWeight: "800",
   },
   StoriesOriginalIssue: {
-    color: "#060606",
+    color: blackColor,
     fontSize: 12,
     fontWeight: "500",
   }

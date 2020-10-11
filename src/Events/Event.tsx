@@ -14,6 +14,7 @@ import { CreatorModel } from '../models/CreatorsModel';
 import { SeriesModel } from '../models/SeriesModel';
 import { StoriesModel } from '../models/StoriesModel';
 import { privateKey, publicKey } from '../shared/apiKey';
+import { whiteColor } from '../styles';
 
 const Event = ({navigation, route}: any) => {
 
@@ -294,7 +295,7 @@ const Event = ({navigation, route}: any) => {
   }, []);
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#ffffff'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: whiteColor}}>
       <ScrollView>
 
         <BannerImage
@@ -310,7 +311,7 @@ const Event = ({navigation, route}: any) => {
         <View style={{
           marginTop: 16,
           padding: 16,
-          backgroundColor: '#ffffff' 
+          backgroundColor: whiteColor
         }}>
           <SectionTitle title="Characters">
             <View style={styles.ItemList}>

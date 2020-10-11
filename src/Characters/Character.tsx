@@ -14,6 +14,7 @@ import ImageCard from '../components/ImageCard';
 import Link from '../components/Link';
 
 import { privateKey, publicKey } from '../../src/shared/apiKey';
+import { whiteColor } from '../styles';
 
 const Character = ({navigation, route}: any) => {
   const [comics, setComics] = useState<ComicModel[]>([]);
@@ -290,12 +291,12 @@ const Character = ({navigation, route}: any) => {
 const styles = StyleSheet.create({
   characterSafeAreaView: {
     flex: 1,
-    backgroundColor: '#ffffff'
+    backgroundColor: whiteColor
   },
   characterItemsContainer: {     
     marginTop: 16,
     padding: 16,
-    backgroundColor: '#ffffff' 
+    backgroundColor: whiteColor
   },
   ItemList: {
     justifyContent: 'space-between',

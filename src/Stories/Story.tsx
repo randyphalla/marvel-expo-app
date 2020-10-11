@@ -12,6 +12,7 @@ import { EventsModel } from '../models/EventsModel';
 import { SeriesModel } from '../models/SeriesModel';
 
 import { privateKey, publicKey } from '../shared/apiKey';
+import { blackColor, whiteColor } from '../styles';
 
 const Story = ({navigation, route}: any) => {
 
@@ -289,13 +290,13 @@ const Story = ({navigation, route}: any) => {
   return (
     <SafeAreaView style={{
       flex: 1,
-      backgroundColor: '#ffffff'
+      backgroundColor: whiteColor
     }}>
       <ScrollView>
 
         <View style={{
           padding: 16,
-          backgroundColor: '#ffffff' 
+          backgroundColor: whiteColor
         }}>
 
           <View style={styles.StoryView}>
@@ -350,20 +351,20 @@ const styles = StyleSheet.create({
     marginBottom: 16
   },
   StoryTitle: {
-    color: '#202020',
+    color: blackColor,
     fontSize: 20,
     fontWeight: '800'
   },
   StoryOriginalIssueName: {
     marginTop: 8,
     marginBottom: 8,
-    color: '#202020',
+    color: blackColor,
     fontSize: 14,
     fontWeight: '400',
     lineHeight: 18
   },
   StoryModified: {
-    color: '#202020',
+    color: blackColor,
     fontSize: 14,
     fontWeight: '400',
     lineHeight: 18

@@ -5,6 +5,7 @@ import md5 from 'md5';
 import DefaultItem from '../components/DefaultItem';
 import { ComicModel } from '../models/ComicsModel';
 import { privateKey, publicKey } from '../shared/apiKey';
+import { whiteColor } from '../styles';
 
 const Comics = ({navigation}: any) => {
   const [comics, setComics] = useState<ComicModel[]>([]);
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   LoadingViewText: {
-    color: '#ffffff',
+    color: whiteColor,
     fontSize: 20,
     fontWeight: '800',
     textTransform: 'uppercase',

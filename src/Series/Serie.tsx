@@ -15,6 +15,7 @@ import { privateKey, publicKey } from '../shared/apiKey';
 import Link from '../components/Link';
 import ImageCard from '../components/ImageCard';
 import SectionTitle from '../components/SectionTitle';
+import { whiteColor } from '../styles';
 
 const Serie = ({navigation, route}: any) => {
 
@@ -295,7 +296,7 @@ const Serie = ({navigation, route}: any) => {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: whiteColor}}>
       <ScrollView>
 
         <BannerImage
@@ -307,16 +308,11 @@ const Serie = ({navigation, route}: any) => {
           name={serie.title} 
           description={serie.description} 
         />
-
-        {/* <View style={{padding: 13}}>
-          <Text>{serie.startYear} - {serie.endYear}</Text>
-          <Text>{serie.modified}</Text>
-        </View> */}
-
+        
         <View style={{
           marginTop: 16,
           padding: 16,
-          backgroundColor: '#ffffff' 
+          backgroundColor: whiteColor 
         }}>
 
           <SectionTitle title="Characters">

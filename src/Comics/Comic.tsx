@@ -14,6 +14,7 @@ import { StoriesModel } from '../models/StoriesModel';
 import { CreatorModel } from '../models/CreatorsModel';
 
 import { privateKey, publicKey } from '../shared/apiKey';
+import { blackColor, whiteColor } from '../styles';
 
 const Comic = ({ navigation, route }: any) => {
 
@@ -356,14 +357,14 @@ const styles = StyleSheet.create({
   ContentView: {
     marginTop: 16,
     padding: 16,
-    backgroundColor: '#ffffff'
+    backgroundColor: whiteColor
   },
   MiscView: {
     marginTop: 16,
     padding: 16,
-    backgroundColor: '#ffffff',
+    backgroundColor: whiteColor,
     borderRadius: 8,
-    shadowColor: "#000",
+    shadowColor: blackColor,
     shadowOffset: {
       width: 0,
       height: 2,

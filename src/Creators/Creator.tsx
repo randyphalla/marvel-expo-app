@@ -14,6 +14,7 @@ import { SeriesModel } from '../models/SeriesModel';
 import { StoriesModel } from '../models/StoriesModel';
 
 import { privateKey, publicKey } from '../shared/apiKey';
+import { whiteColor } from '../styles';
 
 const Creator = ({navigation, route}: any) => {
   
@@ -238,7 +239,7 @@ const Creator = ({navigation, route}: any) => {
   return (
     <SafeAreaView style={{
       flex: 1, 
-      backgroundColor: '#ffffff'
+      backgroundColor: whiteColor
     }}>
       <ScrollView>
 
@@ -255,7 +256,7 @@ const Creator = ({navigation, route}: any) => {
         <View style={{
           marginTop: 16,
           padding: 16,
-          backgroundColor: '#ffffff' 
+          backgroundColor: whiteColor
         }}>
 
           <SectionTitle title="Comics">
