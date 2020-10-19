@@ -309,40 +309,40 @@ const Comic = ({ navigation, route }: any) => {
           <View style={styles.MiscView}>
             <Text style={styles.MiscTitle}>Misc Information</Text>
             <Text style={styles.MiscText}>
-              Digital ID: <Text style={styles.MiscTextData}>{comic.digitalId}</Text>
+              Digital ID: <Text style={styles.MiscTextData}>{comic.digitalId ? comic.digitalId : 'N/A'}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Issue number: <Text style={styles.MiscTextData}>{comic.issueNumber}</Text>
+              Issue number: <Text style={styles.MiscTextData}>{comic.issueNumber ? comic.issueNumber : 'N/A'}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Variant description: <Text style={styles.MiscTextData}>{comic.variantDescription}</Text>
+              Variant description: <Text style={styles.MiscTextData}>{comic.variantDescription ? comic.variantDescription : 'N/A'}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Modified: <Text style={styles.MiscTextData}>{comic.modified}</Text>
+              Modified: <Text style={styles.MiscTextData}>{comic.modified ? comic.modified : 'N/A'}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              ISBN: <Text style={styles.MiscTextData}>{comic.isbn}</Text>
+              ISBN: <Text style={styles.MiscTextData}>{comic.isbn ? comic.isbn : 'N/A'}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              ISSN: <Text style={styles.MiscTextData}>{comic.issn}</Text>
+              ISSN: <Text style={styles.MiscTextData}>{comic.issn ? comic.issn : 'N/A'}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              UPC: <Text style={styles.MiscTextData}>{comic.upc}</Text>
+              UPC: <Text style={styles.MiscTextData}>{comic.upc ? comic.upc : 'N/A'}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Diamond code: <Text style={styles.MiscTextData}>{comic.diamondCode}</Text>
+              Diamond code: <Text style={styles.MiscTextData}>{comic.diamondCode ? comic.diamondCode : 'N/A'}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              EAN: <Text style={styles.MiscTextData}>{comic.ean}</Text>
+              EAN: <Text style={styles.MiscTextData}>{comic.ean ? comic.ean : 'N/A'}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Format: <Text style={styles.MiscTextData}>{comic.format}</Text>
+              Format: <Text style={styles.MiscTextData}>{comic.format ? comic.format : 'N/A'}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Page count: <Text style={styles.MiscTextData}>{comic.pageCount}</Text>
+              Page count: <Text style={styles.MiscTextData}>{comic.pageCount ? comic.pageCount : 'N/A'}</Text>
             </Text>
             <Text style={styles.MiscText}>
-              Resource URI: <Text style={styles.MiscTextData}>{comic.resourceURI}</Text>
+              Resource URI: <Text style={styles.MiscTextData}>{comic.resourceURI ? comic.resourceURI : 'N/A'}</Text>
             </Text>
           </View>
 

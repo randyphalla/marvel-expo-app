@@ -15,9 +15,9 @@ import { privateKey, publicKey } from '../shared/apiKey';
 import { blackColor, whiteColor } from '../styles';
 
 const Story = ({navigation, route}: any) => {
-
-  const story = route?.params.data;
   
+  const story = route.params.data;
+    
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
   const [charactersLoading, setCharactersLoading] = useState<boolean>(true);
 

@@ -19,7 +19,7 @@ import { whiteColor } from '../styles';
 
 const Serie = ({navigation, route}: any) => {
 
-  const serie = route?.params.data;
+  const serie = route.params.data;
 
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
   const [charactersLoading, setCharactersLoading] = useState<boolean>(true);

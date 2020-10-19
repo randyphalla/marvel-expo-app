@@ -18,7 +18,7 @@ import { whiteColor } from '../styles';
 
 const Event = ({navigation, route}: any) => {
 
-  const event = route?.params.data;
+  const event = route.params.data;
   
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
   const [charactersLoading, setCharactersLoading] = useState<boolean>(true);
