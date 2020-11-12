@@ -22,7 +22,7 @@ export interface StoriesModel {
   creators?: any;
   description?: any;
   events?: any;
-  id?: number;
+  id: number;
   modified?: any;
   originalIssue?: StoryOriginalIssue;
   resourceURI?: any;

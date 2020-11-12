@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { FlatList, SafeAreaView, ScrollView, View } from 'react-native';
 import md5 from 'md5';
 
 import DefaultItem from '../components/DefaultItem';
@@ -33,6 +33,16 @@ const Series = ({navigation}: any) => {
 
   const goToSeriesPage = (serie: SeriesModel) => navigation.navigate('Serie', {data: serie});
 
+  const renderItem = ({item}: any) => (
+    <DefaultItem 
+      path={item.thumbnail.path}
+      extension={item.thumbnail.extension}
+      name={item.title}
+      description={item.description}
+      onPress={() => goToSeriesPage(item)}
+    />   
+  );
+
   useEffect(() => {
     getSeries();
 
@@ -44,22 +54,13 @@ const Series = ({navigation}: any) => {
   
   return (
     <SafeAreaView>
-      <ScrollView>
-        <View style={{padding: 13}}>
-          {
-            series.map((serie, index) => 
-              <DefaultItem 
-                key={index}
-                path={serie.thumbnail.path}
-                extension={serie.thumbnail.extension}
-                name={serie.title}
-                description={serie.description}
-                onPress={() => goToSeriesPage(serie)}
-              />
-            )
-          }
-        </View>
-      </ScrollView>
+      <View style={{padding: 13}}>
+        <FlatList 
+          data={series}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      </View>
     </SafeAreaView>
   )
 }

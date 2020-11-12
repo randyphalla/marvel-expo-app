@@ -1,11 +1,10 @@
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
+import { SafeAreaView, FlatList, View } from 'react-native';
 import md5 from 'md5';
 
 import DefaultItem from '../components/DefaultItem';
 import { ComicModel } from '../models/ComicsModel';
 import { privateKey, publicKey } from '../shared/apiKey';
-import { whiteColor } from '../styles';
 
 const Comics = ({navigation}: any) => {
   const [comics, setComics] = useState<ComicModel[]>([]);
@@ -33,6 +32,15 @@ const Comics = ({navigation}: any) => {
 
   const goToComicPage = (comic: ComicModel) => navigation.navigate('Comic', {data: comic});
   
+  const renderItem = ({item}: any) => (
+    <DefaultItem 
+      path={item.thumbnail.path}
+      extension={item.thumbnail.extension}
+      name={item.title}
+      onPress={() => goToComicPage(item)}
+    />    
+  );
+
   useEffect(() => {
     getComics();
 
@@ -44,37 +52,15 @@ const Comics = ({navigation}: any) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <View style={{padding: 13}}>
-          {
-            comics.map((comic, index) => 
-              <DefaultItem 
-                key={index}
-                path={comic.thumbnail.path}
-                extension={comic.thumbnail.extension}
-                name={comic.title}
-                onPress={() => goToComicPage(comic)}
-              />
-            )
-          }
-        </View>
-      </ScrollView>
+      <View style={{padding: 13}}>
+        <FlatList 
+          data={comics}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      </View>
     </SafeAreaView>
   )
 };
-
-const styles = StyleSheet.create({
-  LoadingView: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  LoadingViewText: {
-    color: whiteColor,
-    fontSize: 20,
-    fontWeight: '800',
-    textTransform: 'uppercase',
-    letterSpacing: 1
-  }
-});
 
 export default Comics;

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, ScrollView, SafeAreaView } from 'react-native';
+import { View, SafeAreaView, FlatList } from 'react-native';
 import md5 from 'md5';
 
 import DefaultItem from '../components/DefaultItem';
 import { CharacterModel } from '../models/CharacterModel';
 
 import { privateKey, publicKey } from '../../src/shared/apiKey';
-import { whiteColor } from '../styles';
 
 const Characters = ({navigation}: any) => {
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
@@ -34,28 +33,15 @@ const Characters = ({navigation}: any) => {
     
   const goToCharacterPage = (character: CharacterModel) => navigation.navigate('Character', {data: character});
 
-  // const renderCharactersIsLoading = () => {
-  //   return (
-  //     <View style={styles.LoadingView}>
-  //       <Text style={styles.LoadingViewText}>Characters is Loading</Text>
-  //     </View>
-  //   )
-  // }
-
-  const renderCharcters = () => {
-    return (
-      characters.map((item: CharacterModel, index: number) => 
-        <DefaultItem 
-          key={index}
-          path={item.thumbnail.path}
-          extension={item.thumbnail.extension}
-          name={item.name}
-          description={item.description}
-          onPress={() => goToCharacterPage(item)}
-        />
-     )
-    )
-  }
+  const renderItem = ({item}: any) => (
+    <DefaultItem 
+      path={item.thumbnail.path}
+      extension={item.thumbnail.extension}
+      name={item.name}
+      description={item.description}
+      onPress={() => goToCharacterPage(item)}
+    />    
+  );
 
   useEffect(() => {
     getCharacters();
@@ -68,27 +54,15 @@ const Characters = ({navigation}: any) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <View style={{padding: 13}}>
-          { renderCharcters() }
-        </View>
-      </ScrollView>
+      <View style={{padding: 13}}>
+        <FlatList 
+          data={characters}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      </View>
     </SafeAreaView>
   )
 };
-
-const styles = StyleSheet.create({
-  LoadingView: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  LoadingViewText: {
-    color: whiteColor,
-    fontSize: 20,
-    fontWeight: '800',
-    textTransform: 'uppercase',
-    letterSpacing: 1
-  }
-});
 
 export default Characters;

@@ -16,4 +16,6 @@ Android: `a`
 
 ### Building
 
-TODO
+## Problems
+
+###

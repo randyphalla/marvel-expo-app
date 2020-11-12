@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, View, TouchableOpacity, FlatList } from 'react-native';
 import md5 from 'md5';
 
 import { StoriesModel } from '../models/StoriesModel';
@@ -33,6 +33,16 @@ const Stories = ({navigation}: any) => {
 
   const goToStoryPage = (story: StoriesModel) => navigation.navigate('Story', {data: story});
 
+  const renderItem = ({item}: any) => (
+    <TouchableOpacity
+      style={styles.StoriesTouchableOpacity}
+      onPress={() => goToStoryPage(item)}
+    >
+      <Text style={styles.StoriesTitle}>{item.title}</Text>
+      <Text style={styles.StoriesOriginalIssue}>{item?.originalIssue?.name}</Text>
+    </TouchableOpacity>
+  );
+
   useEffect(() => {
     getStories();
 
@@ -44,22 +54,13 @@ const Stories = ({navigation}: any) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <View style={{padding: 13}}>
-          {
-            stories.map((story, index) => 
-              <TouchableOpacity
-                key={index}
-                style={styles.StoriesTouchableOpacity}
-                onPress={() => goToStoryPage(story)}
-              >
-                <Text style={styles.StoriesTitle}>{story.title}</Text>
-                <Text style={styles.StoriesOriginalIssue}>{story?.originalIssue?.name}</Text>
-              </TouchableOpacity>
-            )
-          }
-        </View>
-      </ScrollView>
+      <View style={{padding: 13}}>
+        <FlatList 
+          data={stories}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      </View>
     </SafeAreaView>
   )
 }

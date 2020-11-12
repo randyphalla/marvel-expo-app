@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { FlatList, SafeAreaView, View } from 'react-native';
 import md5 from 'md5';
 
 import DefaultItem from '../components/DefaultItem';
@@ -33,6 +33,16 @@ const Events = ({navigation}: any) => {
 
   const goToEventPage = (event: EventsModel) => navigation.navigate('Event', {data: event});
 
+  const renderItem = ({item}: any) => (
+    <DefaultItem 
+      path={item.thumbnail.path}
+      extension={item.thumbnail.extension}
+      name={item.title}
+      description={item.description}
+      onPress={() => goToEventPage(item)}
+    />   
+  );
+
   useEffect(() => {
     getEvents();
     
@@ -44,22 +54,13 @@ const Events = ({navigation}: any) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <View style={{padding: 13}}>
-          {
-            events.map((event, index) => 
-              <DefaultItem 
-                key={index}
-                path={event.thumbnail.path}
-                extension={event.thumbnail.extension}
-                name={event.title}
-                description={event.description}
-                onPress={() => goToEventPage(event)}
-              />
-            )
-          }
-        </View>
-      </ScrollView>
+      <View style={{padding: 13}}>
+        <FlatList 
+          data={events}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      </View>
     </SafeAreaView>
   )
 }

@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
   },
   characterItemContent: {
     flex: 1,
-    flexDirection: "column",
-    flexWrap: "wrap",
+    flexDirection: "row",
+    flexWrap: "wrap"
   },
   CharacterItemText: {
     color: blackColor,
