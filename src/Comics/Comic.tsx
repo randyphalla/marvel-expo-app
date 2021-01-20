@@ -17,20 +17,19 @@ import { privateKey, publicKey } from '../shared/apiKey';
 import { blackColor, whiteColor } from '../styles';
 
 const Comic = ({ navigation, route }: any) => {
-
   const comic = route.params.data;
 
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
-  const [isCharactersLoading, setCharactersLoading] = useState<boolean>(true);
+  const [isCharactersLoading, setCharactersLoading] = useState<boolean>(false);
 
   const [creators, setCreators] = useState<CreatorModel[]>([]);
-  const [isCreatorsLoading, setCreatorsLoading] = useState<boolean>(true);
+  const [isCreatorsLoading, setCreatorsLoading] = useState<boolean>(false);
 
   const [events, setEvents] = useState<EventsModel[]>([]);
-  const [isEventsLoading, setEventsLoading] = useState<boolean>(true);
+  const [isEventsLoading, setEventsLoading] = useState<boolean>(false);
 
   const [stories, setStories] = useState<StoriesModel[]>([]);
-  const [isStoriesLoading, setStoriesLoading] = useState<boolean>(true);
+  const [isStoriesLoading, setStoriesLoading] = useState<boolean>(false);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
@@ -63,7 +62,7 @@ const Comic = ({ navigation, route }: any) => {
     }
 
     setCharacters(charactersData);
-    setCharactersLoading(false);
+    setCharactersLoading(true);
   };
 
   const getCreators = async () => {
@@ -81,7 +80,7 @@ const Comic = ({ navigation, route }: any) => {
     }
 
     setCreators(creatorsData);
-    setCreatorsLoading(false);
+    setCreatorsLoading(true);
   }
 
   const getEvents = async () => {
@@ -99,7 +98,7 @@ const Comic = ({ navigation, route }: any) => {
     }
 
     setEvents(eventsData);
-    setEventsLoading(false);
+    setEventsLoading(true);
   }
 
   const getStories = async () => {
@@ -117,105 +116,85 @@ const Comic = ({ navigation, route }: any) => {
     }
 
     setStories(storiesData);
-    setStoriesLoading(false);
+    setStoriesLoading(true);
   }
 
   const renderCharacters = () => {
-    if (characters && characters.length > 0) {
+    if (characters && characters.length > 0 && isCharactersLoading) {
       return (
-        <View style={styles.CharacterListView}>
-          {
-            characters.map((character, index) =>
-              <ImageCard
-                key={index}
-                text={character.name}
-                path={character.thumbnail.path}
-                extension={character.thumbnail.extension}
-                onPress={() => goToCharacterDetail(character)}
-              />
-            )
-          }
-        </View>
-      )
-    } else {
-      return (
-        <View>
-          <Text>Character's not available</Text>
-        </View>
+        <SectionTitle title="Characters">
+          <View style={styles.CharacterListView}>
+            {
+              characters.map((character, index) =>
+                <ImageCard
+                  key={index}
+                  text={character.name}
+                  path={character.thumbnail.path}
+                  extension={character.thumbnail.extension}
+                  onPress={() => goToCharacterDetail(character)}
+                />
+              )
+            }
+          </View>
+        </SectionTitle>
       )
     }
   };
 
   const renderCreators = () => {
-    if (creators && creators.length > 0) {
+    if (creators && creators.length > 0 && isCreatorsLoading) {
       return (
-        <View style={styles.CharacterListView}>
-          {
-            creators.map((creator, index) =>
-              <ImageCard
-                key={index}
-                text={creator.fullName}
-                path={creator.thumbnail.path}
-                extension={creator.thumbnail.extension}
-                onPress={() => goToCreatorDetail(creator)}
-              />
-            )
-          }
-        </View>
-      )
-    } else {
-      return (
-        <View>
-          <Text>Creator's not available</Text>
-        </View>
+        <SectionTitle title="Creators">
+          <View style={styles.CharacterListView}>
+            {
+              creators.map((creator, index) =>
+                <ImageCard
+                  key={index}
+                  text={creator.fullName}
+                  path={creator.thumbnail.path}
+                  extension={creator.thumbnail.extension}
+                  onPress={() => goToCreatorDetail(creator)}
+                />
+              )
+            }
+          </View>
+        </SectionTitle>
       )
     }
   };
 
   const renderEvents = () => {
-    if (events && events.length > 0) {
+    if (events && events.length > 0 && isEventsLoading) {
       return (
-        <View>
-          {
-            events.map((event: EventsModel, index: number) =>
+        <SectionTitle title="Events">
+          <View>
+            {events.map((event: EventsModel, index: number) =>
               <Link
                 key={index}
                 text={event.title}
                 onPress={() => goToEventDetail(event)}
               />
-            )
-          }
-        </View>
-      )
-    } else {
-      return (
-        <View>
-          <Text>Event's not available</Text>
-        </View>
+            )}
+          </View>
+        </SectionTitle>
       )
     }
   };
 
   const renderStories = () => {
-    if (stories && stories.length > 0) {
+    if (stories && stories.length > 0 && isStoriesLoading) {
       return (
-        <View>
-          {
-            stories.map((story: StoriesModel, index: number) =>
+        <SectionTitle title="Stories">
+          <View>
+            {stories.map((story: StoriesModel, index: number) =>
               <Link
                 key={index}
                 text={story.title}
                 onPress={() => goToStoryDetail(story)}
               />
-            )
-          }
-        </View>
-      )
-    } else {
-      return (
-        <View>
-          <Text>Stories not available</Text>
-        </View>
+            )}
+          </View>
+        </SectionTitle>
       )
     }
   };
@@ -223,9 +202,9 @@ const Comic = ({ navigation, route }: any) => {
   const renderImages = () => {
     if (comic.images && comic.images.length > 0) {
       return (
-        <View style={styles.CharacterListView}>
-          {
-            comic.images.map((image: { path: string, extension: string }, index: number) =>
+        <SectionTitle title="Images">
+          <View style={styles.CharacterListView}>
+            {comic.images.map((image: { path: string, extension: string }, index: number) =>
               <View style={styles.CharacterItem} key={index}>
                 <Image
                   style={styles.CharacterItemImage}
@@ -233,15 +212,9 @@ const Comic = ({ navigation, route }: any) => {
                   resizeMode="cover"
                 />
               </View>
-            )
-          }
-        </View>
-      )
-    } else {
-      return (
-        <View>
-          <Text>Image's not available</Text>
-        </View>
+            )}
+          </View>
+        </SectionTitle>
       )
     }
   };
@@ -272,40 +245,21 @@ const Comic = ({ navigation, route }: any) => {
   return (
     <SafeAreaView>
       <ScrollView style={{ backgroundColor: '#fff' }}>
-
         <BannerImage
           isComic={true}
           path={comic.thumbnail.path}
           extension={comic.thumbnail.extension}
         ></BannerImage>
-
         <BannerInfo
           name={comic.title}
           description={comic.description}
         ></BannerInfo>
-
         <View style={styles.ContentView}>
-
-          <SectionTitle title="Characters">
-            {renderCharacters()}
-          </SectionTitle>
-
-          <SectionTitle title="Creators">
-            {renderCreators()}
-          </SectionTitle>
-
-          <SectionTitle title="Events">
-            {renderEvents()}
-          </SectionTitle>
-
-          <SectionTitle title="Stories">
-            {renderStories()}
-          </SectionTitle>
-
-          <SectionTitle title="Images">
-            {renderImages()}
-          </SectionTitle>
-
+          {renderCharacters()}
+          {renderCreators()}
+          {renderEvents()}
+          {renderStories()}
+          {renderImages()}
           <View style={styles.MiscView}>
             <Text style={styles.MiscTitle}>Misc Information</Text>
             <Text style={styles.MiscText}>
@@ -345,9 +299,7 @@ const Comic = ({ navigation, route }: any) => {
               Resource URI: <Text style={styles.MiscTextData}>{comic.resourceURI ? comic.resourceURI : 'N/A'}</Text>
             </Text>
           </View>
-
         </View>
-
       </ScrollView>
     </SafeAreaView>
   )

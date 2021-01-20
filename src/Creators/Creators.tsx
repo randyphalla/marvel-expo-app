@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, View, FlatList } from 'react-native';
+import { SafeAreaView, View, FlatList, Text } from 'react-native';
 import md5 from 'md5';
 
 import DefaultItem from '../components/DefaultItem';
@@ -8,7 +8,7 @@ import { privateKey, publicKey } from '../shared/apiKey';
 
 const Creators = ({navigation}: any) => {
   const [creators, setCreators] = useState<CreatorModel[]>([]);
-  const [isCreatorsLoading, setCreatorsLoading] = useState<boolean>(true);
+  const [isCreatorsLoading, setCreatorsLoading] = useState<boolean>(false);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
@@ -27,7 +27,7 @@ const Creators = ({navigation}: any) => {
     } catch (error) {
       console.error(error);
     } finally {
-      setCreatorsLoading(false);
+      setCreatorsLoading(true);
     }
   }
 
@@ -41,6 +41,22 @@ const Creators = ({navigation}: any) => {
       onPress={() => goToCreatorPage(item)}
     />   
   );
+  
+  const renderCreators = () => {
+    if (creators && isCreatorsLoading) {
+      return (
+        <FlatList 
+          data={creators}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      )
+    } else {
+      return (
+        <Text>Creators is loading</Text>
+      )
+    }
+  }
 
   useEffect(() => {
     getCreators();
@@ -54,11 +70,7 @@ const Creators = ({navigation}: any) => {
   return (
     <SafeAreaView>
       <View style={{padding: 13}}>
-        <FlatList 
-          data={creators}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-        />
+        {renderCreators()}
       </View>
     </SafeAreaView>
   )

@@ -21,16 +21,16 @@ const Creator = ({navigation, route}: any) => {
   const creator = route.params.data;
   
   const [comics, setComics] = useState<ComicModel[]>([]);
-  const [comicsLoading, setComicsLoading] = useState<boolean>(true);
+  const [comicsLoading, setComicsLoading] = useState<boolean>(false);
 
   const [events, setEvents] = useState<EventsModel[]>([]);
-  const [eventsLoading, setEventsLoading] = useState<boolean>(true);
+  const [eventsLoading, setEventsLoading] = useState<boolean>(false);
 
   const [series, setSeries] = useState<SeriesModel[]>([]);
-  const [seriesLoading, setSeriesLoading] = useState<boolean>(true);
+  const [seriesLoading, setSeriesLoading] = useState<boolean>(false);
 
   const [stories, setStories] = useState<StoriesModel[]>([]);
-  const [storiesLoading, setStoriesLoading] = useState<boolean>(true);
+  const [storiesLoading, setStoriesLoading] = useState<boolean>(false);
 
   const comicsURLS: string[] = [];
   const comicsData: ComicModel[] = [];
@@ -64,7 +64,7 @@ const Creator = ({navigation, route}: any) => {
     } 
 
     setComics(comicsData);
-    setComicsLoading(false);
+    setComicsLoading(true);
   };
 
   const getEvents = async () => {
@@ -82,7 +82,7 @@ const Creator = ({navigation, route}: any) => {
     } 
 
     setEvents(eventsData);
-    setEventsLoading(false);
+    setEventsLoading(true);
   }
   
   const getSeries = async () => {
@@ -100,7 +100,7 @@ const Creator = ({navigation, route}: any) => {
     } 
 
     setSeries(seriesData);
-    setSeriesLoading(false);
+    setSeriesLoading(true);
   }
 
   const getStories = async () => {
@@ -124,7 +124,7 @@ const Creator = ({navigation, route}: any) => {
     })
 
     setStories(storiesData);
-    setStoriesLoading(false);
+    setStoriesLoading(true);
   }
 
   const goToComicDetail = (comic: ComicModel) => navigation.navigate('Comic', {data: comic});
@@ -133,87 +133,77 @@ const Creator = ({navigation, route}: any) => {
   const goToStoryDetail = (story: StoriesModel) => navigation.navigate('Story', {data: story});
 
   const renderComics = () => {
-    if (comics && comics.length > 0) {
+    if (comics && comics.length > 0 && comicsLoading) {
       return (
-        comics.map((comic: ComicModel, index: number) => (
-          <ImageCard 
-            key={index}
-            text={comic.title}
-            path={comic.thumbnail.path}
-            extension={comic.thumbnail.extension}
-            onPress={() => goToComicDetail(comic)}
-          />
-        ))
-      )
-    } else {
-      return (
-        <View>
-          <Text>No Comics</Text>
-        </View>
+        <SectionTitle title="Comics">
+          <View style={styles.ItemList}>
+            {comics.map((comic: ComicModel, index: number) => (
+              <ImageCard 
+                key={index}
+                text={comic.title}
+                path={comic.thumbnail.path}
+                extension={comic.thumbnail.extension}
+                onPress={() => goToComicDetail(comic)}
+              />
+            ))}
+          </View>
+        </SectionTitle>
       )
     }
   };
 
   const renderEvents = () => {
-    if (events && events.length > 0) {
+    if (events && events.length > 0 && eventsLoading) {
       return (
-        events.map((event: EventsModel, index: number) => 
-          <ImageCard 
-            key={index}
-            text={event.title}
-            path={event.thumbnail.path}
-            extension={event.thumbnail.extension}
-            onPress={() => goToEventDetail(event)}
-          />
-        )
-      )
-    } else {
-      return (
-        <View>
-          <Text>No Events</Text>
+        <SectionTitle title="Events">
+        <View style={styles.ItemList}>
+          {events.map((event: EventsModel, index: number) => 
+            <ImageCard 
+              key={index}
+              text={event.title}
+              path={event.thumbnail.path}
+              extension={event.thumbnail.extension}
+              onPress={() => goToEventDetail(event)}
+            />
+          )}
         </View>
+      </SectionTitle>
       )
     }
   };
 
   const renderSeries = () => {
-    if (series && series.length > 0) {
+    if (series && series.length > 0 && seriesLoading) {
       return (
-        series.map((serie: SeriesModel, index: number) => 
-          <ImageCard 
-            key={index}
-            text={serie.title}
-            path={serie.thumbnail.path}
-            extension={serie.thumbnail.extension}
-            onPress={() => goToSeriesDetail(serie)}
-          />
-        )
-      )
-    } else {
-      return (
-        <View>
-          <Text>No Series</Text>
-        </View>
+        <SectionTitle title="Series">
+          <View style={styles.ItemList}>
+            {series.map((serie: SeriesModel, index: number) => 
+              <ImageCard 
+                key={index}
+                text={serie.title}
+                path={serie.thumbnail.path}
+                extension={serie.thumbnail.extension}
+                onPress={() => goToSeriesDetail(serie)}
+              />
+            )}
+          </View>
+        </SectionTitle>
       )
     }
   };
 
   const renderStories = () => {
-    if (stories && stories.length > 0) {
+    if (stories && stories.length > 0 && storiesLoading) {
       return (
-        stories.map((story: StoriesModel, index: number) => 
-          <Link 
-            key={index} 
-            text={story.title}
-            onPress={() => goToStoryDetail(story)}
-          />
-        )
-      )
-    } else {
-      return (
-        <View>
-          <Text>No Stories</Text>
-        </View>
+        <SectionTitle title="Stories">
+          {stories.map((story: StoriesModel, index: number) => 
+            <Link 
+              key={index} 
+              text={story.title}
+              onPress={() => goToStoryDetail(story)}
+            />
+          )}
+        </SectionTitle>
       )
     }
   };
@@ -242,47 +232,26 @@ const Creator = ({navigation, route}: any) => {
       backgroundColor: whiteColor
     }}>
       <ScrollView>
-
         <BannerImage
           path={creator.thumbnail.path} 
           extension={creator.thumbnail.extension}
         />
-
         <BannerInfo 
           name={creator.fullName} 
           description={creator.modified} 
         />
-
         <View style={{
           marginTop: 16,
           padding: 16,
           backgroundColor: whiteColor
         }}>
 
-          <SectionTitle title="Comics">
-            <View style={styles.ItemList}>
-              { renderComics() }
-            </View>
-          </SectionTitle>
+          { renderComics() }
+          { renderEvents() }
+          { renderSeries() }
+          { renderStories() }
           
-          <SectionTitle title="Events">
-            <View style={styles.ItemList}>
-              { renderEvents() }
-            </View>
-          </SectionTitle>
-
-          <SectionTitle title="Series">
-            <View style={styles.ItemList}>
-              { renderSeries() }
-            </View>
-          </SectionTitle>
-
-          <SectionTitle title="Stories">
-            { renderStories() }
-          </SectionTitle>
-
         </View>
-
       </ScrollView>
     </SafeAreaView>
   )

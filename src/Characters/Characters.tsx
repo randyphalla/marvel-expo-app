@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, SafeAreaView, FlatList } from 'react-native';
+import { View, SafeAreaView, FlatList, Text } from 'react-native';
 import md5 from 'md5';
 
 import DefaultItem from '../components/DefaultItem';
@@ -9,7 +9,7 @@ import { privateKey, publicKey } from '../../src/shared/apiKey';
 
 const Characters = ({navigation}: any) => {
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
-  const [isCharactersLoading, setCharactersLoading] = useState<boolean>(true);
+  const [isCharactersLoading, setCharactersLoading] = useState<boolean>(false);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
@@ -27,7 +27,7 @@ const Characters = ({navigation}: any) => {
     } catch (error) {
       console.error(error);
     } finally {
-      setCharactersLoading(false);
+      setCharactersLoading(true);
     }
   }
     
@@ -43,6 +43,22 @@ const Characters = ({navigation}: any) => {
     />    
   );
 
+  const renderCharacters = () => {
+    if (characters && isCharactersLoading) {
+      return (
+        <FlatList 
+          data={characters}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      )      
+    } else {
+      return (
+        <Text>Characters is loading</Text>
+      )
+    }
+  }
+
   useEffect(() => {
     getCharacters();
     
@@ -54,12 +70,8 @@ const Characters = ({navigation}: any) => {
 
   return (
     <SafeAreaView>
-      <View style={{padding: 13}}>
-        <FlatList 
-          data={characters}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-        />
+      <View style={{padding: 13}}> 
+        {renderCharacters()}
       </View>
     </SafeAreaView>
   )

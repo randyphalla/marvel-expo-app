@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { SafeAreaView, FlatList, View } from 'react-native';
+import { SafeAreaView, FlatList, View, Text } from 'react-native';
 import md5 from 'md5';
 
 import DefaultItem from '../components/DefaultItem';
@@ -8,7 +8,7 @@ import { privateKey, publicKey } from '../shared/apiKey';
 
 const Comics = ({navigation}: any) => {
   const [comics, setComics] = useState<ComicModel[]>([]);
-  const [isComicsLoading, setComicsLoading] = useState<boolean>(true);
+  const [isComicsLoading, setComicsLoading] = useState<boolean>(false);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
@@ -26,7 +26,7 @@ const Comics = ({navigation}: any) => {
     } catch (error) {
       console.error(error);
     } finally {
-      setComicsLoading(false);
+      setComicsLoading(true);
     }
   }
 
@@ -41,6 +41,22 @@ const Comics = ({navigation}: any) => {
     />    
   );
 
+  const renderComics = () => {
+    if (comics && isComicsLoading) {
+      return (
+        <FlatList 
+          data={comics}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      )
+    } else {
+      return (
+        <Text>Comics is loading</Text>
+      )
+    }
+  }
+
   useEffect(() => {
     getComics();
 
@@ -53,11 +69,7 @@ const Comics = ({navigation}: any) => {
   return (
     <SafeAreaView>
       <View style={{padding: 13}}>
-        <FlatList 
-          data={comics}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-        />
+        {renderComics()}
       </View>
     </SafeAreaView>
   )
