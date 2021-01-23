@@ -18,16 +18,16 @@ import { whiteColor } from '../styles';
 
 const Character = ({navigation, route}: any) => {
   const [comics, setComics] = useState<ComicModel[]>([]);
-  const [isComicsLoading, setComicsLoading] = useState(false);
+  const [comicsLoading, setComicsLoading] = useState(false);
 
   const [events, setEvents] = useState<EventsModel[]>([]);
-  const [isEventsLoading, setEventsLoading] = useState(false);
+  const [eventsLoading, setEventsLoading] = useState(false);
 
   const [series, setSeries] = useState<SeriesModel[]>([]);
-  const [isSeriesLoading, setSeriesLoading] = useState(false);
+  const [seriesLoading, setSeriesLoading] = useState(false);
 
   const [stories, setStories] = useState<StoriesModel[]>([]);
-  const [isStoriesLoading, setStoriesLoading] = useState(false);
+  const [storiesLoading, setStoriesLoading] = useState(false);
 
   const comicsURLS: string[] = [];
   const comicsData: ComicModel[] = [];
@@ -131,7 +131,7 @@ const Character = ({navigation, route}: any) => {
   const goToStoryDetail = (story: StoriesModel) => navigation.navigate('Story', {data: story});
 
   const renderComics = () => {
-    if (comics && isComicsLoading) {
+    if (comics && comicsLoading) {
       return (
         <SectionTitle title="Comics">
         <View style={styles.ItemList}>
@@ -151,7 +151,7 @@ const Character = ({navigation, route}: any) => {
   }
 
   const renderEvents = () => {
-    if (events && isEventsLoading) {
+    if (events && eventsLoading) {
       return (
         <SectionTitle title="Events">
         <View style={styles.ItemList}>
@@ -171,7 +171,7 @@ const Character = ({navigation, route}: any) => {
   }
 
   const renderSeries = () => {
-    if (series && isSeriesLoading) {
+    if (series && seriesLoading) {
       return (
         <SectionTitle title="Series">
           <View style={styles.ItemList}>
@@ -191,7 +191,7 @@ const Character = ({navigation, route}: any) => {
   }
 
   const renderStories = () => {
-    if (stories && isStoriesLoading) {
+    if (stories && storiesLoading) {
       return (
         <SectionTitle title="Stories">
           {stories.map((story: StoriesModel, index: number) => 

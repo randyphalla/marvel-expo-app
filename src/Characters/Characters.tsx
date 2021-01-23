@@ -9,7 +9,7 @@ import { privateKey, publicKey } from '../../src/shared/apiKey';
 
 const Characters = ({navigation}: any) => {
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
-  const [isCharactersLoading, setCharactersLoading] = useState<boolean>(false);
+  const [charactersLoading, setCharactersLoading] = useState<boolean>(false);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
@@ -44,7 +44,7 @@ const Characters = ({navigation}: any) => {
   );
 
   const renderCharacters = () => {
-    if (characters && isCharactersLoading) {
+    if (characters && charactersLoading) {
       return (
         <FlatList 
           data={characters}

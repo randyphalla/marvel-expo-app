@@ -17,24 +17,23 @@ import ImageCard from '../components/ImageCard';
 import SectionTitle from '../components/SectionTitle';
 import { whiteColor } from '../styles';
 
-const Serie = ({navigation, route}: any) => {
-
+const Serie = ({ navigation, route }: any) => {
   const serie = route.params.data;
 
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
-  const [charactersLoading, setCharactersLoading] = useState<boolean>(true);
+  const [charactersLoading, setCharactersLoading] = useState<boolean>(false);
 
   const [comics, setComics] = useState<ComicModel[]>([]);
-  const [comicsLoading, setComicsLoading] = useState<boolean>(true);
+  const [comicsLoading, setComicsLoading] = useState<boolean>(false);
 
   const [creators, setCreators] = useState<CreatorModel[]>([]);
-  const [creatorsLoading, setCreatorsLoading] = useState<boolean>(true);
+  const [creatorsLoading, setCreatorsLoading] = useState<boolean>(false);
 
   const [events, setEvents] = useState<EventsModel[]>([]);
-  const [eventsLoading, setEventsLoading] = useState<boolean>(true);
+  const [eventsLoading, setEventsLoading] = useState<boolean>(false);
 
   const [stories, setStories] = useState<StoriesModel[]>([]);
-  const [storiesLoading, setStoriesLoading] = useState<boolean>(true);
+  const [storiesLoading, setStoriesLoading] = useState<boolean>(false);
 
   const charactersURLS: string[] = [];
   const charactersData: CharacterModel[] = [];
@@ -51,7 +50,7 @@ const Serie = ({navigation, route}: any) => {
   const storiesURLS: string[] = [];
   const storesJSONData: any[] = [];
   const storiesData: StoriesModel[] = [];
-  
+
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
   const hash = md5(stringToHash);
@@ -71,12 +70,12 @@ const Serie = ({navigation, route}: any) => {
     }
 
     setCharacters(charactersData);
-    setCharactersLoading(false); 
+    setCharactersLoading(true);
   };
 
   const getComics = async () => {
     const comicsItems = serie.comics.items;
-    
+
     for (const key in comicsItems) {
       const specialUrl = `${comicsItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
       comicsURLS.push(specialUrl);
@@ -86,15 +85,15 @@ const Serie = ({navigation, route}: any) => {
       let res = await fetch(urls);
       let json = await res.json();
       comicsData.push(json.data.results[0]);
-    } 
+    }
 
     setComics(comicsData);
-    setComicsLoading(false);
+    setComicsLoading(true);
   };
-  
+
   const getCreators = async () => {
     const comicCreators = serie.creators.items;
-    
+
     for (const key in comicCreators) {
       const specialUrl = `${comicCreators[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
       creatorsURLS.push(specialUrl);
@@ -105,14 +104,14 @@ const Serie = ({navigation, route}: any) => {
       let json = await res.json();
       creatorsData.push(json.data.results[0]);
     }
-    
+
     setCreators(creatorsData);
-    setCreatorsLoading(false);
-  }
+    setCreatorsLoading(true);
+  };
 
   const getEvents = async () => {
     const eventsItems = serie.events.items;
-    
+
     for (const key in eventsItems) {
       const specialUrl = `${eventsItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
       eventsURLS.push(specialUrl);
@@ -122,11 +121,11 @@ const Serie = ({navigation, route}: any) => {
       let res = await fetch(urls);
       let json = await res.json();
       eventsData.push(json.data.results[0]);
-    } 
+    }
 
     setEvents(eventsData);
-    setEventsLoading(false);
-  }
+    setEventsLoading(true);
+  };
 
   const getStories = async () => {
     const storiesItems = serie.stories.items;
@@ -142,148 +141,141 @@ const Serie = ({navigation, route}: any) => {
       if (json.data && json.data.results) {
         storesJSONData.push(json.data.results[0]);
       }
-    } 
+    }
 
-    storesJSONData.map(res => {
+    storesJSONData.map((res) => {
       storiesData.push(res);
-    })
+    });
 
     setStories(storiesData);
-    setStoriesLoading(false);
-  }
+    setStoriesLoading(true);
+  };
 
   const getAllData = () => {
     getCharacters();
-    getComics();  
-    getCreators();  
+    getComics();
+    getCreators();
     getEvents();
     getStories();
-  }
+  };
 
   const returnAllData = () => {
     setCharacters([]);
     setCharactersLoading(false);
     setComics([]);
+    setComicsLoading(false);
     setCreators([]);
     setCreatorsLoading(false);
-    setComicsLoading(false);
     setEvents([]);
     setEventsLoading(false);
     setStories([]);
     setStoriesLoading(false);
-  }
+  };
 
-  const goToCharacterDetail = (character: CharacterModel) => navigation.navigate('Character', {data: character});
-  const goToComicDetail = (comic: ComicModel) => navigation.navigate('Comic', {data: comic});
-  const goToCreatorDetail =  (creator: CreatorModel) => navigation.navigate('Creator', {data: creator});
-  const goToEventDetail = (event: EventsModel) => navigation.navigate('Event', {data: event});
-  const goToStoryDetail = (story: StoriesModel) => navigation.navigate('Story', {data: story});
+  const goToCharacterDetail = (character: CharacterModel) =>
+    navigation.navigate('Character', { data: character });
+  const goToComicDetail = (comic: ComicModel) =>
+    navigation.navigate('Comic', { data: comic });
+  const goToCreatorDetail = (creator: CreatorModel) =>
+    navigation.navigate('Creator', { data: creator });
+  const goToEventDetail = (event: EventsModel) =>
+    navigation.navigate('Event', { data: event });
+  const goToStoryDetail = (story: StoriesModel) =>
+    navigation.navigate('Story', { data: story });
 
   const renderCharacters = () => {
-    if (characters && characters.length > 0) {
+    if (characters && characters.length > 0 && charactersLoading) {
       return (
-        characters.map((character: CharacterModel, index: number) => 
-          <ImageCard 
-            key={index}
-            text={character.name}
-            path={character.thumbnail.path}
-            extension={character.thumbnail.extension}
-            onPress={() => goToCharacterDetail(character)}
-          />
-        )
-      )
-    } else {
-      return (
-        <View>
-          <Text>No Characters</Text>
-        </View>
-      )
+        <SectionTitle title="Characters">
+          <View style={styles.ItemList}>
+            {characters.map((character: CharacterModel, index: number) => (
+              <ImageCard
+                key={index}
+                text={character.name}
+                path={character.thumbnail.path}
+                extension={character.thumbnail.extension}
+                onPress={() => goToCharacterDetail(character)}
+              />
+            ))}
+          </View>
+        </SectionTitle>
+      );
     }
   };
 
   const renderComics = () => {
-    if (comics && comics.length > 0) {
+    if (comics && comics.length > 0 && comicsLoading) {
       return (
-        comics.map((comic: ComicModel, index: number) => (
-          <ImageCard 
-            key={index}
-            text={comic.title}
-            path={comic.thumbnail.path}
-            extension={comic.thumbnail.extension}
-            onPress={() => goToComicDetail(comic)}
-          />
-        ))
-      )
-    } else {
-      return (
-        <View>
-          <Text>No Comics</Text>
-        </View>
-      )
+        <SectionTitle title="Comics">
+          <View style={styles.ItemList}>
+            {comics.map((comic: ComicModel, index: number) => (
+              <ImageCard
+                key={index}
+                text={comic.title}
+                path={comic.thumbnail.path}
+                extension={comic.thumbnail.extension}
+                onPress={() => goToComicDetail(comic)}
+              />
+            ))}
+          </View>
+        </SectionTitle>
+      );
     }
   };
-  
+
   const renderCreators = () => {
-    if (creators && creators.length > 0) {
+    if (creators && creators.length > 0 && creatorsLoading) {
       return (
-        creators.map((creator, index) => 
-          <ImageCard 
-            key={index}
-            text={creator.fullName}
-            path={creator.thumbnail.path}
-            extension={creator.thumbnail.extension}
-            onPress={() => goToCreatorDetail(creator)}
-          />
-        )
-      )
-    } else {
-      return (
-        <View>
-          <Text>No Creators</Text>
-        </View>
-      )
+        <SectionTitle title="Creators">
+          <View style={styles.ItemList}>
+            {creators.map((creator: CreatorModel, index) => (
+              <ImageCard
+                key={index}
+                text={creator.fullName}
+                path={creator.thumbnail.path}
+                extension={creator.thumbnail.extension}
+                onPress={() => goToCreatorDetail(creator)}
+              />
+            ))}
+          </View>
+        </SectionTitle>
+      );
     }
   };
 
   const renderEvents = () => {
-    if (events && events.length > 0) {
+    if (events && events.length > 0 && eventsLoading) {
       return (
-        events.map((event: EventsModel, index: number) => 
-          <ImageCard 
-            key={index}
-            text={event.title}
-            path={event.thumbnail.path}
-            extension={event.thumbnail.extension}
-            onPress={() => goToEventDetail(event)}
-          />
-        )
-      )
-    } else {
-      return (
-        <View>
-          <Text>No Events</Text>
-        </View>
-      )
+        <SectionTitle title="Events">
+          <View style={styles.ItemList}>
+            {events.map((event: EventsModel, index: number) => (
+              <ImageCard
+                key={index}
+                text={event.title}
+                path={event.thumbnail.path}
+                extension={event.thumbnail.extension}
+                onPress={() => goToEventDetail(event)}
+              />
+            ))}
+          </View>
+        </SectionTitle>
+      );
     }
   };
 
   const renderStories = () => {
-    if (stories && stories.length > 0) {
+    if (stories && stories.length > 0 && storiesLoading) {
       return (
-        stories.map((story: StoriesModel, index: number) => 
-          <Link 
-            key={index} 
-            text={story.title}
-            onPress={() => goToStoryDetail(story)}
-          />
-        )
-      )
-    } else {
-      return (
-        <View>
-          <Text>No Stories</Text>
-        </View>
-      )
+        <SectionTitle title="Stories">
+          {stories.map((story: StoriesModel, index: number) => (
+            <Link
+              key={index}
+              text={story.title}
+              onPress={() => goToStoryDetail(story)}
+            />
+          ))}
+        </SectionTitle>
+      );
     }
   };
 
@@ -292,63 +284,34 @@ const Serie = ({navigation, route}: any) => {
 
     return () => {
       returnAllData();
-    }
+    };
   }, []);
 
   return (
-    <SafeAreaView style={{backgroundColor: whiteColor}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: whiteColor }}>
       <ScrollView>
-
         <BannerImage
-          path={serie.thumbnail.path} 
+          path={serie.thumbnail.path}
           extension={serie.thumbnail.extension}
         />
-
-        <BannerInfo 
-          name={serie.title} 
-          description={serie.description} 
-        />
-        
-        <View style={{
-          marginTop: 16,
-          padding: 16,
-          backgroundColor: whiteColor 
-        }}>
-
-          <SectionTitle title="Characters">
-            <View style={styles.ItemList}>
-              { renderCharacters() }
-            </View>
-          </SectionTitle>
-
-          <SectionTitle title="Comics">
-            <View style={styles.ItemList}>
-              { renderComics() }
-            </View>
-          </SectionTitle>
-          
-          <SectionTitle title="Creators">
-            <View style={styles.ItemList}>
-              { renderCreators() }
-            </View>
-          </SectionTitle>
-
-          <SectionTitle title="Events">
-            <View style={styles.ItemList}>
-              { renderEvents() }
-            </View>
-          </SectionTitle>
-
-          <SectionTitle title="Stories">
-            { renderStories() }
-          </SectionTitle>
-
+        <BannerInfo name={serie.title} description={serie.description} />
+        <View
+          style={{
+            marginTop: 16,
+            padding: 16,
+            backgroundColor: whiteColor,
+          }}
+        >
+          {renderCharacters()}
+          {renderComics()}
+          {renderCreators()}
+          {renderEvents()}
+          {renderStories()}
         </View>
-
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   ItemList: {
@@ -356,8 +319,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 export default Serie;

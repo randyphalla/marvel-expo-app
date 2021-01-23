@@ -20,16 +20,16 @@ const Comic = ({ navigation, route }: any) => {
   const comic = route.params.data;
 
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
-  const [isCharactersLoading, setCharactersLoading] = useState<boolean>(false);
+  const [charactersLoading, setCharactersLoading] = useState<boolean>(false);
 
   const [creators, setCreators] = useState<CreatorModel[]>([]);
   const [isCreatorsLoading, setCreatorsLoading] = useState<boolean>(false);
 
   const [events, setEvents] = useState<EventsModel[]>([]);
-  const [isEventsLoading, setEventsLoading] = useState<boolean>(false);
+  const [eventsLoading, setEventsLoading] = useState<boolean>(false);
 
   const [stories, setStories] = useState<StoriesModel[]>([]);
-  const [isStoriesLoading, setStoriesLoading] = useState<boolean>(false);
+  const [storiesLoading, setStoriesLoading] = useState<boolean>(false);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
@@ -120,12 +120,12 @@ const Comic = ({ navigation, route }: any) => {
   }
 
   const renderCharacters = () => {
-    if (characters && characters.length > 0 && isCharactersLoading) {
+    if (characters && characters.length > 0 && charactersLoading) {
       return (
         <SectionTitle title="Characters">
           <View style={styles.CharacterListView}>
             {
-              characters.map((character, index) =>
+              characters.map((character: CharacterModel, index) =>
                 <ImageCard
                   key={index}
                   text={character.name}
@@ -147,7 +147,7 @@ const Comic = ({ navigation, route }: any) => {
         <SectionTitle title="Creators">
           <View style={styles.CharacterListView}>
             {
-              creators.map((creator, index) =>
+              creators.map((creator: CreatorModel, index) =>
                 <ImageCard
                   key={index}
                   text={creator.fullName}
@@ -164,7 +164,7 @@ const Comic = ({ navigation, route }: any) => {
   };
 
   const renderEvents = () => {
-    if (events && events.length > 0 && isEventsLoading) {
+    if (events && events.length > 0 && eventsLoading) {
       return (
         <SectionTitle title="Events">
           <View>
@@ -182,7 +182,7 @@ const Comic = ({ navigation, route }: any) => {
   };
 
   const renderStories = () => {
-    if (stories && stories.length > 0 && isStoriesLoading) {
+    if (stories && stories.length > 0 && storiesLoading) {
       return (
         <SectionTitle title="Stories">
           <View>

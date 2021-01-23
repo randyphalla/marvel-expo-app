@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, ScrollView, View } from 'react-native';
+import { FlatList, SafeAreaView, View, Text } from 'react-native';
 import md5 from 'md5';
 
 import DefaultItem from '../components/DefaultItem';
@@ -8,7 +8,7 @@ import { privateKey, publicKey } from '../shared/apiKey';
 
 const Series = ({navigation}: any) => {
   const [series, setSeries] = useState<SeriesModel[]>([]);
-  const [isSeriesLoading, setSeriesLoading] = useState<boolean>(true);
+  const [seriesLoading, setSeriesLoading] = useState<boolean>(false);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
@@ -27,7 +27,7 @@ const Series = ({navigation}: any) => {
     } catch (error) {
       console.error(error);
     } finally {
-      setSeriesLoading(false);
+      setSeriesLoading(true);
     }
   }
 
@@ -43,6 +43,22 @@ const Series = ({navigation}: any) => {
     />   
   );
 
+  const renderSeries = () => {
+    if (series && seriesLoading) {
+      return (
+        <FlatList 
+          data={series}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      )
+    } else {
+      return (
+        <Text>Series is loading</Text>
+      )
+    }
+  }
+
   useEffect(() => {
     getSeries();
 
@@ -55,11 +71,7 @@ const Series = ({navigation}: any) => {
   return (
     <SafeAreaView>
       <View style={{padding: 13}}>
-        <FlatList 
-          data={series}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-        />
+        {renderSeries()}
       </View>
     </SafeAreaView>
   )

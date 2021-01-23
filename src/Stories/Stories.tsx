@@ -8,7 +8,7 @@ import { blackColor, whiteColor } from '../styles';
 
 const Stories = ({navigation}: any) => {
   const [stories, setStories] = useState<StoriesModel[]>([]);
-  const [isStoriesLoading, setStoriesLoading] = useState<boolean>(true);
+  const [storiesLoading, setStoriesLoading] = useState<boolean>(false);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
@@ -27,7 +27,7 @@ const Stories = ({navigation}: any) => {
     } catch (error) {
       console.error(error);
     } finally {
-      setStoriesLoading(false);
+      setStoriesLoading(true);
     }
   }
 
@@ -43,6 +43,23 @@ const Stories = ({navigation}: any) => {
     </TouchableOpacity>
   );
 
+  const renderStories = () => {
+    if (stories && storiesLoading) {
+      return (
+        <FlatList 
+          data={stories}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      )
+    } else {
+      return (
+        <Text>Stories is loading</Text>
+      )
+    }
+  }
+
+
   useEffect(() => {
     getStories();
 
@@ -55,11 +72,7 @@ const Stories = ({navigation}: any) => {
   return (
     <SafeAreaView>
       <View style={{padding: 13}}>
-        <FlatList 
-          data={stories}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-        />
+        {renderStories()}
       </View>
     </SafeAreaView>
   )

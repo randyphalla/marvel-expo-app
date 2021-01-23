@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, View } from 'react-native';
+import { FlatList, SafeAreaView, View, Text } from 'react-native';
 import md5 from 'md5';
 
 import DefaultItem from '../components/DefaultItem';
@@ -8,7 +8,7 @@ import { privateKey, publicKey } from '../shared/apiKey';
 
 const Events = ({navigation}: any) => {
   const [events, setEvents] = useState<EventsModel[]>([]);
-  const [isEventsLoading, setEventsLoading] = useState<boolean>(true);
+  const [eventsLoading, setEventsLoading] = useState<boolean>(false);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
@@ -27,7 +27,7 @@ const Events = ({navigation}: any) => {
     } catch (error) {
       console.error(error);
     } finally {
-      setEventsLoading(false);
+      setEventsLoading(true);
     }
   }
 
@@ -43,23 +43,35 @@ const Events = ({navigation}: any) => {
     />   
   );
 
+  const renderEvents = () => {
+    if (events && eventsLoading) {
+      return (
+        <FlatList 
+          data={events}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      )
+    } else {
+      return (
+        <Text>Events is loading</Text>
+      )
+    }
+  }
+
   useEffect(() => {
     getEvents();
     
     return () => {
       setEvents([]);
-      setEventsLoading(true);
+      setEventsLoading(false);
     }
   }, []);
 
   return (
     <SafeAreaView>
       <View style={{padding: 13}}>
-        <FlatList 
-          data={events}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-        />
+        {renderEvents()}
       </View>
     </SafeAreaView>
   )

@@ -8,7 +8,7 @@ import { privateKey, publicKey } from '../shared/apiKey';
 
 const Comics = ({navigation}: any) => {
   const [comics, setComics] = useState<ComicModel[]>([]);
-  const [isComicsLoading, setComicsLoading] = useState<boolean>(false);
+  const [comicsLoading, setComicsLoading] = useState<boolean>(false);
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
@@ -42,7 +42,7 @@ const Comics = ({navigation}: any) => {
   );
 
   const renderComics = () => {
-    if (comics && isComicsLoading) {
+    if (comics && comicsLoading) {
       return (
         <FlatList 
           data={comics}
