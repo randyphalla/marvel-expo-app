@@ -1,6 +1,7 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, View, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, View, StyleSheet, Text } from 'react-native';
 import HomeCard from '../components/HomeCard';
+import { blackColor } from '../styles';
 
 const Home = ({navigation}: any) => {
   const goToCharacters = () => navigation.navigate('Characters');
@@ -14,6 +15,10 @@ const Home = ({navigation}: any) => {
     <SafeAreaView>
       <ScrollView style={styles.HomeScrollView}>
         <View style={styles.HomeView}>
+          <View style={styles.HomeWelcomeView}>
+            <Text style={styles.HomeWelcomeTitle}>Welcome to Marvel Comics Guide.</Text>
+            <Text style={styles.HomeWelcomeText}>Marvel Comics is the brand name and primary imprint of Marvel Worldwide Inc., formerly Marvel Publishing, Inc. and Marvel Comics Group, a publisher of American comic books and related media. In 2009, The Walt Disney Company acquired Marvel Entertainment, Marvel Worldwide's parent company.</Text>
+          </View>
           <HomeCard 
             text="Characters"
             image="https://terrigen-cdn-dev.marvel.com/content/prod/1x/blackpanther_01-1920x1080.jpg"
@@ -61,6 +66,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     padding: 13
+  },
+  HomeWelcomeView: {
+    marginTop: 40,
+    marginBottom: 40
+  },
+  HomeWelcomeTitle: {
+    marginBottom: 8,
+    color: blackColor,
+    fontSize: 26,
+    fontWeight: '600'
+  },
+  HomeWelcomeText: {
+    color: blackColor,
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '400'
   }
 });
 

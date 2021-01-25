@@ -14,8 +14,11 @@ const Characters = ({navigation}: any) => {
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
   const hash = md5(stringToHash);
+  const orderBy = "name";
+  const limit = 100; // 100 is the MAX
+  const offset = 0;
   const baseUrl = 'https://gateway.marvel.com:443/v1/public/characters';
-  const url = `${baseUrl}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
+  const url = `${baseUrl}?orderBy=${orderBy}&limit=${limit}&offset=${offset}&apikey=${publicKey}&hash=${hash}&ts=${ts}`;
 
   const getCharacters = async () => {
     try {
@@ -30,7 +33,7 @@ const Characters = ({navigation}: any) => {
       setCharactersLoading(true);
     }
   }
-    
+  
   const goToCharacterPage = (character: CharacterModel) => navigation.navigate('Character', {data: character});
 
   const renderItem = ({item}: any) => (

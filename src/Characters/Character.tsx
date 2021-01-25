@@ -131,7 +131,7 @@ const Character = ({navigation, route}: any) => {
   const goToStoryDetail = (story: StoriesModel) => navigation.navigate('Story', {data: story});
 
   const renderComics = () => {
-    if (comics && comicsLoading) {
+    if (comics && comics.length > 0 && comicsLoading) {
       return (
         <SectionTitle title="Comics">
         <View style={styles.ItemList}>
@@ -151,27 +151,27 @@ const Character = ({navigation, route}: any) => {
   }
 
   const renderEvents = () => {
-    if (events && eventsLoading) {
+    if (events && events.length > 0 && eventsLoading) {
       return (
         <SectionTitle title="Events">
-        <View style={styles.ItemList}>
-          {events.map((event: EventsModel, index: number) => 
-            <ImageCard 
-              key={index}
-              text={event.title}
-              path={event.thumbnail.path}
-              extension={event.thumbnail.extension}
-              onPress={() => goToEventDetail(event)}
-            />
-          )}
-        </View>
-      </SectionTitle>
+          <View style={styles.ItemList}>
+            {events.map((event: EventsModel, index: number) => 
+              <ImageCard 
+                key={index}
+                text={event.title}
+                path={event.thumbnail.path}
+                extension={event.thumbnail.extension}
+                onPress={() => goToEventDetail(event)}
+              />
+            )}
+          </View>
+        </SectionTitle>
       )
     }
   }
 
   const renderSeries = () => {
-    if (series && seriesLoading) {
+    if (series && series.length > 0 && seriesLoading) {
       return (
         <SectionTitle title="Series">
           <View style={styles.ItemList}>
@@ -191,7 +191,7 @@ const Character = ({navigation, route}: any) => {
   }
 
   const renderStories = () => {
-    if (stories && storiesLoading) {
+    if (stories && stories.length > 0 && storiesLoading) {
       return (
         <SectionTitle title="Stories">
           {stories.map((story: StoriesModel, index: number) => 
