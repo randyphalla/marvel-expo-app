@@ -3,7 +3,7 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 // Pages
-import Series from './Series/Series';
+
 import Home from './views/Home/Home';
 import Characters from './views/Characters/Characters';
 import Character from './views/Characters/Character';
