@@ -3,27 +3,27 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 // Pages
-import Home from './Home/Home';
-import Characters from './Characters/Characters';
-import Character from './Characters/Character';
-import Comic from './Comics/Comic';
-import Comics from './Comics/Comics';
-import Creator from './Creators/Creator';
-import Creators from './Creators/Creators';
-import Event from './Events/Event';
-import Events from './Events/Events';
-import Serie from './Series/Serie';
 import Series from './Series/Series';
-import Stories from './Stories/Stories';
-import Story from './Stories/Story';
+import Home from './views/Home/Home';
+import Characters from './views/Characters/Characters';
+import Character from './views/Characters/Character';
+import Comic from './views/Comics/Comic';
+import Comics from './views/Comics/Comics';
+import Creator from './views/Creators/Creator';
+import Creators from './views/Creators/Creators';
+import Event from './views/Events/Event';
+import Events from './views/Events/Events';
+import Serie from './views/Series/Serie';
+import Series from './views/Series/Series';
+import Stories from './views/Stories/Stories';
+import Story from './views/Stories/Story';
 
 const Stack = createStackNavigator();
 
-function AppNavigation() {
+const AppNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-
         <Stack.Screen name="Home" component={Home} />
 
         <Stack.Screen name="Characters" component={Characters} />

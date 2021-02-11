@@ -1,33 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, SafeAreaView, ScrollView, View, Text } from 'react-native';
 import md5 from 'md5';
 
-import { EventsModel } from '../models/EventsModel';
-import { SeriesModel } from '../models/SeriesModel';
-import { StoriesModel } from '../models/StoriesModel';
-import { ComicModel } from '../models/ComicsModel';
+import BannerImage from '../../components/BannerImage';
+import BannerInfo from '../../components/BannerInfo';
+import ImageCard from '../../components/ImageCard';
+import Link from '../../components/Link';
+import SectionTitle from '../../components/SectionTitle';
 
-import BannerInfo from '../components/BannerInfo';
-import BannerImage from '../components/BannerImage';
-import SectionTitle from '../components/SectionTitle';
-import ImageCard from '../components/ImageCard';
-import Link from '../components/Link';
+import { ComicModel } from '../../models/ComicsModel';
+import { EventsModel } from '../../models/EventsModel';
+import { SeriesModel } from '../../models/SeriesModel';
+import { StoriesModel } from '../../models/StoriesModel';
 
-import { privateKey, publicKey } from '../../src/shared/apiKey';
-import { whiteColor } from '../styles';
+import { privateKey, publicKey } from '../../shared/apiKey';
+import { whiteColor } from '../../styles';
 
-const Character = ({navigation, route}: any) => {
+const Creator = ({navigation, route}: any) => {
+  
+  const creator = route.params.data;
+  
   const [comics, setComics] = useState<ComicModel[]>([]);
-  const [comicsLoading, setComicsLoading] = useState(false);
+  const [comicsLoading, setComicsLoading] = useState<boolean>(false);
 
   const [events, setEvents] = useState<EventsModel[]>([]);
-  const [eventsLoading, setEventsLoading] = useState(false);
+  const [eventsLoading, setEventsLoading] = useState<boolean>(false);
 
   const [series, setSeries] = useState<SeriesModel[]>([]);
-  const [seriesLoading, setSeriesLoading] = useState(false);
+  const [seriesLoading, setSeriesLoading] = useState<boolean>(false);
 
   const [stories, setStories] = useState<StoriesModel[]>([]);
-  const [storiesLoading, setStoriesLoading] = useState(false);
+  const [storiesLoading, setStoriesLoading] = useState<boolean>(false);
 
   const comicsURLS: string[] = [];
   const comicsData: ComicModel[] = [];
@@ -42,13 +45,12 @@ const Character = ({navigation, route}: any) => {
   const storesJSONData: any[] = [];
   const storiesData: StoriesModel[] = [];
 
-  const character = route.params.data;
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
   const hash = md5(stringToHash);
-  
+
   const getComics = async () => {
-    const comicsItems = character.comics.items;
+    const comicsItems = creator.comics.items;
     
     for (const key in comicsItems) {
       const specialUrl = `${comicsItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
@@ -63,10 +65,10 @@ const Character = ({navigation, route}: any) => {
 
     setComics(comicsData);
     setComicsLoading(true);
-  }
+  };
 
   const getEvents = async () => {
-    const eventsItems = character.events.items;
+    const eventsItems = creator.events.items;
     
     for (const key in eventsItems) {
       const specialUrl = `${eventsItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
@@ -84,7 +86,7 @@ const Character = ({navigation, route}: any) => {
   }
   
   const getSeries = async () => {
-    const seriesItems = character.series.items;
+    const seriesItems = creator.series.items;
 
     for (const key in seriesItems) {
       const specialUrl = `${seriesItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
@@ -102,7 +104,7 @@ const Character = ({navigation, route}: any) => {
   }
 
   const getStories = async () => {
-    const storiesItems = character.stories.items;
+    const storiesItems = creator.stories.items;
 
     for (const key in storiesItems) {
       const specialUrl = `${storiesItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
@@ -134,41 +136,41 @@ const Character = ({navigation, route}: any) => {
     if (comics && comics.length > 0 && comicsLoading) {
       return (
         <SectionTitle title="Comics">
-        <View style={styles.ItemList}>
-          {comics.map((comic: ComicModel, index: number) => (
-            <ImageCard 
-              key={index}
-              text={comic.title}
-              path={comic.thumbnail.path}
-              extension={comic.thumbnail.extension}
-              onPress={() => goToComicDetail(comic)}
-            />
-          ))}
-        </View>
-      </SectionTitle>
+          <View style={styles.ItemList}>
+            {comics.map((comic: ComicModel, index: number) => (
+              <ImageCard 
+                key={index}
+                text={comic.title}
+                path={comic.thumbnail.path}
+                extension={comic.thumbnail.extension}
+                onPress={() => goToComicDetail(comic)}
+              />
+            ))}
+          </View>
+        </SectionTitle>
       )
     }
-  }
+  };
 
   const renderEvents = () => {
     if (events && events.length > 0 && eventsLoading) {
       return (
         <SectionTitle title="Events">
-          <View style={styles.ItemList}>
-            {events.map((event: EventsModel, index: number) => 
-              <ImageCard 
-                key={index}
-                text={event.title}
-                path={event.thumbnail.path}
-                extension={event.thumbnail.extension}
-                onPress={() => goToEventDetail(event)}
-              />
-            )}
-          </View>
-        </SectionTitle>
+        <View style={styles.ItemList}>
+          {events.map((event: EventsModel, index: number) => 
+            <ImageCard 
+              key={index}
+              text={event.title}
+              path={event.thumbnail.path}
+              extension={event.thumbnail.extension}
+              onPress={() => goToEventDetail(event)}
+            />
+          )}
+        </View>
+      </SectionTitle>
       )
     }
-  }
+  };
 
   const renderSeries = () => {
     if (series && series.length > 0 && seriesLoading) {
@@ -188,7 +190,7 @@ const Character = ({navigation, route}: any) => {
         </SectionTitle>
       )
     }
-  }
+  };
 
   const renderStories = () => {
     if (stories && stories.length > 0 && storiesLoading) {
@@ -204,51 +206,51 @@ const Character = ({navigation, route}: any) => {
         </SectionTitle>
       )
     }
-  }
-
-  const getAllData = () => {
-    getComics();
-    getEvents();
-    getSeries();
-    getStories();
-  };
-
-  const returnAllData = () => {
-    setComics([]);
-    setComicsLoading(false);
-    setEvents([]);
-    setEventsLoading(false);
-    setSeries([]);
-    setSeriesLoading(false);
-    setStories([]);
-    setStoriesLoading(false);
   };
 
   useEffect(() => {
-    getAllData();
-    
+    getComics();    
+    getEvents();
+    getSeries();
+    getStories();
+
     return () => {
-      returnAllData();
+      setComics([]);
+      setComicsLoading(false);
+      setEvents([]);
+      setEventsLoading(false);
+      setSeries([]);
+      setSeriesLoading(false);
+      setStories([]);
+      setStoriesLoading(false);
     }
-  },[]); 
-  
+  }, []);
+
   return (
-    <SafeAreaView style={styles.characterSafeAreaView}>
+    <SafeAreaView style={{
+      flex: 1, 
+      backgroundColor: whiteColor
+    }}>
       <ScrollView>
         <BannerImage
-          isComic={false}
-          path={ character.thumbnail.path} 
-          extension={character.thumbnail.extension}
+          path={creator.thumbnail.path} 
+          extension={creator.thumbnail.extension}
         />
         <BannerInfo 
-          name={character.name} 
-          description={character.description}
+          name={creator.fullName} 
+          description={creator.modified} 
         />
-        <View style={styles.characterItemsContainer}>
+        <View style={{
+          marginTop: 16,
+          padding: 16,
+          backgroundColor: whiteColor
+        }}>
+
           { renderComics() }
           { renderEvents() }
           { renderSeries() }
           { renderStories() }
+          
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -256,15 +258,6 @@ const Character = ({navigation, route}: any) => {
 }
 
 const styles = StyleSheet.create({
-  characterSafeAreaView: {
-    flex: 1,
-    backgroundColor: whiteColor
-  },
-  characterItemsContainer: {     
-    marginTop: 16,
-    padding: 16,
-    backgroundColor: whiteColor
-  },
   ItemList: {
     justifyContent: 'space-between',
     alignItems: 'flex-start',
@@ -274,4 +267,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Character;
+export default Creator;

@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import md5 from 'md5';
 
-import BannerImage from '../components/BannerImage';
-import BannerInfo from '../components/BannerInfo';
+import BannerImage from '../../components/BannerImage';
+import BannerInfo from '../../components/BannerInfo';
 
-import { CharacterModel } from '../models/CharacterModel';
-import { ComicModel } from '../models/ComicsModel';
-import { CreatorModel } from '../models/CreatorsModel';
-import { EventsModel } from '../models/EventsModel';
-import { StoriesModel } from '../models/StoriesModel';
+import { CharacterModel } from '../../models/CharacterModel';
+import { ComicModel } from '../../models/ComicsModel';
+import { CreatorModel } from '../../models/CreatorsModel';
+import { EventsModel } from '../../models/EventsModel';
+import { StoriesModel } from '../../models/StoriesModel';
 
-import { privateKey, publicKey } from '../shared/apiKey';
-import Link from '../components/Link';
-import ImageCard from '../components/ImageCard';
-import SectionTitle from '../components/SectionTitle';
-import { whiteColor } from '../styles';
+import { privateKey, publicKey } from '../../shared/apiKey';
+import Link from '../../components/Link';
+import ImageCard from '../../components/ImageCard';
+import SectionTitle from '../../components/SectionTitle';
+import { whiteColor } from '../../styles';
 
 const Serie = ({ navigation, route }: any) => {
   const serie = route.params.data;

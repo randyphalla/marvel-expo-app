@@ -2,20 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import md5 from 'md5';
 
-import ImageCard from '../components/ImageCard';
-import SectionTitle from '../components/SectionTitle';
+import BannerImage from '../../components/BannerImage';
+import BannerInfo from '../../components/BannerInfo';
+import ImageCard from '../../components/ImageCard';
+import SectionTitle from '../../components/SectionTitle';
+import Link from '../../components/Link';
 
-import { CharacterModel } from '../models/CharacterModel';
-import { ComicModel } from '../models/ComicsModel';
-import { CreatorModel } from '../models/CreatorsModel';
-import { EventsModel } from '../models/EventsModel';
-import { SeriesModel } from '../models/SeriesModel';
+import { CharacterModel } from '../../models/CharacterModel';
+import { ComicModel } from '../../models/ComicsModel';
+import { CreatorModel } from '../../models/CreatorsModel';
+import { SeriesModel } from '../../models/SeriesModel';
+import { StoriesModel } from '../../models/StoriesModel';
+import { privateKey, publicKey } from '../../shared/apiKey';
+import { whiteColor } from '../../styles';
 
-import { privateKey, publicKey } from '../shared/apiKey';
-import { blackColor, whiteColor } from '../styles';
-
-const Story = ({ navigation, route }: any) => {
-  const story = route.params.data;
+const Event = ({ navigation, route }: any) => {
+  const event = route.params.data;
 
   const [characters, setCharacters] = useState<CharacterModel[]>([]);
   const [charactersLoading, setCharactersLoading] = useState<boolean>(false);
@@ -26,11 +28,11 @@ const Story = ({ navigation, route }: any) => {
   const [creators, setCreators] = useState<CreatorModel[]>([]);
   const [creatorsLoading, setCreatorsLoading] = useState<boolean>(false);
 
-  const [events, setEvents] = useState<EventsModel[]>([]);
-  const [eventsLoading, setEventsLoading] = useState<boolean>(false);
-
   const [series, setSeries] = useState<SeriesModel[]>([]);
   const [seriesLoading, setSeriesLoading] = useState<boolean>(false);
+
+  const [stories, setStories] = useState<StoriesModel[]>([]);
+  const [storiesLoading, setStoriesLoading] = useState<boolean>(false);
 
   const charactersURLS: string[] = [];
   const charactersData: CharacterModel[] = [];
@@ -41,18 +43,19 @@ const Story = ({ navigation, route }: any) => {
   const creatorsURLS: string[] = [];
   const creatorsData: CreatorModel[] = [];
 
-  const eventsURLS: string[] = [];
-  const eventsData: EventsModel[] = [];
-
   const seriesURLS: string[] = [];
   const seriesData: SeriesModel[] = [];
+
+  const storiesURLS: string[] = [];
+  const storesJSONData: any[] = [];
+  const storiesData: StoriesModel[] = [];
 
   const ts = new Date().getTime();
   const stringToHash = ts + privateKey + publicKey;
   const hash = md5(stringToHash);
 
   const getCharacters = async () => {
-    const comicCharacters = story.characters.items;
+    const comicCharacters = event.characters.items;
 
     for (const key in comicCharacters) {
       const specialUrl = `${comicCharacters[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
@@ -70,7 +73,7 @@ const Story = ({ navigation, route }: any) => {
   };
 
   const getComics = async () => {
-    const comicsItems = story.comics.items;
+    const comicsItems = event.comics.items;
 
     for (const key in comicsItems) {
       const specialUrl = `${comicsItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
@@ -88,7 +91,7 @@ const Story = ({ navigation, route }: any) => {
   };
 
   const getCreators = async () => {
-    const comicCreators = story.creators.items;
+    const comicCreators = event.creators.items;
 
     for (const key in comicCreators) {
       const specialUrl = `${comicCreators[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
@@ -105,26 +108,8 @@ const Story = ({ navigation, route }: any) => {
     setCreatorsLoading(true);
   };
 
-  const getEvents = async () => {
-    const eventsItems = story.events.items;
-
-    for (const key in eventsItems) {
-      const specialUrl = `${eventsItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
-      eventsURLS.push(specialUrl);
-    }
-
-    for (const urls of eventsURLS) {
-      let res = await fetch(urls);
-      let json = await res.json();
-      eventsData.push(json.data.results[0]);
-    }
-
-    setEvents(eventsData);
-    setEventsLoading(true);
-  };
-
   const getSeries = async () => {
-    const seriesItems = story.series.items;
+    const seriesItems = event.series.items;
 
     for (const key in seriesItems) {
       const specialUrl = `${seriesItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
@@ -141,19 +126,64 @@ const Story = ({ navigation, route }: any) => {
     setSeriesLoading(true);
   };
 
+  const getStories = async () => {
+    const storiesItems = event.stories.items;
+
+    for (const key in storiesItems) {
+      const specialUrl = `${storiesItems[key].resourceURI}?apikey=${publicKey}&hash=${hash}&ts=${ts}`;
+      storiesURLS.push(specialUrl);
+    }
+
+    for (const urls of storiesURLS) {
+      let res = await fetch(urls);
+      let json = await res.json();
+      if (json.data && json.data.results) {
+        storesJSONData.push(json.data.results[0]);
+      }
+    }
+
+    storesJSONData.map((res) => {
+      storiesData.push(res);
+    });
+
+    setStories(storiesData);
+    setStoriesLoading(true);
+  };
+
+  const getAllData = () => {
+    getCharacters();
+    getComics();
+    getCreators();
+    getSeries();
+    getStories();
+  };
+
+  const returnAllData = () => {
+    setCharacters([]);
+    setCharactersLoading(false);
+    setComics([]);
+    setComicsLoading(false);
+    setCreators([]);
+    setCreatorsLoading(false);
+    setSeries([]);
+    setSeriesLoading(false);
+    setStories([]);
+    setStoriesLoading(false);
+  };
+
   const goToCharacterDetail = (character: CharacterModel) =>
     navigation.navigate('Character', { data: character });
   const goToComicDetail = (comic: ComicModel) =>
     navigation.navigate('Comic', { data: comic });
   const goToCreatorDetail = (creator: CreatorModel) =>
     navigation.navigate('Creator', { data: creator });
-  const goToEventDetail = (event: EventsModel) =>
-    navigation.navigate('Event', { data: event });
   const goToSeriesDetail = (series: SeriesModel) =>
     navigation.navigate('Serie', { data: series });
+  const goToStoryDetail = (story: StoriesModel) =>
+    navigation.navigate('Story', { data: story });
 
   const renderCharacters = () => {
-    if (characters && characters.length > 0) {
+    if (characters && characters.length > 0 && charactersLoading) {
       return (
         <SectionTitle title="Characters">
           <View style={styles.ItemList}>
@@ -173,7 +203,7 @@ const Story = ({ navigation, route }: any) => {
   };
 
   const renderComics = () => {
-    if (comics && comics.length > 0) {
+    if (comics && comics.length > 0 && comicsLoading) {
       return (
         <SectionTitle title="Comics">
           <View style={styles.ItemList}>
@@ -193,7 +223,7 @@ const Story = ({ navigation, route }: any) => {
   };
 
   const renderCreators = () => {
-    if (creators && creators.length > 0) {
+    if (creators && creators.length > 0 && creatorsLoading) {
       return (
         <SectionTitle title="Creators">
           <View style={styles.ItemList}>
@@ -212,30 +242,10 @@ const Story = ({ navigation, route }: any) => {
     }
   };
 
-  const renderEvents = () => {
-    if (events && events.length > 0) {
-      return (
-        <SectionTitle title="Events">
-          <View style={styles.ItemList}>
-            {events.map((event: EventsModel, index: number) => (
-              <ImageCard
-                key={index}
-                text={event.title}
-                path={event.thumbnail.path}
-                extension={event.thumbnail.extension}
-                onPress={() => goToEventDetail(event)}
-              />
-            ))}
-          </View>
-        </SectionTitle>
-      );
-    }
-  };
-
   const renderSeries = () => {
-    if (series && series.length > 0) {
+    if (series && series.length > 0 && seriesLoading) {
       return (
-        <SectionTitle title="Events">
+        <SectionTitle title="Series">
           <View style={styles.ItemList}>
             {series.map((serie: SeriesModel, index: number) => (
               <ImageCard
@@ -252,25 +262,20 @@ const Story = ({ navigation, route }: any) => {
     }
   };
 
-  const getAllData = () => {
-    getCharacters();
-    getComics();
-    getCreators();
-    getEvents();
-    getSeries();
-  };
-
-  const returnAllData = () => {
-    setCharacters([]);
-    setCharactersLoading(false);
-    setComics([]);
-    setComicsLoading(false);
-    setCreators([]);
-    setCreatorsLoading(false);
-    setEvents([]);
-    setEventsLoading(false);
-    setSeries([]);
-    setSeriesLoading(false);
+  const renderStories = () => {
+    if (stories && stories.length > 0 && storiesLoading) {
+      return (
+        <SectionTitle title="Stories">
+          {stories.map((story: StoriesModel, index: number) => (
+            <Link
+              key={index}
+              text={story.title}
+              onPress={() => goToStoryDetail(story)}
+            />
+          ))}
+        </SectionTitle>
+      );
+    }
   };
 
   useEffect(() => {
@@ -282,33 +287,25 @@ const Story = ({ navigation, route }: any) => {
   }, []);
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: whiteColor,
-      }}
-    >
+    <SafeAreaView style={{ flex: 1, backgroundColor: whiteColor }}>
       <ScrollView>
+        <BannerImage
+          path={event.thumbnail.path}
+          extension={event.thumbnail.extension}
+        />
+        <BannerInfo name={event.title} description={event.description} />
         <View
           style={{
+            marginTop: 16,
             padding: 16,
             backgroundColor: whiteColor,
           }}
         >
-          <View style={styles.StoryView}>
-            <Text style={styles.StoryTitle}>{story.title}</Text>
-            {story && story.originalIssue ? (
-              <Text style={styles.StoryOriginalIssueName}>
-                {story.originalIssue.name}
-              </Text>
-            ) : null}
-            <Text style={styles.StoryModified}>{story.modified}</Text>
-          </View>
           {renderCharacters()}
           {renderComics()}
           {renderCreators()}
-          {renderEvents()}
           {renderSeries()}
+          {renderStories()}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -316,28 +313,6 @@ const Story = ({ navigation, route }: any) => {
 };
 
 const styles = StyleSheet.create({
-  StoryView: {
-    marginBottom: 16,
-  },
-  StoryTitle: {
-    color: blackColor,
-    fontSize: 20,
-    fontWeight: '800',
-  },
-  StoryOriginalIssueName: {
-    marginTop: 8,
-    marginBottom: 8,
-    color: blackColor,
-    fontSize: 14,
-    fontWeight: '400',
-    lineHeight: 18,
-  },
-  StoryModified: {
-    color: blackColor,
-    fontSize: 14,
-    fontWeight: '400',
-    lineHeight: 18,
-  },
   ItemList: {
     justifyContent: 'space-between',
     alignItems: 'flex-start',
@@ -347,4 +322,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Story;
+export default Event;

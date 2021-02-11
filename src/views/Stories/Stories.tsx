@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, Text, View, TouchableOpacity, FlatList } from 'react-native';
 import md5 from 'md5';
 
-import { StoriesModel } from '../models/StoriesModel';
-import { privateKey, publicKey } from '../shared/apiKey';
-import { blackColor, whiteColor } from '../styles';
+import { StoriesModel } from '../../models/StoriesModel';
+import { privateKey, publicKey } from '../../shared/apiKey';
+import { blackColor, whiteColor } from '../../styles';
 
 const Stories = ({navigation}: any) => {
   const [stories, setStories] = useState<StoriesModel[]>([]);

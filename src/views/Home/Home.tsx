@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, View, StyleSheet, Text } from 'react-native';
-import HomeCard from '../components/HomeCard';
-import { blackColor } from '../styles';
+import HomeCard from '../../components/HomeCard';
+import { blackColor } from '../../styles';
 
 const Home = ({navigation}: any) => {
   const goToCharacters = () => navigation.navigate('Characters');

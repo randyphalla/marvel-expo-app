@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View, SafeAreaView, FlatList, Text } from 'react-native';
 import md5 from 'md5';
 
-import DefaultItem from '../components/DefaultItem';
-import { CharacterModel } from '../models/CharacterModel';
+import DefaultItem from '../../components/DefaultItem';
+import { CharacterModel } from '../../models/CharacterModel';
 
-import { privateKey, publicKey } from '../../src/shared/apiKey';
+import { privateKey, publicKey } from '../../shared/apiKey';
 
 const Characters = ({navigation}: any) => {
   const [characters, setCharacters] = useState<CharacterModel[]>([]);

@@ -2,9 +2,9 @@ import React, { useState, useEffect} from 'react';
 import { SafeAreaView, FlatList, View, Text } from 'react-native';
 import md5 from 'md5';
 
-import DefaultItem from '../components/DefaultItem';
-import { ComicModel } from '../models/ComicsModel';
-import { privateKey, publicKey } from '../shared/apiKey';
+import DefaultItem from '../../components/DefaultItem';
+import { ComicModel } from '../../models/ComicsModel';
+import { privateKey, publicKey } from '../../shared/apiKey';
 
 const Comics = ({navigation}: any) => {
   const [comics, setComics] = useState<ComicModel[]>([]);

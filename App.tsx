@@ -1,8 +1,10 @@
 import React from 'react';
 import AppNavigation from './src/AppNavigation';
 
-export default function App() {
+const App = () => {
   return (
     <AppNavigation />
-  );
-}
+  )
+};
+
+export default App;

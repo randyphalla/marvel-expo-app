@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, FlatList, Text } from 'react-native';
 import md5 from 'md5';
 
-import DefaultItem from '../components/DefaultItem';
-import { CreatorModel } from '../models/CreatorsModel';
-import { privateKey, publicKey } from '../shared/apiKey';
+import DefaultItem from '../../components/DefaultItem';
+import { CreatorModel } from '../../models/CreatorsModel';
+import { privateKey, publicKey } from '../../shared/apiKey';
 
 const Creators = ({navigation}: any) => {
   const [creators, setCreators] = useState<CreatorModel[]>([]);

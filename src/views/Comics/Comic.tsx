@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Text, Image } from 'react-native';
 import md5 from 'md5';
 
-import BannerImage from '../components/BannerImage';
-import BannerInfo from '../components/BannerInfo';
-import SectionTitle from '../components/SectionTitle';
-import ImageCard from '../components/ImageCard';
-import Link from '../components/Link';
+import BannerImage from '../../components/BannerImage';
+import BannerInfo from '../../components/BannerInfo';
+import SectionTitle from '../../components/SectionTitle';
+import ImageCard from '../../components/ImageCard';
+import Link from '../../components/Link';
 
-import { CharacterModel } from '../models/CharacterModel';
-import { EventsModel } from '../models/EventsModel';
-import { StoriesModel } from '../models/StoriesModel';
-import { CreatorModel } from '../models/CreatorsModel';
+import { CharacterModel } from '../../models/CharacterModel';
+import { EventsModel } from '../../models/EventsModel';
+import { StoriesModel } from '../../models/StoriesModel';
+import { CreatorModel } from '../../models/CreatorsModel';
 
-import { privateKey, publicKey } from '../shared/apiKey';
-import { blackColor, whiteColor } from '../styles';
+import { privateKey, publicKey } from '../../shared/apiKey';
+import { blackColor, whiteColor } from '../../styles';
 
 const Comic = ({ navigation, route }: any) => {
   const comic = route.params.data;
