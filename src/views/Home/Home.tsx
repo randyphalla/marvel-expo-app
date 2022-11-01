@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     padding: 13
   },
   HomeWelcomeView: {
+    width: '100%',
     marginTop: 40,
     marginBottom: 40
   },

@@ -22,18 +22,14 @@ const DefaultItem = (props: DefaultItemProps) => {
         resizeMode="cover"
       />
       <View style={styles.characterItemContent}>
-        <View>
-          <Text style={styles.CharacterItemText}>{props.name}</Text>
-        </View>
+        <Text style={styles.CharacterItemText}>{props.name}</Text>
         {props.description ? (
-          <View>
-            <Text 
-              style={styles.characterItemDescText} 
-              numberOfLines={4}
-            >
-              {props.description}
-            </Text>
-          </View>
+          <Text 
+            style={styles.characterItemDescText} 
+            numberOfLines={4}
+          >
+            {props.description}
+          </Text>
         ) : null}
       </View>
     </TouchableOpacity>
